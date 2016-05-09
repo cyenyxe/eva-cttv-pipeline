@@ -141,16 +141,22 @@ def clinvar_to_evidence_strings(dir_out, allowed_clinical_significance=None, ign
                   n_unrecognised_allele_origin, unavailable_efo_dict)
 
 
-def get_curr_result_list(skip):
+def get_curr_response(skip):
     reader = codecs.getreader("utf-8")
     answer = urllib.request.urlopen('http://' + config.HOST + '/cellbase/webservices/rest/v3/hsapiens/feature/clinical/all?source=clinvar&skip=' + str(skip) + '&limit=' + str(config.BATCH_SIZE))
     curr_response = json.load(reader(answer))['response'][0]
-    curr_result_list = curr_response['result']
+    return curr_response
+
+
+def get_curr_result_list(skip):
+    curr_response = get_curr_response(skip)
     print(str(curr_response['numTotalResults']) + ' ClinVar records in total.')
+    curr_result_list = curr_response['result']
     return curr_result_list
 
 
 def get_curr_result_lists():
+    global COUNTERS
     skip = 0
     while True:
         curr_result_list = get_curr_result_list(skip)

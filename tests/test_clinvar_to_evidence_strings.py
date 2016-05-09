@@ -1,13 +1,68 @@
 from datetime import datetime
 import json
+import math
 import os
 import unittest
 
-from eva_cttv_pipeline import clinvar_to_evidence_strings
-from eva_cttv_pipeline import utilities
-from eva_cttv_pipeline import consequence_type
-from eva_cttv_pipeline import clinvar_record
-from eva_cttv_pipeline import evidence_strings as ES
+from eva_cttv_pipeline import clinvar_to_evidence_strings, config
+from tests import test_clinvar_record
+
+
+class CellbaseRecordsTest(unittest.TestCase):
+    def test_get_curr_result_list(self):
+        curr_result_list = clinvar_to_evidence_strings.get_curr_result_list(0)
+        self.assertEqual(len(curr_result_list), config.BATCH_SIZE)
+
+        curr_response = clinvar_to_evidence_strings.get_curr_response(0)
+        curr_result_list = clinvar_to_evidence_strings.get_curr_result_list(curr_response['numTotalResults'])
+        self.assertEqual(len(curr_result_list), 0)
+
+        curr_result_list = clinvar_to_evidence_strings.get_curr_result_list(999999)
+        self.assertEqual(len(curr_result_list), 0)
+
+        curr_response = clinvar_to_evidence_strings.get_curr_response(0)
+        len_to_expect = 20
+        curr_result_list = clinvar_to_evidence_strings.get_curr_result_list(curr_response['numTotalResults'] - len_to_expect)
+        self.assertEqual(len(curr_result_list), len_to_expect)
+
+    # def test_get_curr_result_lists(self):
+    #     curr_response = clinvar_to_evidence_strings.get_curr_response(0)
+    #     num_total_results = curr_response['numTotalResults']
+    #     list_counter = 0
+    #     for list in clinvar_to_evidence_strings.get_curr_result_lists():
+    #         list_counter += 1
+    #     pred_num_lists = math.ceil(num_total_results / config.BATCH_SIZE)
+    #     self.assertEqual(pred_num_lists, list_counter)
+
+
+class SkipRecordTest(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.clinvar_record = test_clinvar_record.get_test_record()
+
+    def setUp(self):
+        self.args = [{"reference": "A", "alternate": "T"}, "pathogenic", ["pathogenic", "likely pathogenic"], self.clinvar_record,
+                {'RCV000138025': 'nsv869213', 'RCV000133922': 'nsv491994'}, "rs1", "transcript_ablation"]
+
+    def test_return_false(self):
+        self.assertFalse(clinvar_to_evidence_strings.skip_record(*self.args))
+
+    def test_not_in_allowed_clinical_significance(self):
+        self.args[1] = "unknown"
+        self.assertTrue(clinvar_to_evidence_strings.skip_record(*self.args))
+
+    def test_ref_eq_alt(self):
+        self.args[0] = {"reference": "A", "alternate": "A"}
+        self.assertTrue(clinvar_to_evidence_strings.skip_record(*self.args))
+
+    def test_rs_is_none(self):
+        self.args[5] = None
+        self.assertTrue(clinvar_to_evidence_strings.skip_record(*self.args))
+
+    def test_con_type_is_none(self):
+        self.args[6] = None
+        self.assertTrue(clinvar_to_evidence_strings.skip_record(*self.args))
+
 
 
 class LoadEfoMappingTest(unittest.TestCase):
