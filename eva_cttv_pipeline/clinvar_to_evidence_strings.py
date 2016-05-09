@@ -19,20 +19,19 @@ def clinvar_to_evidence_strings(dir_out, allowed_clinical_significance=None, ign
                                 adapt_terms_file=None, efo_mapping_file=None, snp_2_gene_file=None,
                                 variant_summary_file=None):
 
-    allowed_clinical_significance = allowed_clinical_significance.split(',') if allowed_clinical_significance else None
+    allowed_clinical_significance = allowed_clinical_significance.split(',') if allowed_clinical_significance else \
+        ['unknown', 'untested', 'non-pathogenic', 'probable-non-pathogenic',
+         'probable-pathogenic', 'pathogenic', 'drug-response', 'drug response',
+         'histocompatibility', 'other', 'benign', 'protective', 'not provided',
+         'likely benign', 'confers sensitivity', 'uncertain significance',
+         'likely pathogenic', 'conflicting data from submitters', 'risk factor',
+         'association']
 
     trait_2_efo, unavailable_efo_dict = load_efo_mapping(efo_mapping_file, ignore_terms_file, adapt_terms_file)
 
     consequence_type_dict = consequence_type.process_consequence_type_file(snp_2_gene_file)
     rcv_to_rs, rcv_to_nsv = clinvar_record.get_rcv_to_rsnsv_mapping(variant_summary_file)
 
-    if allowed_clinical_significance is None:
-        allowed_clinical_significance = ['unknown', 'untested', 'non-pathogenic', 'probable-non-pathogenic',
-                                       'probable-pathogenic', 'pathogenic', 'drug-response', 'drug response',
-                                       'histocompatibility', 'other', 'benign', 'protective', 'not provided',
-                                       'likely benign', 'confers sensitivity', 'uncertain significance',
-                                       'likely pathogenic', 'conflicting data from submitters', 'risk factor',
-                                         'association']
     nsv_list = []
     evidence_string_list = []
     n_processed_clinvar_records = 0
