@@ -8,16 +8,23 @@ import codecs
 import jsonschema
 import xlrd
 
-from eva_cttv_pipeline import efo_term, clinvar_record, consequence_type, config
-from eva_cttv_pipeline import evidence_strings as ES
+from eva_cttv_pipeline import efo_term, clinvar_record, consequence_type, config, evidence_strings
 
 
 __author__ = 'Javier Lopez: javild@gmail.com'
 
 
+COUNTERS = {"n_processed_clinvar_records" : 0, "n_pathogenic_no_rs": 0, "n_multiple_evidence_strings": 0,
+            "n_multiple_allele_origin": 0, "n_germline_somatic": 0, "n_records_no_recognised_allele_origin": 0,
+            "no_variant_to_ensg_mapping": 0, "n_more_than_one_efo_term": 0, "n_same_ref_alt": 0,
+            "n_missed_strings_unmapped_traits": 0, "n_nsvs": 0, "n_valid_rs_and_nsv": 0, "n_nsv_skipped_clin_sig": 0,
+            "n_nsv_skipped_wrong_ref_alt": 0, "record_counter": 0, "n_total_clinvar_records": 0}
+
+
 def clinvar_to_evidence_strings(dir_out, allowed_clinical_significance=None, ignore_terms_file=None,
                                 adapt_terms_file=None, efo_mapping_file=None, snp_2_gene_file=None,
                                 variant_summary_file=None):
+    global COUNTERS
 
     allowed_clinical_significance = allowed_clinical_significance.split(',') if allowed_clinical_significance else \
         ['unknown', 'untested', 'non-pathogenic', 'probable-non-pathogenic',
@@ -34,28 +41,12 @@ def clinvar_to_evidence_strings(dir_out, allowed_clinical_significance=None, ign
 
     nsv_list = []
     evidence_string_list = []
-    n_processed_clinvar_records = 0
-    n_pathogenic_no_rs = 0
-    n_multiple_evidence_strings = 0
-    n_multiple_allele_origin = 0
-    n_germline_somatic = 0
-    n_records_no_recognised_allele_origin = 0
-    no_variant_to_ensg_mapping = 0
-    n_more_than_one_efo_term = 0
-    n_same_ref_alt = 0
-    n_missed_strings_unmapped_traits = 0
-    n_nsvs = 0
-    n_valid_rs_and_nsv = 0
-    n_nsv_skipped_clin_sig = 0
-    n_nsv_skipped_wrong_ref_alt = 0
     unmapped_traits = {}
     n_unrecognised_allele_origin = {}
     ensembl_gene_id_uris = set()
     traits = set()
     unrecognised_clin_sigs = set()
     evidence_list = []  # To store Hellen Parkinson records of the form [RCV, rs, ClinVar trait, EFO url]
-    record_counter = 0
-    n_total_clinvar_records = 0
     skip = 0
 
     answer = urllib.request.urlopen('http://' + config.HOST + '/cellbase/webservices/rest/v3/hsapiens/feature/clinical/all?source=clinvar&skip=' + str(skip) + '&limit=' + str(config.BATCH_SIZE))
@@ -68,40 +59,24 @@ def clinvar_to_evidence_strings(dir_out, allowed_clinical_significance=None, ign
     # pbar = progressbar.ProgressBar(widgets=widgets, maxval=curr_response['numTotalResults']).start()
     print(str(curr_response['numTotalResults']) + ' ClinVar records in total.')
     while len(curr_result_list) > 0:
-        n_total_clinvar_records += len(curr_result_list)
+        COUNTERS["n_total_clinvar_records"] += len(curr_result_list)
         for record in curr_result_list:
-            record_counter += 1
+            COUNTERS["record_counter"] += 1
             n_ev_strings_per_record = 0
             clinvarRecord = clinvar_record.ClinvarRecord(record['clinvarSet'])
             clin_sig = clinvarRecord.clinical_significance.lower()
-            n_nsvs += (clinvarRecord.get_nsv(rcv_to_nsv) is not None)
-
-            if clin_sig not in allowed_clinical_significance:
-                if clinvarRecord.get_nsv(rcv_to_nsv) is not None:
-                    n_nsv_skipped_clin_sig += 1
-                continue
-
-            if record['reference'] == record['alternate']:
-                n_same_ref_alt += 1
-                if clinvarRecord.get_nsv(rcv_to_nsv) is not None:
-                    n_nsv_skipped_wrong_ref_alt += 1
-                continue
+            COUNTERS["n_nsvs"] += (clinvarRecord.get_nsv(rcv_to_nsv) is not None)
 
             nsv_list = append_nsv(nsv_list, clinvarRecord, rcv_to_nsv)
             rs = clinvarRecord.get_rs(rcv_to_rs)
 
-            if rs is None:
-                n_pathogenic_no_rs += 1
-                continue
-
-            consequenceType = clinvarRecord.get_main_consequence_types(consequence_type_dict, rcv_to_rs)
+            con_type = clinvarRecord.get_main_consequence_types(consequence_type_dict, rcv_to_rs)
             # Mapping rs->Gene was found at Mick's file and therefore ensembl_gene_id will never be None
 
-            if consequenceType is None:
-                no_variant_to_ensg_mapping += 1
+            if skip_record(record, clin_sig, allowed_clinical_significance, clinvarRecord, rcv_to_nsv, rs, con_type):
                 continue
 
-            for ensembl_gene_id in consequenceType.ensembl_gene_ids:
+            for ensembl_gene_id in con_type.ensembl_gene_ids:
 
                 rcv_to_gene_evidence_codes = ['http://identifiers.org/eco/cttv_mapping_pipeline']  # Evidence codes provided by Mick
                 ensembl_gene_id_uri = 'http://identifiers.org/ensembl/' + ensembl_gene_id
@@ -113,18 +88,18 @@ def clinvar_to_evidence_strings(dir_out, allowed_clinical_significance=None, ign
                     # Only ClinVar records associated to a trait with mapped EFO term will generate evidence_strings
                     if len(efo_list) > 0:
                         clinvar_record_allele_origins = clinvarRecord.allele_origins
-                        n_multiple_allele_origin += (len(clinvar_record_allele_origins) > 1)
-                        n_germline_somatic += (('germline' in clinvar_record_allele_origins) and (
+                        COUNTERS["n_multiple_allele_origin"] += (len(clinvar_record_allele_origins) > 1)
+                        COUNTERS["n_germline_somatic"] += (('germline' in clinvar_record_allele_origins) and (
                         'somatic' in clinvar_record_allele_origins))
-                        n_records_no_recognised_allele_origin += (
+                        COUNTERS["n_records_no_recognised_allele_origin"] += (
                         ('germline' not in clinvar_record_allele_origins) and (
                         'somatic' not in clinvar_record_allele_origins))
                         for allele_origin_counter, alleleOrigin in enumerate(clinvar_record_allele_origins):
                             if alleleOrigin == 'germline':
-                                evidence_string = ES.CTTVGeneticsEvidenceString(efo_list,
+                                evidence_string = evidence_strings.CTTVGeneticsEvidenceString(efo_list,
                                                                                 clin_sig,
                                                                                 clinvarRecord,
-                                                                                consequenceType,
+                                                                                con_type,
                                                                                 ensembl_gene_id,
                                                                                 ensembl_gene_id_uri,
                                                                                 measure_set_refs_list,
@@ -141,12 +116,12 @@ def clinvar_to_evidence_strings(dir_out, allowed_clinical_significance=None, ign
                                 evidence_list.append(
                                     [clinvarRecord.accession, rs, ','.join(clinvar_trait_list),
                                      ','.join(efo_list)])
-                                n_valid_rs_and_nsv += (clinvarRecord.get_nsv(rcv_to_nsv) is not None)
-                                n_more_than_one_efo_term += (len(efo_list) > 1)
+                                COUNTERS["n_valid_rs_and_nsv"] += (clinvarRecord.get_nsv(rcv_to_nsv) is not None)
+                                COUNTERS["n_more_than_one_efo_term"] += (len(efo_list) > 1)
                                 traits.update(set(efo_list))
                                 ensembl_gene_id_uris.add(ensembl_gene_id_uri)
                             elif alleleOrigin == 'somatic':
-                                evidence_string = ES.CTTVSomaticEvidenceString(efo_list,
+                                evidence_string = evidence_strings.CTTVSomaticEvidenceString(efo_list,
                                                                                clin_sig,
                                                                                clinvarRecord,
                                                                                ensembl_gene_id,
@@ -156,15 +131,15 @@ def clinvar_to_evidence_strings(dir_out, allowed_clinical_significance=None, ign
                                                                                trait_counter,
                                                                                trait_refs_list,
                                                                                unrecognised_clin_sigs,
-                                                                               consequenceType)
+                                                                               con_type)
                                 n_ev_strings_per_record = add_evidence_string(clinvarRecord, evidence_string,
                                                                               evidence_string_list,
                                                                               n_ev_strings_per_record)
                                 evidence_list.append(
                                     [clinvarRecord.accession, rs, ','.join(clinvar_trait_list),
                                      ','.join(efo_list)])
-                                n_valid_rs_and_nsv += (clinvarRecord.get_nsv(rcv_to_nsv) is not None)
-                                n_more_than_one_efo_term += (len(efo_list) > 1)
+                                COUNTERS["n_valid_rs_and_nsv"] += (clinvarRecord.get_nsv(rcv_to_nsv) is not None)
+                                COUNTERS["n_more_than_one_efo_term"] += (len(efo_list) > 1)
                                 traits.update(set(efo_list))
                                 ensembl_gene_id_uris.add(ensembl_gene_id_uri)
                             elif alleleOrigin not in n_unrecognised_allele_origin:
@@ -172,16 +147,16 @@ def clinvar_to_evidence_strings(dir_out, allowed_clinical_significance=None, ign
                             else:
                                 n_unrecognised_allele_origin[alleleOrigin] += 1
                     else:
-                        n_missed_strings_unmapped_traits += 1
+                        COUNTERS["n_missed_strings_unmapped_traits"] += 1
                         if trait_list[0] in unmapped_traits:
                             unmapped_traits[trait_list[0]] += 1
                         else:
                             unmapped_traits[trait_list[0]] = 1
 
                 if n_ev_strings_per_record > 0:
-                    n_processed_clinvar_records += 1
+                    COUNTERS["n_processed_clinvar_records"] += 1
                     if n_ev_strings_per_record > 1:
-                        n_multiple_evidence_strings += 1
+                        COUNTERS["n_multiple_evidence_strings"] += 1
 
             # pbar.update(record_counter)
         skip += config.BATCH_SIZE
@@ -194,12 +169,32 @@ def clinvar_to_evidence_strings(dir_out, allowed_clinical_significance=None, ign
 
     write_output(dir_out, nsv_list, unmapped_traits, unavailable_efo_dict, evidence_string_list, evidence_list)
 
-    output_report(n_total_clinvar_records, evidence_string_list, n_processed_clinvar_records, unrecognised_clin_sigs,
-                  n_same_ref_alt, ensembl_gene_id_uris, traits, n_pathogenic_no_rs, n_multiple_evidence_strings,
-                  n_germline_somatic, n_multiple_allele_origin, n_unrecognised_allele_origin,
-                  no_variant_to_ensg_mapping, n_missed_strings_unmapped_traits, n_records_no_recognised_allele_origin,
-                  n_more_than_one_efo_term, unavailable_efo_dict, n_valid_rs_and_nsv, n_nsvs, n_nsv_skipped_clin_sig,
-                  n_nsv_skipped_wrong_ref_alt)
+    output_report()
+
+
+def skip_record(record, clin_sig, allowed_clinical_significance, clinvarRecord, rcv_to_nsv, rs, con_type):
+    global COUNTERS
+
+    if clin_sig not in allowed_clinical_significance:
+        if clinvarRecord.get_nsv(rcv_to_nsv) is not None:
+            COUNTERS["n_nsv_skipped_clin_sig"] += 1
+        return True
+
+    if record['reference'] == record['alternate']:
+        COUNTERS["n_same_ref_alt"] += 1
+        if clinvarRecord.get_nsv(rcv_to_nsv) is not None:
+            COUNTERS["n_nsv_skipped_wrong_ref_alt"] += 1
+        return True
+
+    if rs is None:
+        COUNTERS["n_pathogenic_no_rs"] += 1
+        return True
+
+    if con_type is None:
+        COUNTERS["no_variant_to_ensg_mapping"] += 1
+        return True
+
+    return False
 
 
 def write_output(dir_out, nsv_list, unmapped_traits, unavailable_efo_dict, evidence_string_list, evidence_list):
@@ -229,42 +224,39 @@ def write_output(dir_out, nsv_list, unmapped_traits, unavailable_efo_dict, evide
     fdw.close()
 
 
-def output_report(n_total_clinvar_records, evidence_string_list, n_processed_clinvar_records, unrecognised_clin_sigs,
-                  n_same_ref_alt, ensembl_gene_id_uris, traits, n_pathogenic_no_rs, n_multiple_evidence_strings,
-                  n_germline_somatic, n_multiple_allele_origin, n_unrecognised_allele_origin,
-                  no_variant_to_ensg_mapping, n_missed_strings_unmapped_traits, n_records_no_recognised_allele_origin,
-                  n_more_than_one_efo_term, unavailable_efo_dict, n_valid_rs_and_nsv, n_nsvs, n_nsv_skipped_clin_sig,
-                  n_nsv_skipped_wrong_ref_alt):
+def output_report(evidence_string_list, unrecognised_clin_sigs, ensembl_gene_id_uris, traits,
+                  n_unrecognised_allele_origin, unavailable_efo_dict):
+    global COUNTERS
 
     report_strings = [
-        str(n_total_clinvar_records) + ' ClinVar records in total',
+        str(COUNTERS["n_total_clinvar_records"]) + ' ClinVar records in total',
         str(len(evidence_string_list)) + ' evidence string jsons generated',
-        str(n_processed_clinvar_records) + ' ClinVar records generated at least one evidence string',
+        str(COUNTERS["n_processed_clinvar_records"]) + ' ClinVar records generated at least one evidence string',
         str(len(unrecognised_clin_sigs)) + " Clinical significance string(s) not found among those described in ClinVar documentation:",
         str(unrecognised_clin_sigs),
-        str(n_same_ref_alt) + ' ClinVar records with allowed clinical significance did present the same reference and alternate and were skipped',
+        str(COUNTERS["n_same_ref_alt"]) + ' ClinVar records with allowed clinical significance did present the same reference and alternate and were skipped',
         'Activities of those ClinVar records with unrecognized clinical significances were set to "unknown".',
         str(len(ensembl_gene_id_uris)) + ' distinct ensembl gene ids appear in generated evidence string json objects',
             str(len(traits)) + ' distinct trait names found to include in generated evidence string json objects',
-        str(n_pathogenic_no_rs) + ' ClinVar records with allowed clinical significance DO NOT have an rs id',
-        str(n_multiple_evidence_strings) + ' ClinVar records generated more than one evidence_string',
-        str(n_germline_somatic) + ' ClinVar records with germline and somatic origins',
-        str(n_multiple_allele_origin) + ' ClinVar records with more than one allele origin',
+        str(COUNTERS["n_pathogenic_no_rs"]) + ' ClinVar records with allowed clinical significance DO NOT have an rs id',
+        str(COUNTERS["n_multiple_evidence_strings"]) + ' ClinVar records generated more than one evidence_string',
+        str(COUNTERS["n_germline_somatic"]) + ' ClinVar records with germline and somatic origins',
+        str(COUNTERS["n_multiple_allele_origin"]) + ' ClinVar records with more than one allele origin',
         'Number valid ClinVar records with unprocessed allele origins:'
     ]
 
     report_strings.extend([' ' + alleleOrigin + ': ' + str(n_unrecognised_allele_origin[alleleOrigin]) for alleleOrigin in n_unrecognised_allele_origin])
 
     report_strings.extend([
-        str(no_variant_to_ensg_mapping) + ' ClinVar records with allowed clinical significance and valid rs id were skipped due to a lack of Variant->ENSG mapping.',
-        str(n_missed_strings_unmapped_traits) + ' ClinVar records with allowed clinical significance, valid rs id and Variant->ENSG mapping were skipped due to a lack of EFO mapping (see ' + config.UNMAPPED_TRAITS_FILE_NAME + ').',
-        str(n_records_no_recognised_allele_origin) + ' ClinVar records with allowed clinical significance, valid rs id, valid Variant->ENSG mapping and valid EFO mapping were skipped due to a lack of a valid alleleOrigin.',
-        str(n_more_than_one_efo_term) + ' evidence strings with more than one trait mapped to EFO terms',
+        str(COUNTERS["no_variant_to_ensg_mapping"]) + ' ClinVar records with allowed clinical significance and valid rs id were skipped due to a lack of Variant->ENSG mapping.',
+        str(COUNTERS["n_missed_strings_unmapped_traits"]) + ' ClinVar records with allowed clinical significance, valid rs id and Variant->ENSG mapping were skipped due to a lack of EFO mapping (see ' + config.UNMAPPED_TRAITS_FILE_NAME + ').',
+        str(COUNTERS["n_records_no_recognised_allele_origin"]) + ' ClinVar records with allowed clinical significance, valid rs id, valid Variant->ENSG mapping and valid EFO mapping were skipped due to a lack of a valid alleleOrigin.',
+        str(COUNTERS["n_more_than_one_efo_term"]) + ' evidence strings with more than one trait mapped to EFO terms',
         str(len(unavailable_efo_dict)) + ' evidence strings were generated with traits without EFO correspondence',
-        str(n_valid_rs_and_nsv) + ' evidence strings were generated from ClinVar records with rs and nsv ids',
-        str(n_nsvs) + ' total nsvs found',
-        str(n_nsv_skipped_clin_sig) + ' ClinVar nsvs were skipped because of a different clinical significance',
-        str(n_nsv_skipped_wrong_ref_alt) + ' ClinVar nsvs were skipped because of same ref and alt'
+        str(COUNTERS["n_valid_rs_and_nsv"]) + ' evidence strings were generated from ClinVar records with rs and nsv ids',
+        str(COUNTERS["n_nsvs"]) + ' total nsvs found',
+        str(COUNTERS["n_nsv_skipped_clin_sig"]) + ' ClinVar nsvs were skipped because of a different clinical significance',
+        str(COUNTERS["n_nsv_skipped_wrong_ref_alt"]) + ' ClinVar nsvs were skipped because of same ref and alt'
     ])
 
     for line in report_strings:
