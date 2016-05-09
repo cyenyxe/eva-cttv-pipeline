@@ -4,6 +4,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 import codecs
+from collections import defaultdict
 
 import jsonschema
 import xlrd
@@ -41,135 +42,129 @@ def clinvar_to_evidence_strings(dir_out, allowed_clinical_significance=None, ign
 
     nsv_list = []
     evidence_string_list = []
-    unmapped_traits = {}
-    n_unrecognised_allele_origin = {}
+    unmapped_traits = defaultdict(int)
+    n_unrecognised_allele_origin = defaultdict(int)
     ensembl_gene_id_uris = set()
     traits = set()
     unrecognised_clin_sigs = set()
     evidence_list = []  # To store Hellen Parkinson records of the form [RCV, rs, ClinVar trait, EFO url]
-    skip = 0
 
-    answer = urllib.request.urlopen('http://' + config.HOST + '/cellbase/webservices/rest/v3/hsapiens/feature/clinical/all?source=clinvar&skip=' + str(skip) + '&limit=' + str(config.BATCH_SIZE))
-    reader = codecs.getreader("utf-8")
-    curr_response = json.load(reader(answer))['response'][0]
-    curr_result_list = curr_response['result']
+    for record in get_records():
+        COUNTERS["record_counter"] += 1
+        n_ev_strings_per_record = 0
+        clinvarRecord = clinvar_record.ClinvarRecord(record['clinvarSet'])
+        clin_sig = clinvarRecord.clinical_significance.lower()
+        COUNTERS["n_nsvs"] += (clinvarRecord.get_nsv(rcv_to_nsv) is not None)
 
-    # A progress bar is initialized
-    # widgets = ['Loading evidence strings: ', progressbar.Percentage(), ' ', progressbar.Bar(marker=progressbar.RotatingMarker()), ' ', progressbar.ETA()]
-    # pbar = progressbar.ProgressBar(widgets=widgets, maxval=curr_response['numTotalResults']).start()
-    print(str(curr_response['numTotalResults']) + ' ClinVar records in total.')
-    while len(curr_result_list) > 0:
-        COUNTERS["n_total_clinvar_records"] += len(curr_result_list)
-        for record in curr_result_list:
-            COUNTERS["record_counter"] += 1
-            n_ev_strings_per_record = 0
-            clinvarRecord = clinvar_record.ClinvarRecord(record['clinvarSet'])
-            clin_sig = clinvarRecord.clinical_significance.lower()
-            COUNTERS["n_nsvs"] += (clinvarRecord.get_nsv(rcv_to_nsv) is not None)
+        nsv_list = append_nsv(nsv_list, clinvarRecord, rcv_to_nsv)
+        rs = clinvarRecord.get_rs(rcv_to_rs)
 
-            nsv_list = append_nsv(nsv_list, clinvarRecord, rcv_to_nsv)
-            rs = clinvarRecord.get_rs(rcv_to_rs)
+        con_type = clinvarRecord.get_main_consequence_types(consequence_type_dict, rcv_to_rs)
+        # Mapping rs->Gene was found at Mick's file and therefore ensembl_gene_id will never be None
 
-            con_type = clinvarRecord.get_main_consequence_types(consequence_type_dict, rcv_to_rs)
-            # Mapping rs->Gene was found at Mick's file and therefore ensembl_gene_id will never be None
+        if skip_record(record, clin_sig, allowed_clinical_significance, clinvarRecord, rcv_to_nsv, rs, con_type):
+            continue
 
-            if skip_record(record, clin_sig, allowed_clinical_significance, clinvarRecord, rcv_to_nsv, rs, con_type):
-                continue
+        trait_refs_list = [['http://europepmc.org/abstract/MED/' + str(ref) for ref in refList] for refList in clinvarRecord.trait_pubmed_refs]
+        observed_regs_list = ['http://europepmc.org/abstract/MED/' + str(ref) for ref in clinvarRecord.observed_pubmed_refs]
+        measure_set_refs_list = ['http://europepmc.org/abstract/MED/' + str(ref) for ref in clinvarRecord.measure_set_pubmed_refs]
 
-            for ensembl_gene_id in con_type.ensembl_gene_ids:
+        for ensembl_gene_id in con_type.ensembl_gene_ids:
 
-                rcv_to_gene_evidence_codes = ['http://identifiers.org/eco/cttv_mapping_pipeline']  # Evidence codes provided by Mick
-                ensembl_gene_id_uri = 'http://identifiers.org/ensembl/' + ensembl_gene_id
-                trait_refs_list = [['http://europepmc.org/abstract/MED/' + str(ref) for ref in refList] for refList in clinvarRecord.trait_pubmed_refs]
-                observed_regs_list = ['http://europepmc.org/abstract/MED/' + str(ref) for ref in clinvarRecord.observed_pubmed_refs]
-                measure_set_refs_list = ['http://europepmc.org/abstract/MED/' + str(ref) for ref in clinvarRecord.measure_set_pubmed_refs]
-                for trait_counter, trait_list in enumerate(clinvarRecord.traits):
-                    clinvar_trait_list, efo_list = map_efo(trait_2_efo, trait_list)
-                    # Only ClinVar records associated to a trait with mapped EFO term will generate evidence_strings
-                    if len(efo_list) > 0:
-                        clinvar_record_allele_origins = clinvarRecord.allele_origins
-                        COUNTERS["n_multiple_allele_origin"] += (len(clinvar_record_allele_origins) > 1)
-                        COUNTERS["n_germline_somatic"] += (('germline' in clinvar_record_allele_origins) and (
-                        'somatic' in clinvar_record_allele_origins))
-                        COUNTERS["n_records_no_recognised_allele_origin"] += (
-                        ('germline' not in clinvar_record_allele_origins) and (
-                        'somatic' not in clinvar_record_allele_origins))
-                        for allele_origin_counter, alleleOrigin in enumerate(clinvar_record_allele_origins):
-                            if alleleOrigin == 'germline':
-                                evidence_string = evidence_strings.CTTVGeneticsEvidenceString(efo_list,
-                                                                                clin_sig,
-                                                                                clinvarRecord,
-                                                                                con_type,
-                                                                                ensembl_gene_id,
-                                                                                ensembl_gene_id_uri,
-                                                                                measure_set_refs_list,
-                                                                                observed_regs_list,
-                                                                                rcv_to_gene_evidence_codes,
-                                                                                record,
-                                                                                rs,
-                                                                                trait_counter,
-                                                                                trait_refs_list,
-                                                                                unrecognised_clin_sigs)
-                                n_ev_strings_per_record = add_evidence_string(clinvarRecord, evidence_string,
-                                                                              evidence_string_list,
-                                                                              n_ev_strings_per_record)
-                                evidence_list.append(
-                                    [clinvarRecord.accession, rs, ','.join(clinvar_trait_list),
-                                     ','.join(efo_list)])
-                                COUNTERS["n_valid_rs_and_nsv"] += (clinvarRecord.get_nsv(rcv_to_nsv) is not None)
-                                COUNTERS["n_more_than_one_efo_term"] += (len(efo_list) > 1)
-                                traits.update(set(efo_list))
-                                ensembl_gene_id_uris.add(ensembl_gene_id_uri)
-                            elif alleleOrigin == 'somatic':
-                                evidence_string = evidence_strings.CTTVSomaticEvidenceString(efo_list,
-                                                                               clin_sig,
-                                                                               clinvarRecord,
-                                                                               ensembl_gene_id,
-                                                                               ensembl_gene_id_uri,
-                                                                               measure_set_refs_list,
-                                                                               observed_regs_list,
-                                                                               trait_counter,
-                                                                               trait_refs_list,
-                                                                               unrecognised_clin_sigs,
-                                                                               con_type)
-                                n_ev_strings_per_record = add_evidence_string(clinvarRecord, evidence_string,
-                                                                              evidence_string_list,
-                                                                              n_ev_strings_per_record)
-                                evidence_list.append(
-                                    [clinvarRecord.accession, rs, ','.join(clinvar_trait_list),
-                                     ','.join(efo_list)])
-                                COUNTERS["n_valid_rs_and_nsv"] += (clinvarRecord.get_nsv(rcv_to_nsv) is not None)
-                                COUNTERS["n_more_than_one_efo_term"] += (len(efo_list) > 1)
-                                traits.update(set(efo_list))
-                                ensembl_gene_id_uris.add(ensembl_gene_id_uri)
-                            elif alleleOrigin not in n_unrecognised_allele_origin:
-                                n_unrecognised_allele_origin[alleleOrigin] = 1
-                            else:
-                                n_unrecognised_allele_origin[alleleOrigin] += 1
+            rcv_to_gene_evidence_codes = ['http://identifiers.org/eco/cttv_mapping_pipeline']  # Evidence codes provided by Mick
+            ensembl_gene_id_uri = 'http://identifiers.org/ensembl/' + ensembl_gene_id
+            for trait_counter, trait_list in enumerate(clinvarRecord.traits):
+                clinvar_trait_list, efo_list = map_efo(trait_2_efo, trait_list)
+                # Only ClinVar records associated to a trait with mapped EFO term will generate evidence_strings
+                if len(efo_list) == 0:
+                    COUNTERS["n_missed_strings_unmapped_traits"] += 1
+                    unmapped_traits[trait_list[0]] += 1
+                    continue
+
+                clinvar_record_allele_origins = clinvarRecord.allele_origins
+                COUNTERS["n_multiple_allele_origin"] += (len(clinvar_record_allele_origins) > 1)
+                COUNTERS["n_germline_somatic"] += (('germline' in clinvar_record_allele_origins) and (
+                'somatic' in clinvar_record_allele_origins))
+                COUNTERS["n_records_no_recognised_allele_origin"] += (
+                ('germline' not in clinvar_record_allele_origins) and (
+                'somatic' not in clinvar_record_allele_origins))
+                for allele_origin_counter, alleleOrigin in enumerate(clinvar_record_allele_origins):
+                    if alleleOrigin not in ('germline', 'somatic'):
+                        n_unrecognised_allele_origin[alleleOrigin] += 1
                     else:
-                        COUNTERS["n_missed_strings_unmapped_traits"] += 1
-                        if trait_list[0] in unmapped_traits:
-                            unmapped_traits[trait_list[0]] += 1
-                        else:
-                            unmapped_traits[trait_list[0]] = 1
+                        if alleleOrigin == 'germline':
+                            evidence_string = evidence_strings.CTTVGeneticsEvidenceString(efo_list,
+                                                                            clin_sig,
+                                                                            clinvarRecord,
+                                                                            con_type,
+                                                                            ensembl_gene_id,
+                                                                            ensembl_gene_id_uri,
+                                                                            measure_set_refs_list,
+                                                                            observed_regs_list,
+                                                                            rcv_to_gene_evidence_codes,
+                                                                            record,
+                                                                            rs,
+                                                                            trait_counter,
+                                                                            trait_refs_list,
+                                                                            unrecognised_clin_sigs)
+                        elif alleleOrigin == 'somatic':
+                            evidence_string = evidence_strings.CTTVSomaticEvidenceString(efo_list,
+                                                                           clin_sig,
+                                                                           clinvarRecord,
+                                                                           ensembl_gene_id,
+                                                                           ensembl_gene_id_uri,
+                                                                           measure_set_refs_list,
+                                                                           observed_regs_list,
+                                                                           trait_counter,
+                                                                           trait_refs_list,
+                                                                           unrecognised_clin_sigs,
+                                                                           con_type)
+                        n_ev_strings_per_record = add_evidence_string(clinvarRecord, evidence_string,
+                                                                          evidence_string_list,
+                                                                          n_ev_strings_per_record)
+                        evidence_list.append(
+                            [clinvarRecord.accession, rs, ','.join(clinvar_trait_list),
+                             ','.join(efo_list)])
+                        COUNTERS["n_valid_rs_and_nsv"] += (clinvarRecord.get_nsv(rcv_to_nsv) is not None)
+                        COUNTERS["n_more_than_one_efo_term"] += (len(efo_list) > 1)
+                        traits.update(set(efo_list))
+                        ensembl_gene_id_uris.add(ensembl_gene_id_uri)
 
-                if n_ev_strings_per_record > 0:
-                    COUNTERS["n_processed_clinvar_records"] += 1
-                    if n_ev_strings_per_record > 1:
-                        COUNTERS["n_multiple_evidence_strings"] += 1
-
-            # pbar.update(record_counter)
-        skip += config.BATCH_SIZE
-
-        answer = urllib.request.urlopen('http://' + config.HOST + '/cellbase/webservices/rest/v3/hsapiens/feature/clinical/all?source=clinvar&skip=' + str(skip) + '&limit=' + str(config.BATCH_SIZE))
-        reader = codecs.getreader("utf-8")
-        curr_response = json.load(reader(answer))['response'][0]
-        curr_result_list = curr_response['result']
-    # pbar.finish()
+            if n_ev_strings_per_record > 0:
+                COUNTERS["n_processed_clinvar_records"] += 1
+                if n_ev_strings_per_record > 1:
+                    COUNTERS["n_multiple_evidence_strings"] += 1
 
     write_output(dir_out, nsv_list, unmapped_traits, unavailable_efo_dict, evidence_string_list, evidence_list)
 
-    output_report()
+    output_report(evidence_string_list, unrecognised_clin_sigs, ensembl_gene_id_uris, traits,
+                  n_unrecognised_allele_origin, unavailable_efo_dict)
+
+
+def get_curr_result_list(skip):
+    reader = codecs.getreader("utf-8")
+    answer = urllib.request.urlopen('http://' + config.HOST + '/cellbase/webservices/rest/v3/hsapiens/feature/clinical/all?source=clinvar&skip=' + str(skip) + '&limit=' + str(config.BATCH_SIZE))
+    curr_response = json.load(reader(answer))['response'][0]
+    curr_result_list = curr_response['result']
+    print(str(curr_response['numTotalResults']) + ' ClinVar records in total.')
+    return curr_result_list
+
+
+def get_curr_result_lists():
+    skip = 0
+    while True:
+        curr_result_list = get_curr_result_list(skip)
+        if len(curr_result_list) == 0:
+            break
+        COUNTERS["n_total_clinvar_records"] += len(curr_result_list)
+        skip += config.BATCH_SIZE
+        yield curr_result_list
+
+
+def get_records():
+    for curr_result_list in get_curr_result_lists():
+        for record in curr_result_list:
+            yield record
 
 
 def skip_record(record, clin_sig, allowed_clinical_significance, clinvarRecord, rcv_to_nsv, rs, con_type):
