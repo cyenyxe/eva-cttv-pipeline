@@ -4,7 +4,7 @@ import math
 import os
 import unittest
 
-from eva_cttv_pipeline import clinvar_to_evidence_strings, config
+from eva_cttv_pipeline import clinvar_to_evidence_strings, config, consequence_type
 from tests import test_clinvar_record
 
 
@@ -42,15 +42,18 @@ class SkipRecordTest(unittest.TestCase):
 
     def setUp(self):
         counters = clinvar_to_evidence_strings.get_counters()
-        self.args = [{"reference": "A", "alternate": "T"}, "pathogenic", ["pathogenic", "likely pathogenic"],
-                     self.clinvar_record, {'RCV000138025': 'nsv869213', 'RCV000133922': 'nsv491994'}, "rs1",
-                     "transcript_ablation", counters]
+        self.record = clinvar_to_evidence_strings.get_record(None, None, None, clin_sig="pathogenic",
+                                                        clinvarRecord=self.clinvar_record,
+                                                        con_type="transcript_ablation", rs="rs1")
+        # skip_record(cellbase_record, record, allowed_clinical_significance, rcv_to_nsv, counters)
+        self.args = [{"reference": "A", "alternate": "T"}, self.record, ["pathogenic", "likely pathogenic"],
+                     {'RCV000138025': 'nsv869213', 'RCV000133922': 'nsv491994'}, counters]
 
     def test_return_false(self):
         self.assertFalse(clinvar_to_evidence_strings.skip_record(*self.args))
 
     def test_not_in_allowed_clinical_significance(self):
-        self.args[1] = "unknown"
+        self.record.clin_sig = "unknown"
         self.assertTrue(clinvar_to_evidence_strings.skip_record(*self.args))
 
     def test_ref_eq_alt(self):
@@ -58,11 +61,11 @@ class SkipRecordTest(unittest.TestCase):
         self.assertTrue(clinvar_to_evidence_strings.skip_record(*self.args))
 
     def test_rs_is_none(self):
-        self.args[5] = None
+        self.record.rs = None
         self.assertTrue(clinvar_to_evidence_strings.skip_record(*self.args))
 
     def test_con_type_is_none(self):
-        self.args[6] = None
+        self.record.con_type = None
         self.assertTrue(clinvar_to_evidence_strings.skip_record(*self.args))
 
 

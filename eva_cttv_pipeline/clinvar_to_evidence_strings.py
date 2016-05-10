@@ -137,14 +137,21 @@ def get_mappings(efo_mapping_file, ignore_terms_file, adapt_terms_file, snp_2_ge
     return mappings
 
 
-def get_record(cellbase_record, rcv_to_rs, consequence_type_dict):
+def get_record(cellbase_record, rcv_to_rs, consequence_type_dict, **kwargs):
     record = SimpleNamespace()
     record.n_ev_strings_per_record = 0
-    record.clinvarRecord = clinvar_record.ClinvarRecord(cellbase_record['clinvarSet'])
-    record.clin_sig = record.clinvarRecord.clinical_significance.lower()
-    record.rs = record.clinvarRecord.get_rs(rcv_to_rs)
 
-    record.con_type = record.clinvarRecord.get_main_consequence_types(consequence_type_dict, rcv_to_rs)
+    record.clinvarRecord = clinvar_record.ClinvarRecord(cellbase_record['clinvarSet']) \
+        if "clinvarRecord" not in kwargs else kwargs["clinvarRecord"]
+
+    record.clin_sig = record.clinvarRecord.clinical_significance.lower() \
+        if "clin_sig" not in kwargs else kwargs["clin_sig"]
+
+    record.rs = record.clinvarRecord.get_rs(rcv_to_rs) \
+        if "rs" not in kwargs else kwargs["rs"]
+
+    record.con_type = record.clinvarRecord.get_main_consequence_types(consequence_type_dict, rcv_to_rs) \
+        if "con_type" not in kwargs else kwargs["con_type"]
     # Mapping rs->Gene was found at Mick's file and therefore ensembl_gene_id will never be None
 
     record.trait_refs_list = [['http://europepmc.org/abstract/MED/' + str(ref) for ref in refList]
