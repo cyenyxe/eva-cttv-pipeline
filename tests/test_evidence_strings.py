@@ -5,6 +5,7 @@ import eva_cttv_pipeline.evidence_strings as ES
 import eva_cttv_pipeline.efo_term as EFOT
 from eva_cttv_pipeline import consequence_type as CT
 from eva_cttv_pipeline import clinvar_record as CR
+from eva_cttv_pipeline import clinvar_to_evidence_strings
 
 import tests.test_config as test_config
 
@@ -27,11 +28,11 @@ def get_args_CTTVGeneticsEvidenceString_init():
     rs = "rs515726230"
     trait_counter = 0
     traits_ref_list = [[]]
-    unrecognised_clin_sigs = set()
+    report = clinvar_to_evidence_strings.Report()
 
     test_args_1 = [efo_list, clin_sig, clinvarRecord, consequenceType, ensembl_gene_id,
                    ensembl_gene_id_uri, measure_set_refs_list, observed_refs_list, rcv_to_gene_evidence_codes, record,
-                   rs, trait_counter, traits_ref_list, unrecognised_clin_sigs]
+                   rs, trait_counter, traits_ref_list, report]
 
     return test_args_1
 
@@ -58,15 +59,15 @@ def get_args_CTTVSomaticEvidenceString_init():
     ensembl_gene_id = "ENSG00000135486"
     ensembl_gene_id_uri = "http://identifiers.org/ensembl/ENSG00000135486"
     measure_set_refs_list = []
-    observed_regs_list = []
+    observed_refs_list = []
     trait_counter = 0
     trait_refs_list = [[]]
-    unrecognised_clin_sigs = set()
     consequenceType = CT.ConsequenceType(ensembl_gene_ids={'ENSG00000135486'}, so_names={"stop_gained"})
+    report = clinvar_to_evidence_strings.Report()
 
     test_args_1 = (efo_list, clin_sig, clinvarRecord, ensembl_gene_id, ensembl_gene_id_uri,
-                   measure_set_refs_list, observed_regs_list,
-                   trait_counter, trait_refs_list, unrecognised_clin_sigs, consequenceType)
+                   measure_set_refs_list, observed_refs_list,
+                   trait_counter, trait_refs_list, consequenceType, report)
 
     return test_args_1
 
@@ -118,13 +119,6 @@ class CTTVGeneticsEvidenceStringTest(unittest.TestCase):
         self.test_ges = ES.CTTVGeneticsEvidenceString(*self.test_args)
 
     # CTTVEvidenceString tests
-
-    def test_unrecognised_clin_sigs(self):
-        self.test_args[1] = "not_real_clin_sig"
-        my_unrecognised_clin_sigs = set()
-        self.test_args[13] = my_unrecognised_clin_sigs
-        unneeded_ges = ES.CTTVGeneticsEvidenceString(*self.test_args)
-        self.assertEqual(my_unrecognised_clin_sigs, {self.test_args[1]})
 
     def test_unique_association_field(self):
         uaf_1 = ("gene", "test_gene")

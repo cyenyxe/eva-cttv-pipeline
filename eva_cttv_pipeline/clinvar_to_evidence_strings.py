@@ -17,17 +17,15 @@ __author__ = 'Javier Lopez: javild@gmail.com'
 
 
 class Report:
-    def __init__(self, unavailable_efo_dict, counters):
+    def __init__(self):
         self.unrecognised_clin_sigs = set()
         self.ensembl_gene_id_uris = set()
         self.traits = set()
         self.n_unrecognised_allele_origin = defaultdict(int)
-        self.unavailable_efo_dict = unavailable_efo_dict
         self.nsv_list = []
         self.unmapped_traits = defaultdict(int)
         self.evidence_string_list = []
         self.evidence_list = []  # To store Helen Parkinson records of the form
-        self.counters = counters
 
     def __str__(self):
 
@@ -109,7 +107,9 @@ def clinvar_to_evidence_strings(dir_out, allowed_clinical_significance=None, ign
     consequence_type_dict = consequence_type.process_consequence_type_file(snp_2_gene_file)
     rcv_to_rs, rcv_to_nsv = clinvar_record.get_rcv_to_rsnsv_mapping(variant_summary_file)
 
-    report = Report(unavailable_efo_dict, counters)
+    report = Report()
+    report.counters = counters
+    report.unavailable_efo_dict = unavailable_efo_dict
 
     for cellbase_record in get_records(counters):
 
@@ -300,14 +300,15 @@ def get_records(counters):
             yield record
 
 
-def skip_record(record, clin_sig, allowed_clinical_significance, clinvarRecord, rcv_to_nsv, rs, con_type, counters):
+def skip_record(cellbase_record, clin_sig, allowed_clinical_significance, clinvarRecord, rcv_to_nsv, rs, con_type,
+                counters):
 
     if clin_sig not in allowed_clinical_significance:
         if clinvarRecord.get_nsv(rcv_to_nsv) is not None:
             counters["n_nsv_skipped_clin_sig"] += 1
         return True
 
-    if record['reference'] == record['alternate']:
+    if cellbase_record['reference'] == cellbase_record['alternate']:
         counters["n_same_ref_alt"] += 1
         if clinvarRecord.get_nsv(rcv_to_nsv) is not None:
             counters["n_nsv_skipped_wrong_ref_alt"] += 1

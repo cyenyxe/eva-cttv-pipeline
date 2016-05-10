@@ -41,8 +41,10 @@ class SkipRecordTest(unittest.TestCase):
         cls.clinvar_record = test_clinvar_record.get_test_record()
 
     def setUp(self):
-        self.args = [{"reference": "A", "alternate": "T"}, "pathogenic", ["pathogenic", "likely pathogenic"], self.clinvar_record,
-                {'RCV000138025': 'nsv869213', 'RCV000133922': 'nsv491994'}, "rs1", "transcript_ablation"]
+        counters = clinvar_to_evidence_strings.get_counters()
+        self.args = [{"reference": "A", "alternate": "T"}, "pathogenic", ["pathogenic", "likely pathogenic"],
+                     self.clinvar_record, {'RCV000138025': 'nsv869213', 'RCV000133922': 'nsv491994'}, "rs1",
+                     "transcript_ablation", counters]
 
     def test_return_false(self):
         self.assertFalse(clinvar_to_evidence_strings.skip_record(*self.args))
