@@ -5,6 +5,7 @@ import urllib.parse
 import urllib.request
 import codecs
 from collections import defaultdict
+from types import SimpleNamespace
 
 import jsonschema
 import xlrd
@@ -110,21 +111,47 @@ def clinvar_to_evidence_strings(dir_out, allowed_clinical_significance=None, ign
 
     report = Report(unavailable_efo_dict, counters)
 
-    for record in get_records(counters):
-        process_record(record, rcv_to_rs, consequence_type_dict, allowed_clinical_significance, rcv_to_nsv,
-                       trait_2_efo, counters, report)
+    for cellbase_record in get_records(counters):
+
+        record = get_record(cellbase_record, rcv_to_rs, consequence_type_dict)
+        counters["record_counter"] += 1
+        counters["n_nsvs"] += (record.clinvarRecord.get_nsv(rcv_to_nsv) is not None)
+        append_nsv(report.nsv_list, record.clinvarRecord, rcv_to_nsv)
+
+        if skip_record(cellbase_record, record.clin_sig, allowed_clinical_significance, record.clinvarRecord, rcv_to_nsv,
+                       record.rs, record.con_type, counters):
+            continue
+
+        for ensembl_gene_id in record.con_type.ensembl_gene_ids:
+
+            process_ensembl_gene_id(ensembl_gene_id, record.clinvarRecord, trait_2_efo, record.clin_sig,
+                                    record.con_type, record.measure_set_refs_list, record.observed_regs_list,
+                                    cellbase_record, record.rs, record.trait_refs_list, rcv_to_nsv,
+                                    record.n_ev_strings_per_record, counters, report)
 
     report.write_output(dir_out)
 
     print(report)
 
 
-def get_counters():
-    return {"n_processed_clinvar_records" : 0, "n_pathogenic_no_rs": 0, "n_multiple_evidence_strings": 0,
-            "n_multiple_allele_origin": 0, "n_germline_somatic": 0, "n_records_no_recognised_allele_origin": 0,
-            "no_variant_to_ensg_mapping": 0, "n_more_than_one_efo_term": 0, "n_same_ref_alt": 0,
-            "n_missed_strings_unmapped_traits": 0, "n_nsvs": 0, "n_valid_rs_and_nsv": 0, "n_nsv_skipped_clin_sig": 0,
-            "n_nsv_skipped_wrong_ref_alt": 0, "record_counter": 0, "n_total_clinvar_records": 0}
+def get_record(cellbase_record, rcv_to_rs, consequence_type_dict):
+    record = SimpleNamespace()
+    record.n_ev_strings_per_record = 0
+    record.clinvarRecord = clinvar_record.ClinvarRecord(cellbase_record['clinvarSet'])
+    record.clin_sig = record.clinvarRecord.clinical_significance.lower()
+    record.rs = record.clinvarRecord.get_rs(rcv_to_rs)
+
+    record.con_type = record.clinvarRecord.get_main_consequence_types(consequence_type_dict, rcv_to_rs)
+    # Mapping rs->Gene was found at Mick's file and therefore ensembl_gene_id will never be None
+
+    record.trait_refs_list = [['http://europepmc.org/abstract/MED/' + str(ref) for ref in refList]
+                              for refList in record.clinvarRecord.trait_pubmed_refs]
+    record.observed_regs_list = ['http://europepmc.org/abstract/MED/' + str(ref)
+                                 for ref in record.clinvarRecord.observed_pubmed_refs]
+    record.measure_set_refs_list = ['http://europepmc.org/abstract/MED/' + str(ref)
+                                    for ref in record.clinvarRecord.measure_set_pubmed_refs]
+
+    return record
 
 
 def process_record(record, rcv_to_rs, consequence_type_dict, allowed_clinical_significance, rcv_to_nsv, trait_2_efo,
@@ -424,3 +451,11 @@ def get_terms_from_file(terms_file):
         terms_list = []
 
     return terms_list
+
+
+def get_counters():
+    return {"n_processed_clinvar_records" : 0, "n_pathogenic_no_rs": 0, "n_multiple_evidence_strings": 0,
+            "n_multiple_allele_origin": 0, "n_germline_somatic": 0, "n_records_no_recognised_allele_origin": 0,
+            "no_variant_to_ensg_mapping": 0, "n_more_than_one_efo_term": 0, "n_same_ref_alt": 0,
+            "n_missed_strings_unmapped_traits": 0, "n_nsvs": 0, "n_valid_rs_and_nsv": 0, "n_nsv_skipped_clin_sig": 0,
+            "n_nsv_skipped_wrong_ref_alt": 0, "record_counter": 0, "n_total_clinvar_records": 0}
