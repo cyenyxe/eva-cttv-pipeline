@@ -29,9 +29,9 @@ def get_args_CTTVGeneticsEvidenceString_init():
     traits_ref_list = [[]]
     unrecognised_clin_sigs = set()
 
-    test_args_1 = (efo_list, clin_sig, clinvarRecord, consequenceType, ensembl_gene_id,
+    test_args_1 = [efo_list, clin_sig, clinvarRecord, consequenceType, ensembl_gene_id,
                    ensembl_gene_id_uri, measure_set_refs_list, observed_refs_list, rcv_to_gene_evidence_codes, record,
-                   rs, trait_counter, traits_ref_list, unrecognised_clin_sigs)
+                   rs, trait_counter, traits_ref_list, unrecognised_clin_sigs]
 
     return test_args_1
 
@@ -114,10 +114,17 @@ class GetCTTVVariantTypeTest(unittest.TestCase):
 
 class CTTVGeneticsEvidenceStringTest(unittest.TestCase):
     def setUp(self):
-        test_args = get_args_CTTVGeneticsEvidenceString_init()
-        self.test_ges = ES.CTTVGeneticsEvidenceString(*test_args)
+        self.test_args = get_args_CTTVGeneticsEvidenceString_init()
+        self.test_ges = ES.CTTVGeneticsEvidenceString(*self.test_args)
 
     # CTTVEvidenceString tests
+
+    def test_unrecognised_clin_sigs(self):
+        self.test_args[1] = "not_real_clin_sig"
+        my_unrecognised_clin_sigs = set()
+        self.test_args[13] = my_unrecognised_clin_sigs
+        unneeded_ges = ES.CTTVGeneticsEvidenceString(*self.test_args)
+        self.assertEqual(my_unrecognised_clin_sigs, {self.test_args[1]})
 
     def test_unique_association_field(self):
         uaf_1 = ("gene", "test_gene")
