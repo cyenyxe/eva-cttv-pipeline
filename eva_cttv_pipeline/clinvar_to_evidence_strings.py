@@ -96,12 +96,9 @@ def clinvar_to_evidence_strings(dir_out, allowed_clinical_significance=None, ign
     counters = get_counters()
 
     allowed_clinical_significance = allowed_clinical_significance.split(',') if allowed_clinical_significance else \
-        ['unknown', 'untested', 'non-pathogenic', 'probable-non-pathogenic',
-         'probable-pathogenic', 'pathogenic', 'drug-response', 'drug response',
-         'histocompatibility', 'other', 'benign', 'protective', 'not provided',
-         'likely benign', 'confers sensitivity', 'uncertain significance',
-         'likely pathogenic', 'conflicting data from submitters', 'risk factor',
-         'association']
+        get_default_allowed_clincal_significance()
+
+    # mappings = get_mappings(efo_mapping_file, ignore_terms_file, adapt_terms_file, snp_2_gene_file, variant_summary_file)
 
     trait_2_efo, unavailable_efo_dict = load_efo_mapping(efo_mapping_file, ignore_terms_file, adapt_terms_file)
 
@@ -128,6 +125,16 @@ def clinvar_to_evidence_strings(dir_out, allowed_clinical_significance=None, ign
     report.write_output(dir_out)
 
     print(report)
+
+
+def get_mappings(efo_mapping_file, ignore_terms_file, adapt_terms_file, snp_2_gene_file, variant_summary_file):
+    mappings = SimpleNamespace()
+    mappings.trait_2_efo, mappings.unavailable_efo_dict = load_efo_mapping(efo_mapping_file, ignore_terms_file, adapt_terms_file)
+
+    mappings.consequence_type_dict = consequence_type.process_consequence_type_file(snp_2_gene_file)
+    mappings.rcv_to_rs, mappings.rcv_to_nsv = clinvar_record.get_rcv_to_rsnsv_mapping(variant_summary_file)
+
+    return mappings
 
 
 def get_record(cellbase_record, rcv_to_rs, consequence_type_dict):
@@ -419,3 +426,12 @@ def get_counters():
             "no_variant_to_ensg_mapping": 0, "n_more_than_one_efo_term": 0, "n_same_ref_alt": 0,
             "n_missed_strings_unmapped_traits": 0, "n_nsvs": 0, "n_valid_rs_and_nsv": 0, "n_nsv_skipped_clin_sig": 0,
             "n_nsv_skipped_wrong_ref_alt": 0, "record_counter": 0, "n_total_clinvar_records": 0}
+
+
+def get_default_allowed_clincal_significance():
+    return ['unknown', 'untested', 'non-pathogenic', 'probable-non-pathogenic',
+         'probable-pathogenic', 'pathogenic', 'drug-response', 'drug response',
+         'histocompatibility', 'other', 'benign', 'protective', 'not provided',
+         'likely benign', 'confers sensitivity', 'uncertain significance',
+         'likely pathogenic', 'conflicting data from submitters', 'risk factor',
+         'association']
