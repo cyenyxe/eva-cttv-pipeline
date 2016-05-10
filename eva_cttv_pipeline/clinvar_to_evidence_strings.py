@@ -17,7 +17,7 @@ __author__ = 'Javier Lopez: javild@gmail.com'
 
 
 class Report:
-    def __init__(self, counters):
+    def __init__(self):
         self.unrecognised_clin_sigs = set()
         self.ensembl_gene_id_uris = set()
         self.traits = set()
@@ -26,7 +26,7 @@ class Report:
         self.unmapped_traits = defaultdict(int)
         self.evidence_string_list = []
         self.evidence_list = []  # To store Helen Parkinson records of the form
-        self.counters = counters
+        self.counters = self._get_counters()
 
     def __str__(self):
 
@@ -89,11 +89,18 @@ class Report:
             fdw.write('\t'.join(evidenceRecord) + '\n')
         fdw.close()
 
+    @staticmethod
+    def _get_counters():
+        return {"n_processed_clinvar_records" : 0, "n_pathogenic_no_rs": 0, "n_multiple_evidence_strings": 0,
+            "n_multiple_allele_origin": 0, "n_germline_somatic": 0, "n_records_no_recognised_allele_origin": 0,
+            "no_variant_to_ensg_mapping": 0, "n_more_than_one_efo_term": 0, "n_same_ref_alt": 0,
+            "n_missed_strings_unmapped_traits": 0, "n_nsvs": 0, "n_valid_rs_and_nsv": 0, "n_nsv_skipped_clin_sig": 0,
+            "n_nsv_skipped_wrong_ref_alt": 0, "record_counter": 0, "n_total_clinvar_records": 0}
+
 
 def clinvar_to_evidence_strings(dir_out, allowed_clinical_significance=None, ignore_terms_file=None,
                                 adapt_terms_file=None, efo_mapping_file=None, snp_2_gene_file=None,
                                 variant_summary_file=None):
-    counters = get_counters()
 
     allowed_clinical_significance = allowed_clinical_significance.split(',') if allowed_clinical_significance else \
         get_default_allowed_clincal_significance()
@@ -101,26 +108,27 @@ def clinvar_to_evidence_strings(dir_out, allowed_clinical_significance=None, ign
     # mappings = get_mappings(efo_mapping_file, ignore_terms_file, adapt_terms_file, snp_2_gene_file, variant_summary_file)
 
     trait_2_efo, unavailable_efo_dict = load_efo_mapping(efo_mapping_file, ignore_terms_file, adapt_terms_file)
+    # TODO unavailable_efo_dict into optional argument for Report class
 
     consequence_type_dict = consequence_type.process_consequence_type_file(snp_2_gene_file)
     rcv_to_rs, rcv_to_nsv = clinvar_record.get_rcv_to_rsnsv_mapping(variant_summary_file)
 
-    report = Report(counters)
+    report = Report()
     report.unavailable_efo_dict = unavailable_efo_dict
 
-    for cellbase_record in get_records(counters):
+    for cellbase_record in get_records(report.counters):
 
         record = get_record(cellbase_record, rcv_to_rs, consequence_type_dict)
-        counters["record_counter"] += 1
-        counters["n_nsvs"] += (record.clinvarRecord.get_nsv(rcv_to_nsv) is not None)
+        report.counters["record_counter"] += 1
+        report.counters["n_nsvs"] += (record.clinvarRecord.get_nsv(rcv_to_nsv) is not None)
         append_nsv(report.nsv_list, record.clinvarRecord, rcv_to_nsv)
 
-        if skip_record(cellbase_record, record, allowed_clinical_significance, rcv_to_nsv, counters):
+        if skip_record(cellbase_record, record, allowed_clinical_significance, rcv_to_nsv, report.counters):
             continue
 
         for ensembl_gene_id in record.con_type.ensembl_gene_ids:
 
-            process_ensembl_gene_id(record, ensembl_gene_id, trait_2_efo, cellbase_record, rcv_to_nsv, counters, report)
+            process_ensembl_gene_id(record, ensembl_gene_id, trait_2_efo, cellbase_record, rcv_to_nsv, report.counters, report)
 
     report.write_output(dir_out)
 
@@ -425,14 +433,6 @@ def get_terms_from_file(terms_file):
         terms_list = []
 
     return terms_list
-
-
-def get_counters():
-    return {"n_processed_clinvar_records" : 0, "n_pathogenic_no_rs": 0, "n_multiple_evidence_strings": 0,
-            "n_multiple_allele_origin": 0, "n_germline_somatic": 0, "n_records_no_recognised_allele_origin": 0,
-            "no_variant_to_ensg_mapping": 0, "n_more_than_one_efo_term": 0, "n_same_ref_alt": 0,
-            "n_missed_strings_unmapped_traits": 0, "n_nsvs": 0, "n_valid_rs_and_nsv": 0, "n_nsv_skipped_clin_sig": 0,
-            "n_nsv_skipped_wrong_ref_alt": 0, "record_counter": 0, "n_total_clinvar_records": 0}
 
 
 def get_default_allowed_clincal_significance():

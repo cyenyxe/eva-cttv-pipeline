@@ -28,8 +28,7 @@ def get_args_CTTVGeneticsEvidenceString_init():
     rs = "rs515726230"
     trait_counter = 0
     traits_ref_list = [[]]
-    counters = clinvar_to_evidence_strings.get_counters()
-    report = clinvar_to_evidence_strings.Report(counters)
+    report = clinvar_to_evidence_strings.Report()
 
     test_args_1 = [efo_list, clin_sig, clinvarRecord, consequenceType, ensembl_gene_id,
                    ensembl_gene_id_uri, measure_set_refs_list, observed_refs_list, rcv_to_gene_evidence_codes, record,
@@ -64,8 +63,7 @@ def get_args_CTTVSomaticEvidenceString_init():
     trait_counter = 0
     trait_refs_list = [[]]
     consequenceType = CT.ConsequenceType(ensembl_gene_ids={'ENSG00000135486'}, so_names={"stop_gained"})
-    counters = clinvar_to_evidence_strings.get_counters()
-    report = clinvar_to_evidence_strings.Report(counters)
+    report = clinvar_to_evidence_strings.Report()
 
     test_args_1 = (efo_list, clin_sig, clinvarRecord, ensembl_gene_id, ensembl_gene_id_uri,
                    measure_set_refs_list, observed_refs_list,

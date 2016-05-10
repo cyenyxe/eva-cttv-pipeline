@@ -41,13 +41,13 @@ class SkipRecordTest(unittest.TestCase):
         cls.clinvar_record = test_clinvar_record.get_test_record()
 
     def setUp(self):
-        counters = clinvar_to_evidence_strings.get_counters()
+        report = clinvar_to_evidence_strings.Report()
         self.record = clinvar_to_evidence_strings.get_record(None, None, None, clin_sig="pathogenic",
                                                         clinvarRecord=self.clinvar_record,
                                                         con_type="transcript_ablation", rs="rs1")
         # skip_record(cellbase_record, record, allowed_clinical_significance, rcv_to_nsv, counters)
         self.args = [{"reference": "A", "alternate": "T"}, self.record, ["pathogenic", "likely pathogenic"],
-                     {'RCV000138025': 'nsv869213', 'RCV000133922': 'nsv491994'}, counters]
+                     {'RCV000138025': 'nsv869213', 'RCV000133922': 'nsv491994'}, report.counters]
 
     def test_return_false(self):
         self.assertFalse(clinvar_to_evidence_strings.skip_record(*self.args))
