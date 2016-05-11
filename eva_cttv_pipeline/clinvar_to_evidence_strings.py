@@ -1,17 +1,13 @@
 import itertools
 import json
 import sys
-import urllib.error
-import urllib.parse
-import urllib.request
-import codecs
 from collections import defaultdict
 from types import SimpleNamespace
 
 import jsonschema
 import xlrd
 
-from eva_cttv_pipeline import efo_term, clinvar_record, consequence_type, config, evidence_strings
+from eva_cttv_pipeline import cellbase_records, efo_term, clinvar_record, consequence_type, config, evidence_strings
 
 
 __author__ = 'Javier Lopez: javild@gmail.com'
@@ -33,7 +29,7 @@ class Report:
     def __str__(self):
 
         report_strings = [
-            str(self.counters["n_total_clinvar_records"]) + ' ClinVar records in total',
+            str(self.counters["record_counter"]) + ' ClinVar records in total',
             str(len(self.evidence_string_list)) + ' evidence string jsons generated',
             str(self.counters["n_processed_clinvar_records"]) + ' ClinVar records generated at least one evidence string',
             str(len(self.unrecognised_clin_sigs)) + " Clinical significance string(s) not found among those described in ClinVar documentation:",
@@ -112,7 +108,7 @@ def clinvar_to_evidence_strings(dir_out, allowed_clinical_significance=None, ign
 
     report = Report(unavailable_efo_dict=mappings.unavailable_efo_dict)
 
-    for cellbase_record in get_records(report.counters):
+    for cellbase_record in cellbase_records.get_records():
 
         record = get_record(cellbase_record, mappings)
         report.counters["record_counter"] += 1
@@ -122,9 +118,6 @@ def clinvar_to_evidence_strings(dir_out, allowed_clinical_significance=None, ign
         if skip_record(cellbase_record, record, allowed_clinical_significance, mappings.rcv_to_nsv, report.counters):
             continue
 
-        ensembl_gene_ids = record.con_type.ensembl_gene_ids
-        traits = get_traits(record.clinvarRecord.traits, mappings.trait_2_efo, report)
-
         report.counters["n_multiple_allele_origin"] += (len(record.clinvarRecord.allele_origins) > 1)
         report.counters["n_germline_somatic"] += (('germline' in record.clinvarRecord.allele_origins) and (
         'somatic' in record.clinvarRecord.allele_origins))
@@ -132,7 +125,9 @@ def clinvar_to_evidence_strings(dir_out, allowed_clinical_significance=None, ign
             ('germline' not in record.clinvarRecord.allele_origins) and
             ('somatic' not in record.clinvarRecord.allele_origins))
 
-        for ensembl_gene_id, trait, allele_origin in itertools.product(ensembl_gene_ids, traits,
+        traits = get_traits(record.clinvarRecord.traits, mappings.trait_2_efo, report)
+
+        for ensembl_gene_id, trait, allele_origin in itertools.product(record.con_type.ensembl_gene_ids, traits,
                                                                        record.clinvarRecord.allele_origins):
 
             ensembl_gene_id_uri = 'http://identifiers.org/ensembl/' + ensembl_gene_id
@@ -268,37 +263,6 @@ def get_trait(trait_counter, trait_list, trait_2_efo, report):
         report.unmapped_traits[trait_list[0]] += 1
         return None
     return trait
-
-
-def get_curr_response(skip):
-    reader = codecs.getreader("utf-8")
-    answer = urllib.request.urlopen('http://' + config.HOST + '/cellbase/webservices/rest/v3/hsapiens/feature/clinical/all?source=clinvar&skip=' + str(skip) + '&limit=' + str(config.BATCH_SIZE))
-    curr_response = json.load(reader(answer))['response'][0]
-    return curr_response
-
-
-def get_curr_result_list(skip):
-    curr_response = get_curr_response(skip)
-    # print(str(curr_response['numTotalResults']) + ' ClinVar records in total.')
-    curr_result_list = curr_response['result']
-    return curr_result_list
-
-
-def get_curr_result_lists(counters):
-    skip = 0
-    while True:
-        curr_result_list = get_curr_result_list(skip)
-        if len(curr_result_list) == 0:
-            break
-        counters["n_total_clinvar_records"] += len(curr_result_list)
-        skip += config.BATCH_SIZE
-        yield curr_result_list
-
-
-def get_records(counters):
-    for curr_result_list in get_curr_result_lists(counters):
-        for record in curr_result_list:
-            yield record
 
 
 def add_evidence_string(record, ev_string, report):
