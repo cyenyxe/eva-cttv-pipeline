@@ -42,7 +42,7 @@ class SkipRecordTest(unittest.TestCase):
 
     def setUp(self):
         report = clinvar_to_evidence_strings.Report()
-        self.record = clinvar_to_evidence_strings.get_record(None, None, None, clin_sig="pathogenic",
+        self.record = clinvar_to_evidence_strings.get_record(None, None, clin_sig="pathogenic",
                                                         clinvarRecord=self.clinvar_record,
                                                         con_type="transcript_ablation", rs="rs1")
         # skip_record(cellbase_record, record, allowed_clinical_significance, rcv_to_nsv, counters)
