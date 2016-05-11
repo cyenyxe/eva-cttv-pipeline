@@ -125,6 +125,11 @@ def clinvar_to_evidence_strings(dir_out, allowed_clinical_significance=None, ign
 
             process_ensembl_gene_id(record, report, mappings, ensembl_gene_id, cellbase_record)
 
+        if record.n_ev_strings_per_record > 0:
+            report.counters["n_processed_clinvar_records"] += 1
+            if record.n_ev_strings_per_record > 1:
+                report.counters["n_multiple_evidence_strings"] += 1
+
     report.write_output(dir_out)
 
     print(report)
