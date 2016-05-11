@@ -17,7 +17,7 @@ __author__ = 'Javier Lopez: javild@gmail.com'
 
 
 class Report:
-    def __init__(self):
+    def __init__(self, unavailable_efo_dict=None):
         self.unrecognised_clin_sigs = set()
         self.ensembl_gene_id_uris = set()
         self.traits = set()
@@ -27,6 +27,7 @@ class Report:
         self.evidence_string_list = []
         self.evidence_list = []  # To store Helen Parkinson records of the form
         self.counters = self._get_counters()
+        self.unavailable_efo_dict = unavailable_efo_dict
 
     def __str__(self):
 
@@ -105,30 +106,24 @@ def clinvar_to_evidence_strings(dir_out, allowed_clinical_significance=None, ign
     allowed_clinical_significance = allowed_clinical_significance.split(',') if allowed_clinical_significance else \
         get_default_allowed_clincal_significance()
 
-    # mappings = get_mappings(efo_mapping_file, ignore_terms_file, adapt_terms_file, snp_2_gene_file, variant_summary_file)
+    mappings = get_mappings(efo_mapping_file, ignore_terms_file, adapt_terms_file, snp_2_gene_file,
+                            variant_summary_file)
 
-    trait_2_efo, unavailable_efo_dict = load_efo_mapping(efo_mapping_file, ignore_terms_file, adapt_terms_file)
-    # TODO unavailable_efo_dict into optional argument for Report class
-
-    consequence_type_dict = consequence_type.process_consequence_type_file(snp_2_gene_file)
-    rcv_to_rs, rcv_to_nsv = clinvar_record.get_rcv_to_rsnsv_mapping(variant_summary_file)
-
-    report = Report()
-    report.unavailable_efo_dict = unavailable_efo_dict
+    report = Report(unavailable_efo_dict=mappings.unavailable_efo_dict)
 
     for cellbase_record in get_records(report.counters):
 
-        record = get_record(cellbase_record, rcv_to_rs, consequence_type_dict)
+        record = get_record(cellbase_record, mappings)
         report.counters["record_counter"] += 1
-        report.counters["n_nsvs"] += (record.clinvarRecord.get_nsv(rcv_to_nsv) is not None)
-        append_nsv(report.nsv_list, record.clinvarRecord, rcv_to_nsv)
+        report.counters["n_nsvs"] += (record.clinvarRecord.get_nsv(mappings.rcv_to_nsv) is not None)
+        append_nsv(report.nsv_list, record.clinvarRecord, mappings.rcv_to_nsv)
 
-        if skip_record(cellbase_record, record, allowed_clinical_significance, rcv_to_nsv, report.counters):
+        if skip_record(cellbase_record, record, allowed_clinical_significance, mappings.rcv_to_nsv, report.counters):
             continue
 
         for ensembl_gene_id in record.con_type.ensembl_gene_ids:
 
-            process_ensembl_gene_id(record, ensembl_gene_id, trait_2_efo, cellbase_record, rcv_to_nsv, report.counters, report)
+            process_ensembl_gene_id(record, report, mappings, ensembl_gene_id, cellbase_record)
 
     report.write_output(dir_out)
 
@@ -137,7 +132,8 @@ def clinvar_to_evidence_strings(dir_out, allowed_clinical_significance=None, ign
 
 def get_mappings(efo_mapping_file, ignore_terms_file, adapt_terms_file, snp_2_gene_file, variant_summary_file):
     mappings = SimpleNamespace()
-    mappings.trait_2_efo, mappings.unavailable_efo_dict = load_efo_mapping(efo_mapping_file, ignore_terms_file, adapt_terms_file)
+    mappings.trait_2_efo, mappings.unavailable_efo_dict = load_efo_mapping(efo_mapping_file, ignore_terms_file,
+                                                                           adapt_terms_file)
 
     mappings.consequence_type_dict = consequence_type.process_consequence_type_file(snp_2_gene_file)
     mappings.rcv_to_rs, mappings.rcv_to_nsv = clinvar_record.get_rcv_to_rsnsv_mapping(variant_summary_file)
@@ -145,7 +141,7 @@ def get_mappings(efo_mapping_file, ignore_terms_file, adapt_terms_file, snp_2_ge
     return mappings
 
 
-def get_record(cellbase_record, rcv_to_rs, consequence_type_dict, **kwargs):
+def get_record(cellbase_record, mappings, **kwargs):
     record = SimpleNamespace()
     record.n_ev_strings_per_record = 0
 
@@ -155,10 +151,10 @@ def get_record(cellbase_record, rcv_to_rs, consequence_type_dict, **kwargs):
     record.clin_sig = record.clinvarRecord.clinical_significance.lower() \
         if "clin_sig" not in kwargs else kwargs["clin_sig"]
 
-    record.rs = record.clinvarRecord.get_rs(rcv_to_rs) \
+    record.rs = record.clinvarRecord.get_rs(mappings.rcv_to_rs) \
         if "rs" not in kwargs else kwargs["rs"]
 
-    record.con_type = record.clinvarRecord.get_main_consequence_types(consequence_type_dict, rcv_to_rs) \
+    record.con_type = record.clinvarRecord.get_main_consequence_types(mappings.consequence_type_dict, mappings.rcv_to_rs) \
         if "con_type" not in kwargs else kwargs["con_type"]
     # Mapping rs->Gene was found at Mick's file and therefore ensembl_gene_id will never be None
 
@@ -196,46 +192,45 @@ def skip_record(cellbase_record, record, allowed_clinical_significance, rcv_to_n
     return False
 
 
-def process_ensembl_gene_id(record, ensembl_gene_id, trait_2_efo, cellbase_record, rcv_to_nsv, counters, report):
+def process_ensembl_gene_id(record, report, mappings, ensembl_gene_id, cellbase_record):
 
     rcv_to_gene_evidence_codes = ['http://identifiers.org/eco/cttv_mapping_pipeline']  # Evidence codes provided by Mick
     ensembl_gene_id_uri = 'http://identifiers.org/ensembl/' + ensembl_gene_id
     for trait_counter, trait_list in enumerate(record.clinvarRecord.traits):
 
-        process_trait(record, counters, report, trait_2_efo, trait_list, ensembl_gene_id, ensembl_gene_id_uri,
-                      rcv_to_gene_evidence_codes, cellbase_record, trait_counter, rcv_to_nsv)
+        process_trait(record, report, mappings, trait_list, ensembl_gene_id, ensembl_gene_id_uri,
+                      rcv_to_gene_evidence_codes, cellbase_record, trait_counter)
 
     if record.n_ev_strings_per_record > 0:
-        counters["n_processed_clinvar_records"] += 1
+        report.counters["n_processed_clinvar_records"] += 1
         if record.n_ev_strings_per_record > 1:
-            counters["n_multiple_evidence_strings"] += 1
+            report.counters["n_multiple_evidence_strings"] += 1
 
 
-def process_trait(record, counters, report, trait_2_efo, trait_list, ensembl_gene_id, ensembl_gene_id_uri,
-                      rcv_to_gene_evidence_codes, cellbase_record, trait_counter, rcv_to_nsv):
+def process_trait(record, report, mappings, trait_list, ensembl_gene_id, ensembl_gene_id_uri,
+                      rcv_to_gene_evidence_codes, cellbase_record, trait_counter):
 
-    clinvar_trait_list, efo_list = map_efo(trait_2_efo, trait_list)
+    clinvar_trait_list, efo_list = map_efo(mappings.trait_2_efo, trait_list)
     # Only ClinVar records associated to a trait with mapped EFO term will generate evidence_strings
     if len(efo_list) == 0:
-        counters["n_missed_strings_unmapped_traits"] += 1
+        report.counters["n_missed_strings_unmapped_traits"] += 1
         report.unmapped_traits[trait_list[0]] += 1
         return
 
     clinvar_record_allele_origins = record.clinvarRecord.allele_origins
-    counters["n_multiple_allele_origin"] += (len(clinvar_record_allele_origins) > 1)
-    counters["n_germline_somatic"] += (('germline' in clinvar_record_allele_origins) and (
+    report.counters["n_multiple_allele_origin"] += (len(clinvar_record_allele_origins) > 1)
+    report.counters["n_germline_somatic"] += (('germline' in clinvar_record_allele_origins) and (
     'somatic' in clinvar_record_allele_origins))
-    counters["n_records_no_recognised_allele_origin"] += (
+    report.counters["n_records_no_recognised_allele_origin"] += (
         ('germline' not in clinvar_record_allele_origins) and
         ('somatic' not in clinvar_record_allele_origins))
     for allele_origin_counter, alleleOrigin in enumerate(clinvar_record_allele_origins):
-        process_allele_origin(record, counters, report, alleleOrigin, efo_list, ensembl_gene_id, ensembl_gene_id_uri,
-                              rcv_to_gene_evidence_codes, cellbase_record, trait_counter, clinvar_trait_list,
-                              rcv_to_nsv)
+        process_allele_origin(record, report, mappings, alleleOrigin, efo_list, ensembl_gene_id, ensembl_gene_id_uri,
+                              rcv_to_gene_evidence_codes, cellbase_record, trait_counter, clinvar_trait_list)
 
 
-def process_allele_origin(record, counters, report, alleleOrigin, efo_list, ensembl_gene_id, ensembl_gene_id_uri,
-                          rcv_to_gene_evidence_codes, cellbase_record, trait_counter, clinvar_trait_list, rcv_to_nsv):
+def process_allele_origin(record, report, mappings, alleleOrigin, efo_list, ensembl_gene_id, ensembl_gene_id_uri,
+                          rcv_to_gene_evidence_codes, cellbase_record, trait_counter, clinvar_trait_list):
 
     if alleleOrigin not in ('germline', 'somatic'):
         report.n_unrecognised_allele_origin[alleleOrigin] += 1
@@ -271,8 +266,8 @@ def process_allele_origin(record, counters, report, alleleOrigin, efo_list, ense
         report.evidence_list.append(
             [record.clinvarRecord.accession, record.rs, ','.join(clinvar_trait_list),
              ','.join(efo_list)])
-        counters["n_valid_rs_and_nsv"] += (record.clinvarRecord.get_nsv(rcv_to_nsv) is not None)
-        counters["n_more_than_one_efo_term"] += (len(efo_list) > 1)
+        report.counters["n_valid_rs_and_nsv"] += (record.clinvarRecord.get_nsv(mappings.rcv_to_nsv) is not None)
+        report.counters["n_more_than_one_efo_term"] += (len(efo_list) > 1)
         report.traits.update(set(efo_list))
         report.ensembl_gene_id_uris.add(ensembl_gene_id_uri)
 
