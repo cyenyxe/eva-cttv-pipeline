@@ -47,8 +47,8 @@ def get_cttv_variant_type(ref, alt):
 
 
 class CTTVEvidenceString(dict):
-    def __init__(self, a_dictionary, ensembl_gene_id=None, clinvar_record=None, ensembl_gene_id_uri=None, clin_sig=None,
-                 efo_list=None, ref_list=None, report=None):
+    def __init__(self, a_dictionary, ensembl_gene_id=None, clinvar_record=None, clin_sig=None, efo_list=None,
+                 ref_list=None, report=None):
         super().__init__(a_dictionary)
         # dict.__init__(a_dictionary)
 
@@ -57,12 +57,12 @@ class CTTVEvidenceString(dict):
         if clinvar_record:
             self.add_unique_association_field('clinvarAccession', clinvar_record.accession)
 
-        if ensembl_gene_id_uri:
-            try:
-                self.set_target(ensembl_gene_id_uri, clin_sig_2_activity[clin_sig])
-            except KeyError:
-                report.unrecognised_clin_sigs.add(clin_sig)  # TODO fix this
-                self.set_target(ensembl_gene_id_uri, 'http://identifiers.org/cttv.activity/unknown')
+        ensembl_gene_id_uri = get_ensembl_gene_id_uri(ensembl_gene_id)
+        try:
+            self.set_target(ensembl_gene_id_uri, clin_sig_2_activity[clin_sig])
+        except KeyError:
+            report.unrecognised_clin_sigs.add(clin_sig)  # TODO fix this
+            self.set_target(ensembl_gene_id_uri, 'http://identifiers.org/cttv.activity/unknown')
 
         if ref_list and len(ref_list) > 0:
             self.top_level_literature = ref_list
@@ -111,9 +111,8 @@ class CTTVEvidenceString(dict):
 class CTTVGeneticsEvidenceString(CTTVEvidenceString):
     schema = json.loads(open(utilities.get_resource_file(__package__, config.GEN_SCHEMA_FILE), 'r').read())
 
-    def __init__(self, efo_list, clin_sig, clinvarRecord, consequenceType, ensembl_gene_id, ensembl_gene_id_uri,
-                 measure_set_refs_list, observed_refs_list, rcv_to_gene_evidence_codes, record, rs, trait_counter,
-                 traits_ref_list, report):
+    def __init__(self, efo_list, clin_sig, clinvarRecord, consequenceType, ensembl_gene_id, measure_set_refs_list,
+                 observed_refs_list, record, rs, trait_counter, traits_ref_list, report):
 
         with open(utilities.get_resource_file(__package__, config.GEN_EV_STRING_JSON)) as gen_json_file:
             a_dictionary = json.load(gen_json_file)
@@ -122,7 +121,7 @@ class CTTVGeneticsEvidenceString(CTTVEvidenceString):
 
         ref_list = list(set(traits_ref_list[trait_counter] + observed_refs_list + measure_set_refs_list))
 
-        super().__init__(a_dictionary, ensembl_gene_id, clinvarRecord, ensembl_gene_id_uri, clin_sig, efo_list,
+        super().__init__(a_dictionary, ensembl_gene_id, clinvarRecord, clin_sig, efo_list,
                          ref_list, report)
 
         self.add_unique_association_field('alleleOrigin', 'germline')
@@ -131,7 +130,7 @@ class CTTVGeneticsEvidenceString(CTTVEvidenceString):
         self.db_xref_url = 'http://identifiers.org/clinvar.record/' + clinvarRecord.accession
         self.url = 'http://www.ncbi.nlm.nih.gov/clinvar/' + clinvarRecord.accession
         self.association = clin_sig != 'non-pathogenic' and clin_sig != 'probable-non-pathogenic' and clin_sig != 'likely benign' and clin_sig != 'benign'
-        self.gene_2_var_ev_codes = rcv_to_gene_evidence_codes
+        self.gene_2_var_ev_codes = ['http://identifiers.org/eco/cttv_mapping_pipeline']
         most_severe_so_term = consequenceType.most_severe_so
         if most_severe_so_term.accession is None:
             self.gene_2_var_func_consequence = 'http://targetvalidation.org/sequence/' + most_severe_so_term.so_name
@@ -237,10 +236,8 @@ class CTTVGeneticsEvidenceString(CTTVEvidenceString):
 class CTTVSomaticEvidenceString(CTTVEvidenceString):
     schema = json.loads(open(utilities.get_resource_file(__package__, config.SOM_SCHEMA_FILE), 'r').read())
 
-    def __init__(self, efo_list, clin_sig, clinvarRecord,
-                                     ensembl_gene_id, ensembl_gene_id_uri, measure_set_refs_list,
-                                     observed_refs_list, trait_counter, trait_refs_list,
-                                     consequenceType, report):
+    def __init__(self, efo_list, clin_sig, clinvarRecord, ensembl_gene_id, measure_set_refs_list, observed_refs_list,
+                 trait_counter, trait_refs_list, consequenceType, report):
 
         with open(utilities.get_resource_file(__package__, config.SOM_EV_STRING_JSON)) as som_json_file:
             a_dictionary = json.load(som_json_file)
@@ -249,7 +246,7 @@ class CTTVSomaticEvidenceString(CTTVEvidenceString):
 
         ref_list = list(set(trait_refs_list[trait_counter] + observed_refs_list + measure_set_refs_list))
 
-        super().__init__(a_dictionary, ensembl_gene_id, clinvarRecord, ensembl_gene_id_uri, clin_sig, efo_list,
+        super().__init__(a_dictionary, ensembl_gene_id, clinvarRecord, clin_sig, efo_list,
                          ref_list, report)
 
         self.add_unique_association_field('alleleOrigin', 'somatic')
@@ -324,3 +321,7 @@ class CTTVSomaticEvidenceString(CTTVEvidenceString):
             else:
                 new_functional_consequence = 'http://targetvalidation.org/sequence/' + so_term.so_name
             self.add_known_mutation(new_functional_consequence, so_name)
+
+
+def get_ensembl_gene_id_uri(ensembl_gene_id):
+    return 'http://identifiers.org/ensembl/' + ensembl_gene_id

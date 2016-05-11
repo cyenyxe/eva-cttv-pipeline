@@ -65,6 +65,23 @@ class Report:
 
         return '\n'.join(report_strings)
 
+    def add_evidence_string(self, ev_string):
+        try:
+            ev_string.validate()
+            self.evidence_string_list.append(ev_string)
+        except jsonschema.exceptions.ValidationError as err:
+            print('Error: evidence_string does not validate against schema.')
+            # print('ClinVar accession: ' + record.clinvarRecord.accession)
+            print(err)
+            print(json.dumps(ev_string))
+            sys.exit(1)
+        except efo_term.EFOTerm.IsObsoleteException as err:
+            print('Error: obsolete EFO term.')
+            print('Term: ' + ev_string.get_disease().efoid)
+            print(err)
+            print(json.dumps(ev_string))
+            sys.exit(1)
+
     def write_output(self, dir_out):
         write_string_list_to_file(self.nsv_list, dir_out + '/' + config.NSV_LIST_FILE)
 
@@ -100,15 +117,26 @@ class Report:
             "n_nsv_skipped_wrong_ref_alt": 0, "record_counter": 0, "n_total_clinvar_records": 0}
 
 
-def clinvar_to_evidence_strings(dir_out, allowed_clinical_significance=None, ignore_terms_file=None,
-                                adapt_terms_file=None, efo_mapping_file=None, snp_2_gene_file=None,
-                                variant_summary_file=None):
+def launch_pipeline(dir_out, allowed_clinical_significance, ignore_terms_file, adapt_terms_file, efo_mapping_file,
+                    snp_2_gene_file, variant_summary_file):
 
     allowed_clinical_significance = allowed_clinical_significance.split(',') if allowed_clinical_significance else \
         get_default_allowed_clincal_significance()
 
     mappings = get_mappings(efo_mapping_file, ignore_terms_file, adapt_terms_file, snp_2_gene_file,
                             variant_summary_file)
+
+    report = clinvar_to_evidence_strings(allowed_clinical_significance, mappings)
+
+    output(report, dir_out)
+
+
+def output(report, dir_out):
+    report.write_output(dir_out)
+    print(report)
+
+
+def clinvar_to_evidence_strings(allowed_clinical_significance, mappings):
 
     report = Report(mappings.unavailable_efo_dict)
 
@@ -134,9 +162,6 @@ def clinvar_to_evidence_strings(dir_out, allowed_clinical_significance=None, ign
         for ensembl_gene_id, trait, allele_origin in itertools.product(record.con_type.ensembl_gene_ids, traits,
                                                                        record.clinvarRecord.allele_origins):
 
-            ensembl_gene_id_uri = 'http://identifiers.org/ensembl/' + ensembl_gene_id
-            rcv_to_gene_evidence_codes = ['http://identifiers.org/eco/cttv_mapping_pipeline']  # Evidence codes provided by Mick
-
             if allele_origin not in ('germline', 'somatic'):
                 report.n_unrecognised_allele_origin[allele_origin] += 1
                 continue
@@ -147,10 +172,8 @@ def clinvar_to_evidence_strings(dir_out, allowed_clinical_significance=None, ign
                                                                                   record.clinvarRecord,
                                                                                   record.con_type,
                                                                                   ensembl_gene_id,
-                                                                                  ensembl_gene_id_uri,
                                                                                   record.measure_set_refs_list,
                                                                                   record.observed_regs_list,
-                                                                                  rcv_to_gene_evidence_codes,
                                                                                   cellbase_record,
                                                                                   record.rs,
                                                                                   trait.trait_counter,
@@ -161,30 +184,29 @@ def clinvar_to_evidence_strings(dir_out, allowed_clinical_significance=None, ign
                                                                                  record.clin_sig,
                                                                                  record.clinvarRecord,
                                                                                  ensembl_gene_id,
-                                                                                 ensembl_gene_id_uri,
                                                                                  record.measure_set_refs_list,
                                                                                  record.observed_regs_list,
                                                                                  trait.trait_counter,
                                                                                  record.trait_refs_list,
                                                                                  record.con_type,
                                                                                  report)
-                add_evidence_string(record, evidence_string, report)
+                report.add_evidence_string(record, evidence_string, report)
                 report.evidence_list.append(
                     [record.clinvarRecord.accession, record.rs, ','.join(trait.clinvar_trait_list),
                      ','.join(trait.efo_list)])
                 report.counters["n_valid_rs_and_nsv"] += (record.clinvarRecord.get_nsv(mappings.rcv_to_nsv) is not None)
                 report.counters["n_more_than_one_efo_term"] += (len(trait.efo_list) > 1)
                 report.traits.update(set(trait.efo_list))
-                report.ensembl_gene_id_uris.add(ensembl_gene_id_uri)
+                report.ensembl_gene_id_uris.add(evidence_strings.get_ensembl_gene_id_uri(ensembl_gene_id))
+
+                record.n_ev_strings_per_record += 1
 
         if record.n_ev_strings_per_record > 0:
             report.counters["n_processed_clinvar_records"] += 1
             if record.n_ev_strings_per_record > 1:
                 report.counters["n_multiple_evidence_strings"] += 1
 
-    report.write_output(dir_out)
-
-    print(report)
+    return report
 
 
 def get_mappings(efo_mapping_file, ignore_terms_file, adapt_terms_file, snp_2_gene_file, variant_summary_file):
@@ -268,25 +290,6 @@ def get_trait(trait_counter, trait_list, trait_2_efo, report):
         report.unmapped_traits[trait_list[0]] += 1
         return None
     return trait
-
-
-def add_evidence_string(record, ev_string, report):
-    try:
-        ev_string.validate()
-        report.evidence_string_list.append(ev_string)
-        record.n_ev_strings_per_record += 1
-    except jsonschema.exceptions.ValidationError as err:
-        print('Error: evidence_string does not validate against schema.')
-        print('ClinVar accession: ' + record.clinvarRecord.accession)
-        print(err)
-        print(json.dumps(ev_string))
-        sys.exit(1)
-    except efo_term.EFOTerm.IsObsoleteException as err:
-        print('Error: obsolete EFO term.')
-        print('Term: ' + ev_string.get_disease().efoid)
-        print(err)
-        print(json.dumps(ev_string))
-        sys.exit(1)
 
 
 def write_string_list_to_file(string_list, filename):
