@@ -21,6 +21,7 @@
 /eva_cttv_pipeline/resources/.~lock.ClinVar_Traits_EFO_090915.xls#
 /eva_cttv_pipeline/build
 /venv
+/venv_3.5
 /eva_cttv_pipeline/resources/copy_schema_files.sh
 /eva_cttv_pipeline/resources/rs_ids_2015_05_sortuniq.txt
 /eva_cttv_pipeline/resources/variant_summary_2015-05.txt.gz

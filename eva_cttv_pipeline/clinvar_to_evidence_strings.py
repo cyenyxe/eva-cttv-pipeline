@@ -15,6 +15,11 @@ __author__ = 'Javier Lopez: javild@gmail.com'
 
 class Report:
     def __init__(self, unavailable_efo_dict=None):
+        if unavailable_efo_dict is None:
+            self.unavailable_efo_dict = {}
+        else:
+            self.unavailable_efo_dict = unavailable_efo_dict
+
         self.unrecognised_clin_sigs = set()
         self.ensembl_gene_id_uris = set()
         self.traits = set()
@@ -24,7 +29,6 @@ class Report:
         self.evidence_string_list = []
         self.evidence_list = []  # To store Helen Parkinson records of the form
         self.counters = self._get_counters()
-        self.unavailable_efo_dict = unavailable_efo_dict
 
     def __str__(self):
 
@@ -106,7 +110,7 @@ def clinvar_to_evidence_strings(dir_out, allowed_clinical_significance=None, ign
     mappings = get_mappings(efo_mapping_file, ignore_terms_file, adapt_terms_file, snp_2_gene_file,
                             variant_summary_file)
 
-    report = Report(unavailable_efo_dict=mappings.unavailable_efo_dict)
+    report = Report(mappings.unavailable_efo_dict)
 
     for cellbase_record in cellbase_records.get_records():
 
@@ -135,6 +139,7 @@ def clinvar_to_evidence_strings(dir_out, allowed_clinical_significance=None, ign
 
             if allele_origin not in ('germline', 'somatic'):
                 report.n_unrecognised_allele_origin[allele_origin] += 1
+                continue
             else:
                 if allele_origin == 'germline':
                     evidence_string = evidence_strings.CTTVGeneticsEvidenceString(trait.efo_list,
