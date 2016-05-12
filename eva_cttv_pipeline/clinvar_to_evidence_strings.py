@@ -168,29 +168,15 @@ def clinvar_to_evidence_strings(allowed_clinical_significance, mappings):
             else:
                 if allele_origin == 'germline':
                     # todo look into if any of these arguments to ev strings can be removed and their use extracted out
-                    evidence_string = evidence_strings.CTTVGeneticsEvidenceString(trait.efo_list,
-                                                                                  record.clin_sig,
-                                                                                  record.clinvarRecord,
-                                                                                  record.con_type,
-                                                                                  ensembl_gene_id,
-                                                                                  record.measure_set_refs_list,
-                                                                                  record.observed_regs_list,
-                                                                                  cellbase_record,
-                                                                                  record.rs,
-                                                                                  trait.trait_counter,
-                                                                                  record.trait_refs_list,
-                                                                                  report)
+                    evidence_string = evidence_strings.CTTVGeneticsEvidenceString(record,
+                                                                                  report,
+                                                                                  trait,
+                                                                                  ensembl_gene_id)
                 elif allele_origin == 'somatic':
-                    evidence_string = evidence_strings.CTTVSomaticEvidenceString(trait.efo_list,
-                                                                                 record.clin_sig,
-                                                                                 record.clinvarRecord,
-                                                                                 ensembl_gene_id,
-                                                                                 record.measure_set_refs_list,
-                                                                                 record.observed_regs_list,
-                                                                                 trait.trait_counter,
-                                                                                 record.trait_refs_list,
-                                                                                 record.con_type,
-                                                                                 report)
+                    evidence_string = evidence_strings.CTTVSomaticEvidenceString(record,
+                                                                                 report,
+                                                                                 trait,
+                                                                                 ensembl_gene_id)
                 report.add_evidence_string(record, evidence_string, report)
                 report.evidence_list.append(
                     [record.clinvarRecord.accession, record.rs, ','.join(trait.clinvar_trait_list),
@@ -223,6 +209,7 @@ def get_mappings(efo_mapping_file, ignore_terms_file, adapt_terms_file, snp_2_ge
 
 def get_record(cellbase_record, mappings, **kwargs):
     record = SimpleNamespace()
+    record.cellbase_record = cellbase_record
     record.n_ev_strings_per_record = 0
 
     record.clinvarRecord = clinvar_record.ClinvarRecord(cellbase_record['clinvarSet']) \
@@ -240,7 +227,7 @@ def get_record(cellbase_record, mappings, **kwargs):
 
     record.trait_refs_list = [['http://europepmc.org/abstract/MED/' + str(ref) for ref in refList]
                               for refList in record.clinvarRecord.trait_pubmed_refs]
-    record.observed_regs_list = ['http://europepmc.org/abstract/MED/' + str(ref)
+    record.observed_refs_list = ['http://europepmc.org/abstract/MED/' + str(ref)
                                  for ref in record.clinvarRecord.observed_pubmed_refs]
     record.measure_set_refs_list = ['http://europepmc.org/abstract/MED/' + str(ref)
                                     for ref in record.clinvarRecord.measure_set_pubmed_refs]
