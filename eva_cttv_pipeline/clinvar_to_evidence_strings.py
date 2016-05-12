@@ -142,12 +142,12 @@ def clinvar_to_evidence_strings(allowed_clinical_significance, mappings):
 
     for cellbase_record in cellbase_records.get_records():
 
-        record = get_record(cellbase_record, mappings)
+        record = create_record(cellbase_record, mappings)
         report.counters["record_counter"] += 1
         report.counters["n_nsvs"] += (record.clinvarRecord.get_nsv(mappings.rcv_to_nsv) is not None)
         append_nsv(report.nsv_list, record.clinvarRecord, mappings.rcv_to_nsv)
 
-        if skip_record(cellbase_record, record, allowed_clinical_significance, mappings.rcv_to_nsv, report.counters):
+        if skip_record(record, allowed_clinical_significance, mappings.rcv_to_nsv, report.counters):
             continue
 
         report.counters["n_multiple_allele_origin"] += (len(record.clinvarRecord.allele_origins) > 1)
@@ -157,7 +157,7 @@ def clinvar_to_evidence_strings(allowed_clinical_significance, mappings):
             ('germline' not in record.clinvarRecord.allele_origins) and
             ('somatic' not in record.clinvarRecord.allele_origins))
 
-        traits = get_traits(record.clinvarRecord.traits, mappings.trait_2_efo, report)
+        traits = create_traits(record.clinvarRecord.traits, mappings.trait_2_efo, report)
 
         for ensembl_gene_id, trait, allele_origin in itertools.product(record.con_type.ensembl_gene_ids, traits,
                                                                        record.clinvarRecord.allele_origins):
@@ -207,7 +207,8 @@ def get_mappings(efo_mapping_file, ignore_terms_file, adapt_terms_file, snp_2_ge
     return mappings
 
 
-def get_record(cellbase_record, mappings, **kwargs):
+# TODO make record class for consistency in names
+def create_record(cellbase_record, mappings, **kwargs):
     record = SimpleNamespace()
     record.cellbase_record = cellbase_record
     record.n_ev_strings_per_record = 0
@@ -235,14 +236,14 @@ def get_record(cellbase_record, mappings, **kwargs):
     return record
 
 
-def skip_record(cellbase_record, record, allowed_clinical_significance, rcv_to_nsv, counters):
+def skip_record(record, allowed_clinical_significance, rcv_to_nsv, counters):
 
     if record.clin_sig not in allowed_clinical_significance:
         if record.clinvarRecord.get_nsv(rcv_to_nsv) is not None:
             counters["n_nsv_skipped_clin_sig"] += 1
         return True
 
-    if cellbase_record['reference'] == cellbase_record['alternate']:
+    if record.cellbase_record['reference'] == record.cellbase_record['alternate']:
         counters["n_same_ref_alt"] += 1
         if record.clinvarRecord.get_nsv(rcv_to_nsv) is not None:
             counters["n_nsv_skipped_wrong_ref_alt"] += 1
@@ -259,16 +260,16 @@ def skip_record(cellbase_record, record, allowed_clinical_significance, rcv_to_n
     return False
 
 
-def get_traits(clinvar_traits, trait_2_efo, report):
+def create_traits(clinvar_traits, trait_2_efo, report):
     traits = []
     for trait_counter, trait_list in enumerate(clinvar_traits):
-        new_trait = get_trait(trait_counter, trait_list, trait_2_efo, report)
+        new_trait = create_trait(trait_counter, trait_list, trait_2_efo, report)
         if new_trait:
             traits.append(new_trait)
     return traits
 
 
-def get_trait(trait_counter, trait_list, trait_2_efo, report):
+def create_trait(trait_counter, trait_list, trait_2_efo, report):
     trait = SimpleNamespace()
     trait.trait_counter = trait_counter
     trait.clinvar_trait_list, trait.efo_list = map_efo(trait_2_efo, trait_list)

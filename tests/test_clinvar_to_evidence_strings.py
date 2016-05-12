@@ -15,11 +15,12 @@ class SkipRecordTest(unittest.TestCase):
 
     def setUp(self):
         report = clinvar_to_evidence_strings.Report()
-        self.record = clinvar_to_evidence_strings.get_record(None, None, clin_sig="pathogenic",
-                                                        clinvarRecord=self.clinvar_record,
-                                                        con_type="transcript_ablation", rs="rs1")
+        self.record = clinvar_to_evidence_strings.create_record({"reference": "A", "alternate": "T"}, None,
+                                                                clin_sig="pathogenic",
+                                                                clinvarRecord=self.clinvar_record,
+                                                                con_type="transcript_ablation", rs="rs1")
         # skip_record(cellbase_record, record, allowed_clinical_significance, rcv_to_nsv, counters)
-        self.args = [{"reference": "A", "alternate": "T"}, self.record, ["pathogenic", "likely pathogenic"],
+        self.args = [self.record, ["pathogenic", "likely pathogenic"],
                      {'RCV000138025': 'nsv869213', 'RCV000133922': 'nsv491994'}, report.counters]
 
     def test_return_false(self):
@@ -30,7 +31,7 @@ class SkipRecordTest(unittest.TestCase):
         self.assertTrue(clinvar_to_evidence_strings.skip_record(*self.args))
 
     def test_ref_eq_alt(self):
-        self.args[0] = {"reference": "A", "alternate": "A"}
+        self.record.cellbase_record = {"reference": "A", "alternate": "A"}
         self.assertTrue(clinvar_to_evidence_strings.skip_record(*self.args))
 
     def test_rs_is_none(self):
