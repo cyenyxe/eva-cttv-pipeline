@@ -167,6 +167,7 @@ def clinvar_to_evidence_strings(allowed_clinical_significance, mappings):
                 continue
             else:
                 if allele_origin == 'germline':
+                    # todo look into if any of these arguments to ev strings can be removed and their use extracted out
                     evidence_string = evidence_strings.CTTVGeneticsEvidenceString(trait.efo_list,
                                                                                   record.clin_sig,
                                                                                   record.clinvarRecord,

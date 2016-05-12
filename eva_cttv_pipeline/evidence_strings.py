@@ -57,15 +57,16 @@ class CTTVEvidenceString(dict):
         if clinvar_record:
             self.add_unique_association_field('clinvarAccession', clinvar_record.accession)
 
-        ensembl_gene_id_uri = get_ensembl_gene_id_uri(ensembl_gene_id)
-        try:
-            self.set_target(ensembl_gene_id_uri, clin_sig_2_activity[clin_sig])
-        except KeyError:
-            report.unrecognised_clin_sigs.add(clin_sig)  # TODO fix this
-            self.set_target(ensembl_gene_id_uri, 'http://identifiers.org/cttv.activity/unknown')
+        if ensembl_gene_id:
+            ensembl_gene_id_uri = get_ensembl_gene_id_uri(ensembl_gene_id)
+            try:
+                self.set_target(ensembl_gene_id_uri, clin_sig_2_activity[clin_sig])
+            except KeyError:
+                report.unrecognised_clin_sigs.add(clin_sig)  # TODO fix this
+                self.set_target(ensembl_gene_id_uri, 'http://identifiers.org/cttv.activity/unknown')
 
-        if ref_list and len(ref_list) > 0:
-            self.top_level_literature = ref_list
+            if ref_list and len(ref_list) > 0:
+                self.top_level_literature = ref_list
 
         if efo_list:
             efo_list.sort()
