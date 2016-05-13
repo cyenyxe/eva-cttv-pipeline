@@ -104,7 +104,19 @@ class CreateRecordTest(unittest.TestCase):
 
 
 class CreateTraitTest(unittest.TestCase):
-    pass
+    @classmethod
+    def setUpClass(cls):
+        cls.trait = clinvar_to_evidence_strings.create_trait(9, ["Ciliary dyskinesia, primary, 7"], MAPPINGS.trait_2_efo)
+
+    def test_clinvar_trait_list(self):
+        self.assertEqual(self.trait.clinvar_trait_list, ['Ciliary dyskinesia, primary, 7'])
+
+    def test_efo_list(self):
+        self.assertEqual(self.trait.efo_list, ['http://www.ebi.ac.uk/efo/EFO_0003900'])
+
+    def test_return_none(self):
+        none_trait = clinvar_to_evidence_strings.create_trait(9, ["not a real trait"], MAPPINGS.trait_2_efo)
+        self.assertIsNone(none_trait)
 
 
 class SkipRecordTest(unittest.TestCase):

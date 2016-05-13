@@ -263,20 +263,22 @@ def skip_record(record, allowed_clinical_significance, rcv_to_nsv, counters):
 def create_traits(clinvar_traits, trait_2_efo, report):
     traits = []
     for trait_counter, trait_list in enumerate(clinvar_traits):
-        new_trait = create_trait(trait_counter, trait_list, trait_2_efo, report)
+        new_trait = create_trait(trait_counter, trait_list, trait_2_efo)
         if new_trait:
             traits.append(new_trait)
+        else:
+            report.counters["n_missed_strings_unmapped_traits"] += 1
+            report.unmapped_traits[trait_list[0]] += 1
     return traits
 
 
-def create_trait(trait_counter, trait_list, trait_2_efo, report):
+def create_trait(trait_counter, trait_list, trait_2_efo):
     trait = SimpleNamespace()
     trait.trait_counter = trait_counter
     trait.clinvar_trait_list, trait.efo_list = map_efo(trait_2_efo, trait_list)
     # Only ClinVar records associated to a trait with mapped EFO term will generate evidence_strings
     if len(trait.efo_list) == 0:
-        report.counters["n_missed_strings_unmapped_traits"] += 1
-        report.unmapped_traits[trait_list[0]] += 1
+        print("Npsfa")
         return None
     return trait
 
