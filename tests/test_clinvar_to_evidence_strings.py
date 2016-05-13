@@ -5,21 +5,28 @@ import os
 import unittest
 
 from eva_cttv_pipeline import clinvar_to_evidence_strings, config, consequence_type, clinvar_record
-from tests import test_clinvar_record
+from tests import test_clinvar_record, test_evidence_strings
+
+
+def _get_mappings():
+    efo_mapping_file = os.path.join(os.path.dirname(__file__), 'resources', 'ClinVar_Traits_EFO_090915.xls')
+    ignore_file = os.path.join(os.path.dirname(__file__), 'resources', 'ignore_file.txt')
+    snp_2_gene_file = os.path.join(os.path.dirname(__file__), 'resources', 'cttv012_snp2gene_20160222.tsv')
+    variant_summary_file = os.path.join(os.path.dirname(__file__), 'resources', 'variant_summary_2015-05.txt')
+
+    mappings = clinvar_to_evidence_strings.get_mappings(efo_mapping_file, ignore_file, None, snp_2_gene_file,
+                                                        variant_summary_file)
+
+    return mappings
+
+
+MAPPINGS = _get_mappings()
 
 
 class GetMappingsTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.efo_mapping_file = os.path.join(os.path.dirname(__file__), 'resources', 'ClinVar_Traits_EFO_090915.xls')
-        cls.ignore_file = os.path.join(os.path.dirname(__file__), 'resources', 'ignore_file.txt')
-        cls.snp_2_gene_file = os.path.join(os.path.dirname(__file__), 'resources',
-                                           'cttv012_snp2gene_20160222_test_extract.tsv')
-        cls.variant_summary_file = os.path.join(os.path.dirname(__file__), 'resources',
-                                                'variant_summary_2015-05_test_extract.txt')
-
-        cls.mappings = clinvar_to_evidence_strings.get_mappings(cls.efo_mapping_file, cls.ignore_file,
-                                                                None, cls.snp_2_gene_file, cls.variant_summary_file)
+        cls.mappings = MAPPINGS
 
     def test_efo_mapping(self):
         self.assertEqual(len(self.mappings.trait_2_efo), 3528)
@@ -33,7 +40,7 @@ class GetMappingsTest(unittest.TestCase):
                          ['http://www.orpha.net/ORDO/Orphanet_258'])
 
     def test_consequence_type_dict(self):
-        self.assertEqual(len(self.mappings.consequence_type_dict), 52)
+        self.assertEqual(len(self.mappings.consequence_type_dict), 109367)
 
         self.assertTrue("rs724159824" in self.mappings.consequence_type_dict)
         self.assertTrue("rs34296458" in self.mappings.consequence_type_dict)
@@ -45,8 +52,8 @@ class GetMappingsTest(unittest.TestCase):
         self.assertFalse("rs9" in self.mappings.consequence_type_dict)
 
     def test_rcv_to_rs_nsv(self):
-        self.assertEqual(len(self.mappings.rcv_to_rs), 16)
-        self.assertEqual(len(self.mappings.rcv_to_nsv), 5)
+        self.assertEqual(len(self.mappings.rcv_to_rs), 134663)
+        self.assertEqual(len(self.mappings.rcv_to_nsv), 14290)
 
         self.assertEqual(self.mappings.rcv_to_nsv["RCV000020147"], "nsv1067916")
         self.assertEqual(self.mappings.rcv_to_nsv["RCV000004182"], "nsv1067860")
@@ -58,7 +65,42 @@ class GetMappingsTest(unittest.TestCase):
 
 
 class CreateRecordTest(unittest.TestCase):
-    pass
+    @classmethod
+    def setUpClass(cls):
+        cls.mappings = MAPPINGS
+        cls.cellbase_record = test_evidence_strings._get_test_cellbase_record_gene()
+        cls.clinvarRecord = clinvar_record.ClinvarRecord(cls.cellbase_record['clinvarSet'])
+        cls.record = clinvar_to_evidence_strings.create_record(cls.cellbase_record, cls.mappings)
+
+    def test_clinvar_record(self):
+        self.assertEqual(self.record.clinvarRecord, self.cellbase_record['clinvarSet'])
+
+    def test_clin_sig(self):
+        self.assertEqual(self.record.clin_sig, self.clinvarRecord.clinical_significance.lower())
+        self.assertEqual(self.record.clin_sig, "likely pathogenic")
+
+    def test_rs(self):
+        self.assertEqual(self.record.rs, self.clinvarRecord.get_rs(self.mappings.rcv_to_rs))
+        self.assertEqual(self.record.rs, "rs515726230")
+
+    def test_con_type(self):
+        self.assertEqual(self.record.con_type, self.clinvarRecord.get_main_consequence_types(
+            self.mappings.consequence_type_dict, self.mappings.rcv_to_rs))
+
+    def test_trait_refs_list(self):
+        trait_refs_list_t = [['http://europepmc.org/abstract/MED/' + str(ref) for ref in refList] for refList in
+                             self.clinvarRecord.trait_pubmed_refs]
+        self.assertEqual(self.record.trait_refs_list, trait_refs_list_t)
+
+    def test_observed_refs_list(self):
+        observed_refs_list_t = ['http://europepmc.org/abstract/MED/' + str(ref)
+                                for ref in self.clinvarRecord.observed_pubmed_refs]
+        self.assertEqual(self.record.observed_refs_list, observed_refs_list_t)
+
+    def test_measure_set_refs_list(self):
+        measure_set_refs_list_t = ['http://europepmc.org/abstract/MED/' + str(ref)
+                                   for ref in self.clinvarRecord.observed_pubmed_refs]
+        self.assertEqual(self.record.measure_set_refs_list, measure_set_refs_list_t)
 
 
 class CreateTraitTest(unittest.TestCase):
