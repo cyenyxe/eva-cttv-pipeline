@@ -199,3 +199,14 @@ class GetTermsFromFileTest(unittest.TestCase):
 
     def test_no_file(self):
         self.assertEqual(clinvar_to_evidence_strings.get_terms_from_file(None), [])
+
+
+class TestGetDefaultAllowedClincalSignificance(unittest.TestCase):
+    def test_get_default_allowed_clincal_significance(self):
+        correct_list = ['unknown', 'untested', 'non-pathogenic', 'probable-non-pathogenic',
+         'probable-pathogenic', 'pathogenic', 'drug-response', 'drug response',
+         'histocompatibility', 'other', 'benign', 'protective', 'not provided',
+         'likely benign', 'confers sensitivity', 'uncertain significance',
+         'likely pathogenic', 'conflicting data from submitters', 'risk factor',
+         'association']
+        self.assertEqual(clinvar_to_evidence_strings.get_default_allowed_clincal_significance(), correct_list)
