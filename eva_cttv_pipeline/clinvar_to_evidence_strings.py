@@ -177,7 +177,7 @@ def clinvar_to_evidence_strings(allowed_clinical_significance, mappings):
                                                                                  report,
                                                                                  trait,
                                                                                  ensembl_gene_id)
-                report.add_evidence_string(record, evidence_string, report)
+                report.add_evidence_string(record, evidence_string)
                 report.evidence_list.append(
                     [record.clinvarRecord.accession, record.rs, ','.join(trait.clinvar_trait_list),
                      ','.join(trait.efo_list)])
