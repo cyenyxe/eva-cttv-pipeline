@@ -4,8 +4,65 @@ import math
 import os
 import unittest
 
-from eva_cttv_pipeline import clinvar_to_evidence_strings, config, consequence_type
+from eva_cttv_pipeline import clinvar_to_evidence_strings, config, consequence_type, clinvar_record
 from tests import test_clinvar_record
+
+
+class GetMappingsTest(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.efo_mapping_file = os.path.join(os.path.dirname(__file__), 'resources', 'ClinVar_Traits_EFO_090915.xls')
+        cls.ignore_file = os.path.join(os.path.dirname(__file__), 'resources', 'ignore_file.txt')
+        cls.snp_2_gene_file = os.path.join(os.path.dirname(__file__), 'resources',
+                                           'cttv012_snp2gene_20160222_test_extract.tsv')
+        cls.variant_summary_file = os.path.join(os.path.dirname(__file__), 'resources',
+                                                'variant_summary_2015-05_test_extract.txt')
+
+        cls.mappings = clinvar_to_evidence_strings.get_mappings(cls.efo_mapping_file, cls.ignore_file,
+                                                                None, cls.snp_2_gene_file, cls.variant_summary_file)
+
+    def test_efo_mapping(self):
+        self.assertEqual(len(self.mappings.trait_2_efo), 3528)
+        self.assertEqual(len(self.mappings.unavailable_efo_dict), 0)
+
+        self.assertEqual(self.mappings.trait_2_efo["deafness, autosomal recessive 22"],
+                         ['http://www.ebi.ac.uk/efo/EFO_0001063'])
+        self.assertEqual(self.mappings.trait_2_efo["oculocutaneous albinism type 1b"],
+                         ['http://www.orpha.net/ORDO/Orphanet_79434'])
+        self.assertEqual(self.mappings.trait_2_efo["merosin deficient congenital muscular dystrophy"],
+                         ['http://www.orpha.net/ORDO/Orphanet_258'])
+
+    def test_consequence_type_dict(self):
+        self.assertEqual(len(self.mappings.consequence_type_dict), 52)
+
+        self.assertTrue("rs724159824" in self.mappings.consequence_type_dict)
+        self.assertTrue("rs34296458" in self.mappings.consequence_type_dict)
+        self.assertTrue("rs199476100" in self.mappings.consequence_type_dict)
+        self.assertTrue("rs80360485" in self.mappings.consequence_type_dict)
+
+        self.assertFalse("rs0" in self.mappings.consequence_type_dict)
+        self.assertFalse("rs5" in self.mappings.consequence_type_dict)
+        self.assertFalse("rs9" in self.mappings.consequence_type_dict)
+
+    def test_rcv_to_rs_nsv(self):
+        self.assertEqual(len(self.mappings.rcv_to_rs), 16)
+        self.assertEqual(len(self.mappings.rcv_to_nsv), 5)
+
+        self.assertEqual(self.mappings.rcv_to_nsv["RCV000020147"], "nsv1067916")
+        self.assertEqual(self.mappings.rcv_to_nsv["RCV000004182"], "nsv1067860")
+        self.assertEqual(self.mappings.rcv_to_nsv["RCV000004183"], "nsv1067861")
+
+        self.assertEqual(self.mappings.rcv_to_rs["RCV000061038"], "rs140870493")
+        self.assertEqual(self.mappings.rcv_to_rs["RCV000038449"], "rs397517136")
+        self.assertEqual(self.mappings.rcv_to_rs["RCV000126020"], "rs75686037")
+
+
+class CreateRecordTest(unittest.TestCase):
+    pass
+
+
+class CreateTraitTest(unittest.TestCase):
+    pass
 
 
 class SkipRecordTest(unittest.TestCase):
@@ -41,7 +98,6 @@ class SkipRecordTest(unittest.TestCase):
     def test_con_type_is_none(self):
         self.record.con_type = None
         self.assertTrue(clinvar_to_evidence_strings.skip_record(*self.args))
-
 
 
 class LoadEfoMappingTest(unittest.TestCase):
@@ -89,4 +145,3 @@ class GetTermsFromFileTest(unittest.TestCase):
 
     def test_no_file(self):
         self.assertEqual(clinvar_to_evidence_strings.get_terms_from_file(None), [])
-
