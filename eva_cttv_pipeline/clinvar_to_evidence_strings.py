@@ -207,7 +207,6 @@ def get_mappings(efo_mapping_file, ignore_terms_file, adapt_terms_file, snp_2_ge
     return mappings
 
 
-# TODO make record class for consistency in names
 def create_record(cellbase_record, mappings, **kwargs):
     record = SimpleNamespace()
     record.cellbase_record = cellbase_record
@@ -278,7 +277,6 @@ def create_trait(trait_counter, trait_list, trait_2_efo):
     trait.clinvar_trait_list, trait.efo_list = map_efo(trait_2_efo, trait_list)
     # Only ClinVar records associated to a trait with mapped EFO term will generate evidence_strings
     if len(trait.efo_list) == 0:
-        print("Npsfa")
         return None
     return trait
 
