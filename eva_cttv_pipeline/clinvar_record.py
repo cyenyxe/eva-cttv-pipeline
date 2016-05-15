@@ -194,6 +194,19 @@ class ClinvarRecord(dict):
         return pubmed_refs_list
 
     @property
+    def trait_refs_list(self):
+        return [ ['http://europepmc.org/abstract/MED/' + str(ref) for ref in refList]
+                 for refList in self.trait_pubmed_refs]
+
+    @property
+    def observed_refs_list(self):
+        return ['http://europepmc.org/abstract/MED/' + str(ref) for ref in self.observed_pubmed_refs]
+
+    @property
+    def measure_set_refs_list(self):
+        return ['http://europepmc.org/abstract/MED/' + str(ref) for ref in self.measure_set_pubmed_refs]
+
+    @property
     def hgvs(self):
         hgvs_list = []
         for measure_record in self['referenceClinVarAssertion']['measureSet']['measure']:
@@ -205,7 +218,7 @@ class ClinvarRecord(dict):
 
     @property
     def clinical_significance(self):
-        return self['referenceClinVarAssertion']['clinicalSignificance']['description']
+        return self['referenceClinVarAssertion']['clinicalSignificance']['description'].lower()
 
     def get_rs(self, rcv_to_rs):
         try:
