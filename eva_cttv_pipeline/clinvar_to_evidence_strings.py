@@ -8,7 +8,7 @@ import jsonschema
 import xlrd
 
 from eva_cttv_pipeline import cellbase_records, efo_term, consequence_type, config, \
-    evidence_strings, clinvar
+    evidence_strings, clinvar, utilities
 
 
 __author__ = 'Javier Lopez: javild@gmail.com'
@@ -126,25 +126,26 @@ class Report:
         write_string_list_to_file(self.nsv_list, dir_out + '/' + config.NSV_LIST_FILE)
 
         # Contains traits without a mapping in Gary's xls
-        with open(dir_out + '/' + config.UNMAPPED_TRAITS_FILE_NAME, 'w') as fdw:
+        with utilities.open_file(dir_out + '/' + config.UNMAPPED_TRAITS_FILE_NAME, 'wt') as fdw:
             fdw.write('Trait\tCount\n')
             for trait_list in self.unmapped_traits:
                 fdw.write(str(trait_list.encode('utf8')) + '\t' +
                           str(self.unmapped_traits[trait_list]) + '\n')
 
         # Contains urls provided by Gary which are not yet included within EFO
-        with open(dir_out + '/' + config.UNAVAILABLE_EFO_FILE_NAME, 'w') as fdw:
+        with utilities.open_file(dir_out + '/' + config.UNAVAILABLE_EFO_FILE_NAME, 'wt') as fdw:
             fdw.write('Trait\tCount\n')
             for url in self.unavailable_efo_dict:
                 fdw.write(url.encode('utf8') + '\t' + str(self.unavailable_efo_dict[url]) + '\n')
 
-        with open(dir_out + '/' + config.EVIDENCE_STRINGS_FILE_NAME, 'w') as fdw:
+        with utilities.open_file(dir_out + '/' + config.EVIDENCE_STRINGS_FILE_NAME, 'wt') as fdw:
             for evidence_string in self.evidence_string_list:
                 fdw.write(json.dumps(evidence_string) + '\n')
 
-        with open(dir_out + '/' + config.EVIDENCE_RECORDS_FILE_NAME, 'w') as fdw:
+        with utilities.open_file(dir_out + '/' + config.EVIDENCE_RECORDS_FILE_NAME, 'wt') as fdw:
             for evidence_record in self.evidence_list:
-                fdw.write('\t'.join(evidence_record) + '\n')
+                evidence_record_to_output = ['.' if ele is None else ele for ele in evidence_record]
+                fdw.write('\t'.join(evidence_record_to_output) + '\n')
 
     @staticmethod
     def __get_counters():
@@ -167,7 +168,7 @@ class Report:
 
 
 def launch_pipeline(dir_out, allowed_clinical_significance, ignore_terms_file, adapt_terms_file,
-                    efo_mapping_file, snp_2_gene_file, variant_summary_file):
+                    efo_mapping_file, snp_2_gene_file, variant_summary_file, json_file):
 
     allowed_clinical_significance = allowed_clinical_significance.split(',') if \
         allowed_clinical_significance else get_default_allowed_clinical_significance()
@@ -175,7 +176,7 @@ def launch_pipeline(dir_out, allowed_clinical_significance, ignore_terms_file, a
     mappings = get_mappings(efo_mapping_file, ignore_terms_file, adapt_terms_file, snp_2_gene_file,
                             variant_summary_file)
 
-    report = clinvar_to_evidence_strings(allowed_clinical_significance, mappings)
+    report = clinvar_to_evidence_strings(allowed_clinical_significance, mappings, json_file)
 
     output(report, dir_out)
 
@@ -185,11 +186,13 @@ def output(report, dir_out):
     print(report)
 
 
-def clinvar_to_evidence_strings(allowed_clinical_significance, mappings):
+def clinvar_to_evidence_strings(allowed_clinical_significance, mappings, json_file):
 
     report = Report(mappings.unavailable_efo_dict)
 
-    for cellbase_record in cellbase_records.CellbaseRecords():
+    cell_recs = cellbase_records.CellbaseRecords(json_file=json_file)
+
+    for cellbase_record in cell_recs:
         n_ev_strings_per_record = 0
         clinvar_record = \
             clinvar.ClinvarRecord(mappings=mappings,
@@ -214,7 +217,7 @@ def clinvar_to_evidence_strings(allowed_clinical_significance, mappings):
         traits = create_traits(clinvar_record.traits, mappings.trait_2_efo, report)
 
         for ensembl_gene_id, trait, allele_origin \
-                in itertools.product(traits, clinvar_record.allele_origins):
+                in itertools.product(clinvar_record.consequence_type.ensembl_gene_ids, traits, clinvar_record.allele_origins):
 
             if allele_origin not in ('germline', 'somatic'):
                 report.n_unrecognised_allele_origin[allele_origin] += 1
@@ -270,47 +273,37 @@ def skip_record(clinvar_record, cellbase_record, allowed_clinical_significance, 
     if clinvar_record.clinical_significance not in allowed_clinical_significance:
         if clinvar_record.nsv is not None:
             counters["n_nsv_skipped_clin_sig"] += 1
-        print("Not in allowed. Clinical significance: %s. Allowed clincal significances: %s." %
-              (clinvar_record.clinical_significance, allowed_clinical_significance))
         return True
 
     if cellbase_record['reference'] == cellbase_record['alternate']:
         counters["n_same_ref_alt"] += 1
         if clinvar_record.nsv is not None:
             counters["n_nsv_skipped_wrong_ref_alt"] += 1
-            print("ref != alt. ref: %s alt: %s" % (cellbase_record['reference'],
-                                                   cellbase_record['alternate']))
-        return True
-
-    if clinvar_record.rs is None:
-        counters["n_pathogenic_no_rs"] += 1
-        print("rs is none. clinvar acc: %s" % clinvar_record.accession)
         return True
 
     if clinvar_record.consequence_type is None:
         counters["no_variant_to_ensg_mapping"] += 1
-        print("con type is none. clinvar acc: %s" % clinvar_record.accession)
         return True
 
     return False
 
 
-def create_traits(clinvar_traits, trait_2_efo, report):
+def create_traits(clinvar_traits, trait_2_efo_dict, report):
     traits = []
-    for trait_counter, trait_list in enumerate(clinvar_traits):
-        new_trait = create_trait(trait_counter, trait_list, trait_2_efo)
+    for trait_counter, name_list in enumerate(clinvar_traits):
+        new_trait = create_trait(trait_counter, name_list, trait_2_efo_dict)
         if new_trait:
             traits.append(new_trait)
         else:
             report.counters["n_missed_strings_unmapped_traits"] += 1
-            report.unmapped_traits[trait_list[0]] += 1
+            report.unmapped_traits[name_list[0]] += 1
     return traits
 
 
-def create_trait(trait_counter, trait_list, trait_2_efo):
+def create_trait(trait_counter, name_list, trait_2_efo_dict):
     trait = SimpleNamespace()
     trait.trait_counter = trait_counter
-    trait.clinvar_trait_list, trait.efo_list = map_efo(trait_2_efo, trait_list)
+    trait.clinvar_trait_list, trait.efo_list = map_efo(trait_2_efo_dict, name_list)
     # Only ClinVar records associated to a
     # trait with mapped EFO term will generate evidence_strings
     if len(trait.efo_list) == 0:
@@ -319,7 +312,7 @@ def create_trait(trait_counter, trait_list, trait_2_efo):
 
 
 def write_string_list_to_file(string_list, filename):
-    with open(filename, 'w') as out_file:
+    with utilities.open_file(filename, 'wt') as out_file:
         out_file.write('\n'.join(string_list))
 
 
@@ -330,18 +323,18 @@ def append_nsv(nsv_list, clinvar_record):
     return nsv_list
 
 
-def map_efo(trait_2_efo, trait_list):
+def map_efo(trait_2_efo, name_list):
     efo_list = []
     trait_list_to_return = []
-    trait_string = trait_list[0].lower()
+    trait_string = name_list[0].lower()
     if trait_string in trait_2_efo:
         for efo_trait in trait_2_efo[trait_string]:
             # First element in trait_list mus always be the "Preferred" trait name
             if efo_trait not in efo_list:
-                trait_list_to_return.append(trait_list[0])
+                trait_list_to_return.append(name_list[0])
                 efo_list.append(efo_trait)
     else:
-        for trait in trait_list[1:]:
+        for trait in name_list[1:]:
             trait_string = trait.lower()
             if trait_string in trait_2_efo:
                 for efo_trait in trait_2_efo[trait_string]:
@@ -357,23 +350,22 @@ def load_efo_mapping(efo_mapping_file, ignore_terms_file=None, adapt_terms_file=
     ignore_terms = get_terms_from_file(ignore_terms_file)
     adapt_terms = get_terms_from_file(adapt_terms_file)
 
-    print('Loading phenotypes to EFO mapping...')
-    efo_mapping_read_book = xlrd.open_workbook(efo_mapping_file, formatting_info=True)
-    efo_mapping_read_sheet = efo_mapping_read_book.sheet_by_index(0)
     trait_2_efo = {}
     unavailable_efo = {}
     n_efo_mappings = 0
-    for i in range(1, efo_mapping_read_sheet.nrows):
-        if efo_mapping_read_sheet.cell_value(rowx=i, colx=1) != '':
-            valid_efo, urls_to_adapt = get_urls(
-                efo_mapping_read_sheet.cell_value(rowx=i, colx=1).split(', '),
-                ignore_terms, adapt_terms
-            )
-            clinvar_trait = efo_mapping_read_sheet.cell_value(rowx=i, colx=0).lower()
+
+    with utilities.open_file(efo_mapping_file, "rt") as f:
+        for line in f:
+            if line.startswith("#"):
+                continue
+            line_list = line.rstrip().split("\t")
+            valid_efo, urls_to_adapt = get_urls([line_list[1]], ignore_terms, adapt_terms)
+            clinvar_trait = line_list[0].lower()
+
             if len(valid_efo) > 0:
                 trait_2_efo[clinvar_trait] = valid_efo
                 n_efo_mappings += 1
-            elif len(urls_to_adapt) > 0:
+            if len(urls_to_adapt) > 0:
                 trait_2_efo[clinvar_trait] = []
                 for url in urls_to_adapt:
                     if url not in unavailable_efo:
@@ -420,7 +412,7 @@ def get_urls(url_list, ignore_terms, adapt_terms):
 def get_terms_from_file(terms_file_path):
     if terms_file_path is not None:
         print('Loading list of terms...')
-        with open(terms_file_path, 'r') as terms_file:
+        with utilities.open_file(terms_file_path, 'rt') as terms_file:
             terms_list = [line.rstrip() for line in terms_file]
         print(str(len(terms_file_path)) + ' terms found at ' + terms_file_path)
     else:

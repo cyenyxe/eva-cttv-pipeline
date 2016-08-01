@@ -1,5 +1,6 @@
 import copy
 import json
+import sys
 
 import jsonschema
 
@@ -133,9 +134,11 @@ class CTTVGeneticsEvidenceString(CTTVEvidenceString):
     """
 
     schema = json.loads(
-        open(utilities.get_resource_file(__package__, config.GEN_SCHEMA_FILE), 'r').read())
+        utilities.open_file(utilities.get_resource_file(__package__, config.GEN_SCHEMA_FILE),
+                            'rt').read())
 
-    with open(utilities.get_resource_file(__package__, config.GEN_EV_STRING_JSON)) as gen_json_file:
+    with utilities.open_file(utilities.get_resource_file(__package__, config.GEN_EV_STRING_JSON),
+                             "rt") as gen_json_file:
         base_json = json.load(gen_json_file)
 
     def __init__(self, clinvar_record, report, trait, ensembl_gene_id, cellbase_record):
@@ -150,9 +153,14 @@ class CTTVGeneticsEvidenceString(CTTVEvidenceString):
                          trait.efo_list, ref_list, ensembl_gene_id, report)
 
         self.add_unique_association_field('alleleOrigin', 'germline')
-        self.set_variant('http://identifiers.org/dbsnp/' + clinvar_record.rs,
-                         get_cttv_variant_type(cellbase_record['reference'],
-                                               cellbase_record['alternate']))
+        if clinvar_record.rs:
+            self.set_variant('http://identifiers.org/dbsnp/' + clinvar_record.rs,
+                             get_cttv_variant_type(cellbase_record['reference'],
+                                                   cellbase_record['alternate']))
+        else:
+            self.set_variant('http://www.ncbi.nlm.nih.gov/clinvar/' + clinvar_record.accession,
+                             get_cttv_variant_type(cellbase_record['reference'],
+                                                   cellbase_record['alternate']))
         self.date = clinvar_record.date
         self.db_xref_url = 'http://identifiers.org/clinvar.record/' + clinvar_record.accession
         self.url = 'http://www.ncbi.nlm.nih.gov/clinvar/' + clinvar_record.accession
@@ -240,6 +248,7 @@ class CTTVGeneticsEvidenceString(CTTVEvidenceString):
 
     def _clear_variant(self):
         self['variant']['id'] = []
+        self['variant']['type'] = []
 
     def set_variant(self, var_id, var_type):
         self['variant']['id'].append(var_id)
@@ -274,11 +283,11 @@ class CTTVSomaticEvidenceString(CTTVEvidenceString):
     Holds information required for Open Target's evidence strings for somatic information.
     """
 
-    schema = json.loads(open(utilities.get_resource_file(__package__,
-                                                         config.SOM_SCHEMA_FILE), 'r').read())
+    schema = json.loads(utilities.open_file(utilities.get_resource_file(__package__,
+                                                         config.SOM_SCHEMA_FILE), 'rt').read())
 
-    with open(utilities.get_resource_file(__package__, config.SOM_EV_STRING_JSON)) \
-            as som_json_file:
+    with utilities.open_file(utilities.get_resource_file(__package__, config.SOM_EV_STRING_JSON),
+                             "rt") as som_json_file:
         base_json = json.load(som_json_file)
 
     def __init__(self, clinvar_record, report, trait, ensembl_gene_id):

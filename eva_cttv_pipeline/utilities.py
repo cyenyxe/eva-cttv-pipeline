@@ -1,5 +1,6 @@
 import argparse
 import errno
+import gzip
 import subprocess
 import sys
 import importlib
@@ -9,6 +10,13 @@ import os
 import shutil
 
 import eva_cttv_pipeline.config as config
+
+
+def open_file(file_path, mode):
+    if file_path.endswith(".gz"):
+        return gzip.open(file_path, mode)
+    else:
+        return open(file_path, mode)
 
 
 def get_resource_file(package, resource):
@@ -51,6 +59,13 @@ def change_json_refs(local_schema_dir):
     print("Carrying out command:\n" + command)
     subprocess.check_output(command, shell=True)
 
+    command = "find " + local_schema_dir + \
+              " -type f -exec sed -i -e " \
+              "\"s/https:\/\/raw.githubusercontent.com\/OpenTargets\/json_schema\/master/file:\/\/" + \
+              local_schema_dir.replace("/", "\/") + "/g\" {} \;"
+    print("Carrying out command:\n" + command)
+    subprocess.check_output(command, shell=True)
+
     evidence_base_json = os.path.join(local_schema_dir, "src/evidence/base.json")
     evidence_base_json_temp = os.path.join(local_schema_dir, "src/evidence/base_temp.json")
     command = "grep -v '\"id\": \"base_evidence\"' " + evidence_base_json + " > " + \
@@ -74,7 +89,7 @@ def change_json_refs(local_schema_dir):
     print("Carrying out command:\n" + command)
     subprocess.check_output(command, shell=True)
 
-    command = "rm -rf " + local_schema_dir + ".git .gitignore"
+    command = "rm -rf " + local_schema_dir + ".git " + local_schema_dir + ".gitignore"
     # command = "sed -i -e \"s/evidence\/base.json#base_evidence\/definitions\/
     # single_lit_reference/evidence\/base.json#definitions\/
     # single_lit_reference/g\" " + evidence_base_json
@@ -158,6 +173,9 @@ class ArgParser:
         parser.add_argument("-v", "--variantSummaryFile", dest="variant_summary_file",
                             help="Path to file with RS id to ensembl gene ID and consequence "
                                  "mappings", required=True)
+        parser.add_argument("-j", dest="json_file", help="File containing Clinvar records json "
+                                                         "strings in the format of documents in "
+                                                         "Cellbase. One record per line.")
 
         args = parser.parse_args(args=argv[1:])
 
@@ -168,6 +186,7 @@ class ArgParser:
         self.efo_mapping_file = args.efo_mapping_file
         self.snp_2_gene_file = args.snp_2_gene_file
         self.variant_summary_file = args.variant_summary_file
+        self.json_file = args.json_file
 
 
 def check_dir_exists_create(directory):

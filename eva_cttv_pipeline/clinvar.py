@@ -1,4 +1,5 @@
 import json
+import gzip
 import sys
 import time
 import urllib.error
@@ -7,6 +8,8 @@ import urllib.request
 from datetime import datetime
 import http.client
 from collections import UserDict
+
+from eva_cttv_pipeline import utilities
 
 
 __author__ = 'Javier Lopez: javild@gmail.com'
@@ -18,7 +21,7 @@ def get_rcv_to_rsnsv_mapping(variant_summary_file):
     rcv_to_nsv = {}
 
     print('Loading mapping RCV->rs/nsv')
-    fdr = open(variant_summary_file, "r")
+    fdr = utilities.open_file(variant_summary_file, "rt")
     fdr.readline()
     for line in fdr:
         parts = line.split('\t')
@@ -166,6 +169,8 @@ class ClinvarRecord(UserDict):
                 # First trait name in the list will always be the "Preferred" one
                 if name['elementValue']['type'] == 'Preferred':
                     trait_list[-1] = [name['elementValue']['value']] + trait_list[-1]
+                elif name['elementValue']['type'] in ["EFO URL", "EFO id", "EFO name"]:
+                    continue  # if the trait name not originally from clinvar
                 else:
                     trait_list[-1].append(name['elementValue']['value'])
 
@@ -179,8 +184,9 @@ class ClinvarRecord(UserDict):
             if 'citation' in trait:
                 for citation in trait['citation']:
                     if ('id' in citation) and citation['id'] is not None:
-                        if citation['id']['source'] == 'PubMed':
-                            pubmed_refs_list[-1].append(int(citation['id']['value']))
+                        for citation_id in citation['id']:
+                            if citation_id['source'] == 'PubMed':
+                                pubmed_refs_list[-1].append(int(citation_id['value']))
 
         return pubmed_refs_list
 
@@ -193,8 +199,9 @@ class ClinvarRecord(UserDict):
                     if 'citation' in observed_data:
                         for citation in observed_data['citation']:
                             if ('id' in citation) and citation['id'] is not None:
-                                if citation['id']['source'] == 'PubMed':
-                                    pubmed_refs_list.append(int(citation['id']['value']))
+                                for citation_id in citation['id']:
+                                    if citation_id['source'] == 'PubMed':
+                                        pubmed_refs_list.append(int(citation_id['value']))
         return pubmed_refs_list
 
     @property
@@ -204,8 +211,9 @@ class ClinvarRecord(UserDict):
             if 'citation' in measure:
                 for citation in measure['citation']:
                     if 'id' in citation and citation['id'] is not None:
-                        if citation['id']['source'] == 'PubMed':
-                            pubmed_refs_list.append(int(citation['id']['value']))
+                        for citation_id in citation['id']:
+                            if citation_id['source'] == 'PubMed':
+                                pubmed_refs_list.append(int(citation_id['value']))
         return pubmed_refs_list
 
     @property
@@ -253,8 +261,11 @@ class ClinvarRecord(UserDict):
     def __get_main_consequence_types(self, consequence_type_dict, rcv_to_rs):
 
         new_rs_id = self.__get_rs(rcv_to_rs)
-        if new_rs_id is not None and (new_rs_id in consequence_type_dict):
+
+        if new_rs_id is not None and new_rs_id in consequence_type_dict:
             return consequence_type_dict[new_rs_id]
+        elif self.accession in consequence_type_dict:
+            return consequence_type_dict[self.accession]
         else:
             return None
 

@@ -23,7 +23,7 @@ class CopyAndOverwriteTest(unittest.TestCase):
         os.makedirs(self.test_dir_b)
         self.test_file_a = os.path.join(self.test_dir_a, "test.txt")
         self.test_string = "this is a test string"
-        with open(self.test_file_a, "wt") as f:
+        with utilities.open_file(self.test_file_a, "wt") as f:
             f.write(self.test_string)
 
     def tearDown(self):
@@ -33,10 +33,10 @@ class CopyAndOverwriteTest(unittest.TestCase):
 
     def test_existing(self):
         test_file_b = os.path.join(self.test_dir_b, "test.txt")
-        with open(test_file_b, "wt") as f:
+        with utilities.open_file(test_file_b, "wt") as f:
             f.write("hello world")
         utilities.copy_and_overwrite(self.test_dir_a, self.test_dir_b)
-        with open(test_file_b, "rt") as f:
+        with utilities.open_file(test_file_b, "rt") as f:
             contents = f.read()
         self.assertEqual(contents, self.test_string)
 
@@ -50,7 +50,7 @@ class CopyDirTest(unittest.TestCase):
         os.makedirs(self.test_dir_b)
         self.test_file_a = os.path.join(self.test_dir_a, "test.txt")
         self.test_string = "this is a test string"
-        with open(self.test_file_a, "wt") as f:
+        with utilities.open_file(self.test_file_a, "wt") as f:
             f.write(self.test_string)
 
     def tearDown(self):
@@ -59,16 +59,16 @@ class CopyDirTest(unittest.TestCase):
 
     def test_existing(self):
         test_file_b = os.path.join(self.test_dir_b, "test.txt")
-        with open(test_file_b, "wt") as f:
+        with utilities.open_file(test_file_b, "wt") as f:
             f.write("hello world")
         utilities.copy_dir(self.test_dir_a, self.test_dir_b)
-        with open(test_file_b, "rt") as f:
+        with utilities.open_file(test_file_b, "rt") as f:
             contents = f.read()
         self.assertEqual(contents, self.test_string)
 
     def test_nonexisting(self):
         utilities.copy_dir(self.test_dir_a, self.test_dir_c)
-        with open(os.path.join(self.test_dir_c, "test.txt"), "rt") as f:
+        with utilities.open_file(os.path.join(self.test_dir_c, "test.txt"), "rt") as f:
             contents = f.read()
         self.assertEqual(contents, self.test_string)
         shutil.rmtree(self.test_dir_c)
@@ -93,22 +93,22 @@ class ArgParserTest(unittest.TestCase):
         cls.argparser = utilities.ArgParser(argv)
 
     def test_clin_sig(self):
-        self.assertEquals(self.argparser.clinical_significance, self.clin_sig)
+        self.assertEqual(self.argparser.clinical_significance, self.clin_sig)
 
     def test_ignore(self):
-        self.assertEquals(self.argparser.ignore_terms_file, self.ignore)
+        self.assertEqual(self.argparser.ignore_terms_file, self.ignore)
 
     def test_out(self):
-        self.assertEquals(self.argparser.out, self.out)
+        self.assertEqual(self.argparser.out, self.out)
 
     def test_efo_map_file(self):
-        self.assertEquals(self.argparser.efo_mapping_file, self.efo_map_file)
+        self.assertEqual(self.argparser.efo_mapping_file, self.efo_map_file)
 
     def test_snp_2_gene_file(self):
-        self.assertEquals(self.argparser.snp_2_gene_file, self.snp_2_gene_file)
+        self.assertEqual(self.argparser.snp_2_gene_file, self.snp_2_gene_file)
 
     def test_variant_summary_file(self):
-        self.assertEquals(self.argparser.variant_summary_file, self.variant_summary_file)
+        self.assertEqual(self.argparser.variant_summary_file, self.variant_summary_file)
 
 
 class CheckDirExistsCreateTest(unittest.TestCase):
