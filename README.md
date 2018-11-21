@@ -6,6 +6,16 @@
 
 Minimum Python version needed: 3.5
 
+Install python 3.5 (optional)
+-------
+In case you have a newer version and need to run the pipeline you can follow the next steps to install python 3.5 without replacing you default python.
+1. Download python 3.5 "wget https://www.python.org/ftp/python/3.5.5/Python-3.5.5.tgz"
+2. "sudo tar xzf Python-3.5.5.tgz"
+3. "cd Python-3.5.5"
+4. "sudo apt-get install zlib1g-dev"
+5. "sudo ./configure --enable-optimizations --with-zlib=/usr/include"
+6. "sudo make altinstall"
+7. "python3.5 -V"
 
 Building java Clinvar parser
 -------
