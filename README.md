@@ -4,9 +4,9 @@
 [![Coverage Status](https://coveralls.io/repos/github/EBIvariation/eva-cttv-pipeline/badge.svg?branch=master)](https://coveralls.io/github/EBIvariation/eva-cttv-pipeline?branch=master)
 
 
-Minimum Python version needed: 3.5
+Python version required: 3.5
 
-Install python 3.5 (optional)
+Installing python 3.5 (optional)
 -------
 In case you have a newer version and need to run the pipeline you can follow the next steps to install python 3.5 without replacing you default python.
 1. Download python 3.5 "wget https://www.python.org/ftp/python/3.5.5/Python-3.5.5.tgz"
