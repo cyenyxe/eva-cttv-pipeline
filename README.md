@@ -1,6 +1,6 @@
 ## README ##
 
-[![Build Status](https://travis-ci.org/EBIvariation/eva-cttv-pipeline.svg?branch=master)](https://travis-ci.org/EBIvariation/eva-cttv-pipeline)
+[![Build Status](https://travis-ci.com/EBIvariation/eva-cttv-pipeline.svg?branch=master)](https://travis-ci.com/EBIvariation/eva-cttv-pipeline)
 [![Coverage Status](https://coveralls.io/repos/github/EBIvariation/eva-cttv-pipeline/badge.svg?branch=master)](https://coveralls.io/github/EBIvariation/eva-cttv-pipeline?branch=master)
 
 
