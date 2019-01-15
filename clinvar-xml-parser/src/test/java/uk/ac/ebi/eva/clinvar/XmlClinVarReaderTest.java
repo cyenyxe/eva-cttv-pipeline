@@ -38,7 +38,7 @@ public class XmlClinVarReaderTest {
 
         int clinvarRecordsRead = reader.call();
 
-        // collect the queue objects into a list because is more convenient to assert the results
+        // collect the queue objects into a list because it is more convenient to assert the results
         List<String> clinvarRecords = queue.stream().collect(Collectors.toList());
 
         assertEquals(CLINVAR_RECORDS_IN_TEST_FILE, clinvarRecordsRead);
