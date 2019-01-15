@@ -39,7 +39,7 @@ public class ApplicationTest {
         Path inputFilePath = Paths.get(this.getClass().getResource("/ClinvarExample.xml.gz").toURI());
         String outputFolderAbsolutePath = outputFolder.getRoot().getAbsolutePath();
         String[] args = {"--inputFileName", inputFilePath.toString(),
-                "--outputDir", outputFolderAbsolutePath};
+                         "--outputDir", outputFolderAbsolutePath};
 
         // execute application
         Application.main(args);
