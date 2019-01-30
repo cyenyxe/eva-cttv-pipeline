@@ -21,28 +21,11 @@ jq .clinvarSet.referenceClinVarAssertion.traitSet.trait[].name[].elementValue cl
 #extracts only the trait names which are preferred
 grep -B 1 "Preferred" trait_names.txt > trait_names_preferred.txt
 
-#if the line contains the phrase between the forward slashes, the whole line is deleted
-sed -i '/"see cases"/Id' trait_names_preferred.txt
-sed -i '/"not provided"/Id' trait_names_preferred.txt
-sed -i '/"not specified"/Id' trait_names_preferred.txt
+#delete lines or strings depending on the pattern between forward slashes
+sed -i -e '/"see cases"/Id' -e '/"not provided"/Id' -e '/"not specified"/Id' -e 's/"value": "//g' -e '/"type": "Preferred"/d' -e '/^--/d' -e 's/",//g' trait_names_preferred.txt
 
-#if the line contains the phrase between the forward slashes, the phrase is replaced by the characters between the second pair of forward slashes
-sed -i 's/"value": "//g' trait_names_preferred.txt
-
-#delete "type" rows
-sed -i '/"type": "Preferred"/d' trait_names_preferred.txt
-
-#delete lines with only --
-sed -i '/^--/d' trait_names_preferred.txt
-
-#delete ", from the end of the lines
-sed -i 's/",//g' trait_names_preferred.txt
-
-#remove spaces at the beggining of the line
-awk '{$1=$1;print}' trait_names_preferred.txt > trait_names_preferred_cleaned.txt
-
-#sort and remove any duplicate lines
-sort trait_names_preferred_cleaned.txt | uniq > trait_names_preferred_sorted_uniq.txt
+#remove spaces at the beginning of the line, sort and delete duplicates
+awk '{$1=$1;print}' trait_names_preferred.txt | sort | uniq > trait_names_preferred_sorted_uniq.txt
 
 
 ##PROCESS OUTPUT FILES
@@ -56,20 +39,17 @@ cat automated_no_header.tsv $manual > concatenated.tsv
 #leave only first column
 cut -f 1 concatenated.tsv > concatenated_terms.tsv
 
-#if the line contains the phrase between the forward slashes, the whole line is deleted
-sed -i '/see cases/Id' concatenated_terms.tsv
-sed -i '/not provided/Id' concatenated_terms.tsv
-sed -i '/not specified/Id' concatenated_terms.tsv
+#delete line with the pattern between forward slashes
+sed -i -e '/see cases/Id' -e '/not provided/Id' -e '/not specified/Id' concatenated_terms.tsv
 
 #sort and remove any duplicate lines
 sort concatenated_terms.tsv | uniq > concatenated_sorted_uniq.tsv
 
 
-##CHECKS
+## CHECKS
 
 #check terms in the initial json and not in the output files
 fgrep -i -v -f concatenated_sorted_uniq.tsv trait_names_preferred_sorted_uniq.txt > result_terms_in_json_not_in_pipeline_output.txt
 
 #check terms in output files not in initial json (must be zero) or check lines format
 fgrep -i -v -f trait_names_preferred_sorted_uniq.txt concatenated_sorted_uniq.tsv > result_terms_in_pipeline_output_not_in_json.txt
-
