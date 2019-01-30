@@ -6,7 +6,7 @@ manual=$3
 
 if [ -z "$clinvar_filtered" ] || [ -z "$automated" ] || [ -z "$manual" ]
 then
-	echo "Please provide all 3 parameters [clinvar.filtered.json.gz] [files automated_trait_mappings.tsv] [traits_requiring_curation.tsv]"
+	echo "Please provide all 3 parameters [clinvar.filtered.json.gz] [automated_trait_mappings.tsv] [traits_requiring_curation.tsv]"
 	exit 1
 fi
 
