@@ -21,7 +21,11 @@ jq .clinvarSet.referenceClinVarAssertion.traitSet.trait[].name[].elementValue cl
 #extracts only the trait names which are preferred
 grep -B 1 "Preferred" trait_names.txt > trait_names_preferred.txt
 
-#delete lines or strings depending on the pattern between forward slashes
+# delete 'see cases', 'not provided' and 'not specified' lines
+# delete 'value' attribute
+# delete 'type' lines (which are separate from the lines containing the trait names)
+# delete lines with only --
+# delete trailing ",
 sed -i -e '/"see cases"/Id' -e '/"not provided"/Id' -e '/"not specified"/Id' -e 's/"value": "//g' -e '/"type": "Preferred"/d' -e '/^--/d' -e 's/",//g' trait_names_preferred.txt
 
 #remove spaces at the beginning of the line, sort and delete duplicates
