@@ -115,7 +115,7 @@ def get_zooma_results(trait_name: str, filters: dict, zooma_host: str) -> list:
     zooma_response_list = request_retry_helper(zooma_query_helper, 4, url)
 
     if zooma_response_list is None:
-        return None
+        return []
 
     zooma_result_list = get_zooma_results_for_trait(zooma_response_list)
 
