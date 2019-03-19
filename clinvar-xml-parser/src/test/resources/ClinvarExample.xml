@@ -1,11 +1,151 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<ReleaseSet Dated="2018-10-01" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Type="full" xsi:noNamespaceSchemaLocation="http://ftp.ncbi.nlm.nih.gov/pub/clinvar/xsd_public/clinvar_public_1.54.xsd">
+<ReleaseSet Dated="2018-12-31" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Type="full" xsi:noNamespaceSchemaLocation="http://ftp.ncbi.nlm.nih.gov/pub/clinvar/xsd_public/clinvar_public_1.55.xsd">
 
-<ClinVarSet ID="18549666">
+<ClinVarSet ID="18548488">
   <RecordStatus>current</RecordStatus>
-  <Title>NC_000002.11:g.242812080_243048760del236681 AND Large for gestational age</Title>
-  <ReferenceClinVarAssertion DateCreated="2015-02-25" DateLastUpdated="2017-04-05" ID="381125">
-    <ClinVarAccession Acc="RCV000161254" Version="1" Type="RCV" DateUpdated="2017-04-05"/>
+  <Title>GRCh38/hg38 1p35.3-35.2(chr1:29860227-30448676)x3 AND See cases</Title>
+  <ReferenceClinVarAssertion DateCreated="2014-12-31" DateLastUpdated="2017-04-05" ID="350789">
+    <ClinVarAccession Acc="RCV000149544" Version="1" Type="RCV" DateUpdated="2017-04-05"/>
+    <RecordStatus>current</RecordStatus>
+    <ClinicalSignificance DateLastEvaluated="2009-07-30">
+      <ReviewStatus>no assertion criteria provided</ReviewStatus>
+      <Description>Uncertain significance</Description>
+    </ClinicalSignificance>
+    <Assertion Type="variation to disease"/>
+    <ObservedIn>
+      <Sample>
+        <Origin>not provided</Origin>
+        <Species TaxonomyId="9606">human</Species>
+        <AffectedStatus>yes</AffectedStatus>
+      </Sample>
+      <Method>
+        <NamePlatform>Agilent 023097</NamePlatform>
+        <Purpose>Discovery</Purpose>
+        <Description>Microarray</Description>
+        <MethodType>clinical testing</MethodType>
+      </Method>
+      <ObservedData ID="17756735">
+        <Attribute integerValue="1" Type="VariantAlleles"/>
+      </ObservedData>
+    </ObservedIn>
+    <MeasureSet Type="Variant" ID="146136">
+      <Measure Type="copy number gain" ID="155887">
+        <Name>
+          <ElementValue Type="Preferred">GRCh38/hg38 1p35.3-35.2(chr1:29860227-30448676)x3</ElementValue>
+        </Name>
+        <AttributeSet>
+          <Attribute Type="AbsoluteCopyNumber" integerValue="3"/>
+        </AttributeSet>
+        <AttributeSet>
+          <Attribute Accession="NC_000001" Version="11" Type="HGVS, genomic, top level" integerValue="38">NC_000001.11:g.(?_29860227)_(30448676_?)dup</Attribute>
+        </AttributeSet>
+        <AttributeSet>
+          <Attribute Accession="NC_000001" Version="10" Type="HGVS, genomic, top level, previous" integerValue="37">NC_000001.10:g.(?_30333074)_(30921523_?)dup</Attribute>
+        </AttributeSet>
+        <CytogeneticLocation>1p35.3-35.2</CytogeneticLocation>
+        <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="1" Accession="NC_000001.11" innerStart="29860227" innerStop="30448676" display_start="29860227" display_stop="30448676" variantLength="588450"/>
+        <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="1" Accession="NC_000001.10" innerStart="30333074" innerStop="30921523" display_start="30333074" display_stop="30921523" variantLength="588450"/>
+        <MeasureRelationship Type="genes overlapped by variant">
+          <Name>
+            <ElementValue Type="Preferred">long intergenic non-protein coding RNA 1648</ElementValue>
+          </Name>
+          <Symbol>
+            <ElementValue Type="Preferred">LINC01648</ElementValue>
+          </Symbol>
+          <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="1" Accession="NC_000001.11" start="30013952" stop="30037612" display_start="30013952" display_stop="30037612" Strand="-"/>
+          <XRef ID="101929406" DB="Gene"/>
+          <XRef ID="HGNC:52435" DB="HGNC"/>
+        </MeasureRelationship>
+        <XRef ID="nssv582394" DB="dbVar"/>
+        <XRef ID="nsv529126" DB="dbVar"/>
+      </Measure>
+      <Name>
+        <ElementValue Type="Preferred">GRCh38/hg38 1p35.3-35.2(chr1:29860227-30448676)x3</ElementValue>
+      </Name>
+    </MeasureSet>
+    <TraitSet Type="PhenotypeInstruction" ID="16994">
+      <Trait ID="18728" Type="PhenotypeInstruction">
+        <Name>
+          <ElementValue Type="Preferred">See cases</ElementValue>
+        </Name>
+      </Trait>
+    </TraitSet>
+  </ReferenceClinVarAssertion>
+  <ClinVarAssertion ID="350626" SubmissionName="nstd37">
+    <ClinVarSubmissionID localKey="nsv529126:copy number gain:See cases:3:SCV000196381" submitter="ISCA site 17" submitterDate="2014-06-21"/>
+    <ClinVarAccession Acc="SCV000196381" OrgType="primary" OrganizationCategory="laboratory" Version="1" Type="SCV" OrgID="505238" DateUpdated="2017-04-05"/>
+    <AdditionalSubmitters>
+      <SubmitterDescription OrgID="500029" Type="secondary" SubmitterName="International Standards For Cytogenomic Arrays Consortium (ISCA)" category="consortium"/>
+    </AdditionalSubmitters>
+    <RecordStatus>current</RecordStatus>
+    <ClinicalSignificance DateLastEvaluated="2009-07-30">
+      <ReviewStatus>no assertion criteria provided</ReviewStatus>
+      <Description>Uncertain significance</Description>
+    </ClinicalSignificance>
+    <Assertion Type="variation to disease"/>
+    <ObservedIn>
+      <Sample>
+        <Origin>not provided</Origin>
+        <Species TaxonomyId="9606">human</Species>
+        <AffectedStatus>yes</AffectedStatus>
+      </Sample>
+      <Method>
+        <NamePlatform>Agilent 023097</NamePlatform>
+        <TypePlatform>Oligo aCGH</TypePlatform>
+        <Purpose>Discovery</Purpose>
+        <Description>Microarray</Description>
+        <SourceType>submitter-generated</SourceType>
+        <MethodType>clinical testing</MethodType>
+      </Method>
+      <ObservedData>
+        <Attribute Type="VariantAlleles" integerValue="1"/>
+      </ObservedData>
+      <TraitSet Type="Finding">
+        <Trait Type="Finding">
+          <Name>
+            <ElementValue Type="Preferred">Developmental delay AND/OR other significant developmental or morphological phenotypes</ElementValue>
+          </Name>
+        </Trait>
+      </TraitSet>
+      <XRef DB="dbVar" ID="nssv582394" Type="dbVarVariantCallId"/>
+    </ObservedIn>
+    <MeasureSet Type="Variant">
+      <Measure Type="copy number gain">
+        <AttributeSet>
+          <Attribute Type="AbsoluteCopyNumber">3</Attribute>
+        </AttributeSet>
+        <AttributeSet>
+          <Attribute Type="HGVS">NC_000001.10:g.(?_30333074)_(30921523_?)dup</Attribute>
+        </AttributeSet>
+        <AttributeSet>
+          <Attribute Type="HGVS">NC_000001.11:g.(?_29860227)_(30448676_?)dup</Attribute>
+        </AttributeSet>
+        <SequenceLocation Accession="NC_000001.10" Assembly="GRCh37" Chr="1" innerStart="30333074" innerStop="30921523"/>
+        <SequenceLocation Accession="NC_000001.11" Assembly="GRCh38" Chr="1" innerStart="29860227" innerStop="30448676"/>
+        <XRef DB="dbVar" ID="nssv582394" Type="dbVarVariantCallId"/>
+        <XRef DB="dbVar" ID="nsv529126" Type="dbVarVariantRegionId"/>
+      </Measure>
+    </MeasureSet>
+    <TraitSet Type="PhenotypeInstruction">
+      <Trait Type="PhenotypeInstruction">
+        <Name>
+          <ElementValue Type="Preferred">See cases</ElementValue>
+        </Name>
+      </Trait>
+    </TraitSet>
+    <Citation Abbrev="ISCA, 2010" Type="Position Statement">
+      <ID Source="PubMed">20466091</ID>
+    </Citation>
+    <StudyDescription>Copy number variation identified through the course of routine clinical cytogenomic testing in postnatal populations, with clinical assertions as classified by the original submitter.</StudyDescription>
+    <Comment>Copy number variation identified through the course of routine clinical cytogenomic testing in postnatal populations, with clinical assertions as classified by the original submitter.</Comment>
+  </ClinVarAssertion>
+</ClinVarSet>
+
+<ClinVarSet ID="18549559">
+  <RecordStatus>current</RecordStatus>
+  <Title>NC_000001.11:g.1449831_1504291del54461 AND Small for gestational age</Title>
+  <ReferenceClinVarAssertion DateCreated="2015-02-25" DateLastUpdated="2017-04-05" ID="381018">
+    <ClinVarAccession Acc="RCV000161147" Version="1" Type="RCV" DateUpdated="2017-04-05"/>
     <RecordStatus>current</RecordStatus>
     <ClinicalSignificance>
       <ReviewStatus>no assertion provided</ReviewStatus>
@@ -23,908 +163,59 @@
         <Description>Genomic DNA copy number estimation from GenomeStudio-normalised genotyping microarray data (probe signal intensity). Using Illumina's baseline data for microarray signal intensity normalisation, QuantiSNP default baseline data (OB-HMM parameter values) for CNV calling.</Description>
         <MethodType>case-control</MethodType>
       </Method>
-      <ObservedData ID="17761357">
+      <ObservedData ID="17757461">
         <Attribute Type="Description">not provided</Attribute>
       </ObservedData>
     </ObservedIn>
-    <MeasureSet Type="Variant" ID="156828">
-      <Measure Type="Deletion" ID="166688">
+    <MeasureSet Type="Variant" ID="156721">
+      <Measure Type="Deletion" ID="166581">
         <Name>
-          <ElementValue Type="Preferred">NC_000002.11:g.242812080_243048760del236681</ElementValue>
+          <ElementValue Type="Preferred">NC_000001.11:g.1449831_1504291del54461</ElementValue>
         </Name>
         <AttributeSet>
-          <Attribute Change="g.242812080_243048760del" Accession="CM000664" Version="1" Type="HGVS, genomic">CM000664.1:g.242812080_243048760del</Attribute>
+          <Attribute Change="g.1385211_1439671del" Accession="CM000663" Version="1" Type="HGVS, genomic">CM000663.1:g.1385211_1439671del</Attribute>
         </AttributeSet>
         <AttributeSet>
-          <Attribute Change="g.242812080_243048760del236681" Accession="NC_000002" Version="11" Type="HGVS, genomic, top level, previous" integerValue="37">NC_000002.11:g.242812080_243048760del236681</Attribute>
+          <Attribute Change="g.1449831_1504291del54461" Accession="NC_000001" Version="11" Type="HGVS, genomic, top level" integerValue="38">NC_000001.11:g.1449831_1504291del54461</Attribute>
         </AttributeSet>
-        <CytogeneticLocation>2q37.3</CytogeneticLocation>
-        <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="2" Accession="NC_000002.11" start="242812080" stop="243048760" display_start="242812080" display_stop="243048760" variantLength="236681"/>
+        <AttributeSet>
+          <Attribute Change="g.1385211_1439671del54461" Accession="NC_000001" Version="10" Type="HGVS, genomic, top level, previous" integerValue="37">NC_000001.10:g.1385211_1439671del54461</Attribute>
+        </AttributeSet>
+        <CytogeneticLocation>1p36.33</CytogeneticLocation>
+        <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="1" Accession="NC_000001.11" start="1449831" stop="1504291" display_start="1449831" display_stop="1504291" variantLength="54461"/>
+        <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="1" Accession="NC_000001.10" start="1385211" stop="1439671" display_start="1385211" display_stop="1439671" variantLength="54461"/>
         <MeasureRelationship Type="genes overlapped by variant">
           <Name>
-            <ElementValue Type="Preferred">receptor transporter protein 5 (putative)</ElementValue>
+            <ElementValue Type="Preferred">ATPase family, AAA domain containing 3B</ElementValue>
           </Name>
           <Symbol>
-            <ElementValue Type="Preferred">RTP5</ElementValue>
+            <ElementValue Type="Preferred">ATAD3B</ElementValue>
           </Symbol>
-          <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="2" Accession="NC_000002.12" start="241869729" stop="241873817" display_start="241869729" display_stop="241873817" Strand="+"/>
-          <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="2" Accession="NT_187527.1" start="81832" stop="85428" display_start="81832" display_stop="85428" Strand="+"/>
-          <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="2" Accession="NC_000002.11" start="242811885" stop="242815481" display_start="242811885" display_stop="242815481" variantLength="3597" Strand="+"/>
-          <XRef ID="285093" DB="Gene"/>
-          <XRef ID="HGNC:26585" DB="HGNC"/>
+          <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="1" Accession="NC_000001.11" start="1471732" stop="1509466" display_start="1471732" display_stop="1509466" Strand="+"/>
+          <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="1" Accession="NC_000001.10" start="1407163" stop="1431581" display_start="1407163" display_stop="1431581" variantLength="24419" Strand="+"/>
+          <XRef ID="83858" DB="Gene"/>
+          <XRef Type="MIM" ID="612317" DB="OMIM"/>
+          <XRef ID="HGNC:24007" DB="HGNC"/>
+        </MeasureRelationship>
+        <MeasureRelationship Type="genes overlapped by variant">
+          <Name>
+            <ElementValue Type="Preferred">ATPase family, AAA domain containing 3C</ElementValue>
+          </Name>
+          <Symbol>
+            <ElementValue Type="Preferred">ATAD3C</ElementValue>
+          </Symbol>
+          <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="1" Accession="NC_000001.11" start="1449689" stop="1470158" display_start="1449689" display_stop="1470158" Strand="+"/>
+          <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="1" Accession="NC_000001.10" start="1385068" stop="1405537" display_start="1385068" display_stop="1405537" variantLength="20470" Strand="+"/>
+          <XRef ID="219293" DB="Gene"/>
+          <XRef Type="MIM" ID="617227" DB="OMIM"/>
+          <XRef ID="HGNC:32151" DB="HGNC"/>
         </MeasureRelationship>
         <Citation Type="general">
           <ID Source="PubMed">25666259</ID>
         </Citation>
       </Measure>
       <Name>
-        <ElementValue Type="Preferred">NC_000002.11:g.242812080_243048760del236681</ElementValue>
-      </Name>
-    </MeasureSet>
-    <TraitSet Type="Disease" ID="19842">
-      <Trait ID="22433" Type="Finding">
-        <Name>
-          <ElementValue Type="Preferred">Large for gestational age</ElementValue>
-          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
-        </Name>
-        <Name>
-          <ElementValue Type="Alternate">Birth weight &gt; 90th percentile</ElementValue>
-          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
-        </Name>
-        <Name>
-          <ElementValue Type="Alternate">Birthweight &gt; 90th percentile</ElementValue>
-          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
-        </Name>
-        <Name>
-          <ElementValue Type="Alternate">Fetal macrosomia</ElementValue>
-          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
-        </Name>
-        <Name>
-          <ElementValue Type="Alternate">Macrosomia</ElementValue>
-          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
-        </Name>
-        <Name>
-          <ElementValue Type="Alternate">Macrosomia, neonatal</ElementValue>
-          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
-        </Name>
-        <XRef ID="C1848395" DB="MedGen"/>
-        <XRef Type="primary" ID="HP:0001520" DB="Human Phenotype Ontology"/>
-        <XRef Type="secondary" ID="HP:0001825" DB="Human Phenotype Ontology"/>
-      </Trait>
-    </TraitSet>
-  </ReferenceClinVarAssertion>
-  <ClinVarAssertion ID="338479" SubmissionName="Kasak">
-    <ClinVarSubmissionID localKey="CNV_132" submitter="Institute of Molecular and Cell Biology, University of Tartu" submitterDate="2014-10-23"/>
-    <ClinVarAccession Acc="SCV000191211" OrgType="primary" OrganizationCategory="other" Version="1" Type="SCV" OrgID="505255" DateUpdated="2017-04-05"/>
-    <RecordStatus>current</RecordStatus>
-    <ClinicalSignificance>
-      <ReviewStatus>no assertion provided</ReviewStatus>
-      <Description>not provided</Description>
-      <Citation Type="general">
-        <ID Source="PubMed">25666259</ID>
-      </Citation>
-    </ClinicalSignificance>
-    <Assertion Type="variation to disease"/>
-    <ExternalID DB="EVA" ID="CNV_132"/>
-    <ObservedIn>
-      <Sample>
-        <Origin>unknown</Origin>
-        <Tissue>Blood</Tissue>
-        <Species TaxonomyId="9606">human</Species>
-        <AffectedStatus>yes</AffectedStatus>
-        <Gender>mixed</Gender>
-      </Sample>
-      <Method>
-        <NamePlatform>Illumina HumanOmniExpress Beadchip</NamePlatform>
-        <TypePlatform>SNP array</TypePlatform>
-        <Description>Genomic DNA copy number estimation from GenomeStudio-normalised genotyping microarray data (probe signal intensity). Using Illumina's baseline data for microarray signal intensity normalisation, QuantiSNP default baseline data (OB-HMM parameter values) for CNV calling.</Description>
-        <Software name="QuantiSNP, GADA, CNstream" purpose="Normalized signal intensity data was obtained through Illumina GenomeStudio software. Information on Log2 R ratios, B allele frequencies, markers and chromosomal coordinates from each sample were used for CNV identification with Hidden Markov Model-based algorithm QuantiSNP 2.3 (Colella et al., 2007) and a sparse Bayesian learning approach GADA (Genome Alteration Detection Analysis) (Pique-Regi et al., 2010). QuantiSNP was run with default settings, the adjustment for ‘genomic waves’ in signal intensities was turned on with the ‘--gcdir’ key in addition to the default calling parameters. GADA was run using the options “–T 5 –M 3”. CNstream (Alonso et al., 2010) algorithm was used in parallel to estimate CNVs from X and Y channel intensities loaded from Illumina GenomeStudio. CNVs were calculated under the following parameters: number of probes per segment (=3), minimum number of probes in one segment that must exceed the threshold for identifying an amplification/deletion (=3), CNV frequency threshold (=0). CNVs with QuantiSNP log Bayes Factor value &lt;5 and/or rearrangements shorter than 350 bp were excluded from the resulting list of CNVs. In this project we analysed only autosomal CNVs. HD-CNV (Hotspot Detector for Copy Number Variants) (Butler et al., 2013) was used to merge CNV regions called by alternative computational algorithms, QuantiSNP, GADA and CNstream. A criterion of 40% reciprocal overlap between parallel CNV calls was used to define two calls as identifying the same event. All CNVs called by at least two algorithms for the same individual in the same genomic loci were considered in the subsequent global analysis."/>
-        <MethodType>case-control</MethodType>
-      </Method>
-      <ObservedData>
-        <Attribute Type="Description">not provided</Attribute>
-      </ObservedData>
-    </ObservedIn>
-    <MeasureSet Type="Variant">
-      <Measure Type="Variation">
-        <AttributeSet>
-          <Attribute Type="HGVS">CM000664.1:g.242812080_243048760del</Attribute>
-        </AttributeSet>
-      </Measure>
-    </MeasureSet>
-    <TraitSet Type="Disease">
-      <Trait Type="Finding">
-        <Name>
-          <ElementValue Type="Preferred">Large for gestational age</ElementValue>
-        </Name>
-        <XRef DB="MedGen" ID="C0158915" Type="CUI"/>
-      </Trait>
-    </TraitSet>
-    <Citation Type="general">
-      <ID Source="PubMed">25666259</ID>
-    </Citation>
-    <Citation Type="general">
-      <ID Source="PubMed">25666259</ID>
-    </Citation>
-    <StudyName>Kasak2014</StudyName>
-    <StudyDescription>The study aimed to determine the contribution of copy number variants in the genetic etiology of normal and complicated pregnancies. The samples represented (i) maternal blood DNA drawn from healthy pregnant women during 1st or 2nd trimester and (ii) maternal and paternal blood DNA drawn at term pregnancy cases representing normal and complicated gestations (severe preeclampsia, PE; gestational diabetes, GD; small-for-gestational age newborn, SGA; large-for-gestational age newborn, LGA). We performed CNV calling based on genome-wide genotyping dataset (Illumina HumanOmniExpress-24-v1 BeadChip) by applying three algorithms, QuantiSNP, GADA (Genome Alteration Detection Algorithm) and CNstream in parallel. The acquired CNV calls were merged with HD-CNV (Hotspot Detector for Copy Number Variants) program and only the CNVs predicted by at least two programs, were considered in subsequent analysis.</StudyDescription>
-    <Comment>The study aimed to determine the contribution of copy number variants in the genetic etiology of normal and complicated pregnancies. The samples represented (i) maternal blood DNA drawn from healthy pregnant women during 1st or 2nd trimester and (ii) maternal and paternal blood DNA drawn at term pregnancy cases representing normal and complicated gestations (severe preeclampsia, PE; gestational diabetes, GD; small-for-gestational age newborn, SGA; large-for-gestational age newborn, LGA). We performed CNV calling based on genome-wide genotyping dataset (Illumina HumanOmniExpress-24-v1 BeadChip) by applying three algorithms, QuantiSNP, GADA (Genome Alteration Detection Algorithm) and CNstream in parallel. The acquired CNV calls were merged with HD-CNV (Hotspot Detector for Copy Number Variants) program and only the CNVs predicted by at least two programs, were considered in subsequent analysis.</Comment>
-  </ClinVarAssertion>
-</ClinVarSet>
-
-<ClinVarSet ID="18549677">
-  <RecordStatus>current</RecordStatus>
-  <Title>NC_000003.11:g.5391554_5438374del46821 AND Normal pregnancy</Title>
-  <ReferenceClinVarAssertion DateCreated="2015-02-25" DateLastUpdated="2017-04-05" ID="381136">
-    <ClinVarAccession Acc="RCV000161265" Version="1" Type="RCV" DateUpdated="2017-04-05"/>
-    <RecordStatus>current</RecordStatus>
-    <ClinicalSignificance>
-      <ReviewStatus>no assertion provided</ReviewStatus>
-      <Description>not provided</Description>
-    </ClinicalSignificance>
-    <Assertion Type="variation to disease"/>
-    <ObservedIn>
-      <Sample>
-        <Origin>unknown</Origin>
-        <Species TaxonomyId="9606">human</Species>
-        <AffectedStatus>yes</AffectedStatus>
-      </Sample>
-      <Method>
-        <NamePlatform>Illumina HumanOmniExpress Beadchip</NamePlatform>
-        <Description>Genomic DNA copy number estimation from GenomeStudio-normalised genotyping microarray data (probe signal intensity). Using Illumina's baseline data for microarray signal intensity normalisation, QuantiSNP default baseline data (OB-HMM parameter values) for CNV calling.</Description>
-        <MethodType>case-control</MethodType>
-      </Method>
-      <ObservedData ID="17756592">
-        <Attribute Type="Description">not provided</Attribute>
-      </ObservedData>
-    </ObservedIn>
-    <MeasureSet Type="Variant" ID="156839">
-      <Measure Type="Deletion" ID="166699">
-        <Name>
-          <ElementValue Type="Preferred">NC_000003.11:g.5391554_5438374del46821</ElementValue>
-        </Name>
-        <AttributeSet>
-          <Attribute Change="g.5391554_5438374del" Accession="CM000665" Version="1" Type="HGVS, genomic">CM000665.1:g.5391554_5438374del</Attribute>
-        </AttributeSet>
-        <AttributeSet>
-          <Attribute Change="g.5391554_5438374del46821" Accession="NC_000003" Version="11" Type="HGVS, genomic, top level, previous" integerValue="37">NC_000003.11:g.5391554_5438374del46821</Attribute>
-        </AttributeSet>
-        <CytogeneticLocation>3p26.1</CytogeneticLocation>
-        <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="3" Accession="NC_000003.11" start="5391554" stop="5438374" display_start="5391554" display_stop="5438374" variantLength="46821"/>
-        <Citation Type="general">
-          <ID Source="PubMed">25666259</ID>
-        </Citation>
-      </Measure>
-      <Name>
-        <ElementValue Type="Preferred">NC_000003.11:g.5391554_5438374del46821</ElementValue>
-      </Name>
-    </MeasureSet>
-    <TraitSet Type="Finding" ID="19843">
-      <Trait ID="32125" Type="Finding">
-        <Name>
-          <ElementValue Type="Preferred">Normal pregnancy</ElementValue>
-          <XRef ID="CNV_4" DB="Institute of Molecular and Cell Biology, University of Tartu"/>
-        </Name>
-        <XRef ID="CN220684" DB="MedGen"/>
-      </Trait>
-    </TraitSet>
-  </ReferenceClinVarAssertion>
-  <ClinVarAssertion ID="338490" SubmissionName="Kasak">
-    <ClinVarSubmissionID localKey="CNV_143" submitter="Institute of Molecular and Cell Biology, University of Tartu" submitterDate="2014-10-23"/>
-    <ClinVarAccession Acc="SCV000191222" OrgType="primary" OrganizationCategory="other" Version="1" Type="SCV" OrgID="505255" DateUpdated="2017-04-05"/>
-    <RecordStatus>current</RecordStatus>
-    <ClinicalSignificance>
-      <ReviewStatus>no assertion provided</ReviewStatus>
-      <Description>not provided</Description>
-      <Citation Type="general">
-        <ID Source="PubMed">25666259</ID>
-      </Citation>
-    </ClinicalSignificance>
-    <Assertion Type="variation to disease"/>
-    <ExternalID DB="EVA" ID="CNV_143"/>
-    <ObservedIn>
-      <Sample>
-        <Origin>unknown</Origin>
-        <Tissue>Blood</Tissue>
-        <Species TaxonomyId="9606">human</Species>
-        <AffectedStatus>yes</AffectedStatus>
-        <Gender>mixed</Gender>
-      </Sample>
-      <Method>
-        <NamePlatform>Illumina HumanOmniExpress Beadchip</NamePlatform>
-        <TypePlatform>SNP array</TypePlatform>
-        <Description>Genomic DNA copy number estimation from GenomeStudio-normalised genotyping microarray data (probe signal intensity). Using Illumina's baseline data for microarray signal intensity normalisation, QuantiSNP default baseline data (OB-HMM parameter values) for CNV calling.</Description>
-        <Software name="QuantiSNP, GADA, CNstream" purpose="Normalized signal intensity data was obtained through Illumina GenomeStudio software. Information on Log2 R ratios, B allele frequencies, markers and chromosomal coordinates from each sample were used for CNV identification with Hidden Markov Model-based algorithm QuantiSNP 2.3 (Colella et al., 2007) and a sparse Bayesian learning approach GADA (Genome Alteration Detection Analysis) (Pique-Regi et al., 2010). QuantiSNP was run with default settings, the adjustment for ‘genomic waves’ in signal intensities was turned on with the ‘--gcdir’ key in addition to the default calling parameters. GADA was run using the options “–T 5 –M 3”. CNstream (Alonso et al., 2010) algorithm was used in parallel to estimate CNVs from X and Y channel intensities loaded from Illumina GenomeStudio. CNVs were calculated under the following parameters: number of probes per segment (=3), minimum number of probes in one segment that must exceed the threshold for identifying an amplification/deletion (=3), CNV frequency threshold (=0). CNVs with QuantiSNP log Bayes Factor value &lt;5 and/or rearrangements shorter than 350 bp were excluded from the resulting list of CNVs. In this project we analysed only autosomal CNVs. HD-CNV (Hotspot Detector for Copy Number Variants) (Butler et al., 2013) was used to merge CNV regions called by alternative computational algorithms, QuantiSNP, GADA and CNstream. A criterion of 40% reciprocal overlap between parallel CNV calls was used to define two calls as identifying the same event. All CNVs called by at least two algorithms for the same individual in the same genomic loci were considered in the subsequent global analysis."/>
-        <MethodType>case-control</MethodType>
-      </Method>
-      <ObservedData>
-        <Attribute Type="Description">not provided</Attribute>
-      </ObservedData>
-    </ObservedIn>
-    <MeasureSet Type="Variant">
-      <Measure Type="Variation">
-        <AttributeSet>
-          <Attribute Type="HGVS">CM000665.1:g.5391554_5438374del</Attribute>
-        </AttributeSet>
-      </Measure>
-    </MeasureSet>
-    <TraitSet Type="Finding">
-      <Trait Type="Finding">
-        <Name>
-          <ElementValue Type="Preferred">Normal pregnancy</ElementValue>
-        </Name>
-        <XRef DB="MedGen" ID="C0232989" Type="CUI"/>
-      </Trait>
-    </TraitSet>
-    <Citation Type="general">
-      <ID Source="PubMed">25666259</ID>
-    </Citation>
-    <Citation Type="general">
-      <ID Source="PubMed">25666259</ID>
-    </Citation>
-    <StudyName>Kasak2014</StudyName>
-    <StudyDescription>The study aimed to determine the contribution of copy number variants in the genetic etiology of normal and complicated pregnancies. The samples represented (i) maternal blood DNA drawn from healthy pregnant women during 1st or 2nd trimester and (ii) maternal and paternal blood DNA drawn at term pregnancy cases representing normal and complicated gestations (severe preeclampsia, PE; gestational diabetes, GD; small-for-gestational age newborn, SGA; large-for-gestational age newborn, LGA). We performed CNV calling based on genome-wide genotyping dataset (Illumina HumanOmniExpress-24-v1 BeadChip) by applying three algorithms, QuantiSNP, GADA (Genome Alteration Detection Algorithm) and CNstream in parallel. The acquired CNV calls were merged with HD-CNV (Hotspot Detector for Copy Number Variants) program and only the CNVs predicted by at least two programs, were considered in subsequent analysis.</StudyDescription>
-    <Comment>The study aimed to determine the contribution of copy number variants in the genetic etiology of normal and complicated pregnancies. The samples represented (i) maternal blood DNA drawn from healthy pregnant women during 1st or 2nd trimester and (ii) maternal and paternal blood DNA drawn at term pregnancy cases representing normal and complicated gestations (severe preeclampsia, PE; gestational diabetes, GD; small-for-gestational age newborn, SGA; large-for-gestational age newborn, LGA). We performed CNV calling based on genome-wide genotyping dataset (Illumina HumanOmniExpress-24-v1 BeadChip) by applying three algorithms, QuantiSNP, GADA (Genome Alteration Detection Algorithm) and CNstream in parallel. The acquired CNV calls were merged with HD-CNV (Hotspot Detector for Copy Number Variants) program and only the CNVs predicted by at least two programs, were considered in subsequent analysis.</Comment>
-  </ClinVarAssertion>
-</ClinVarSet>
-
-<ClinVarSet ID="18549660">
-  <RecordStatus>current</RecordStatus>
-  <Title>NC_000002.12:g.212770328_212792702del22375 AND Large for gestational age</Title>
-  <ReferenceClinVarAssertion DateCreated="2015-02-25" DateLastUpdated="2017-04-05" ID="381119">
-    <ClinVarAccession Acc="RCV000161248" Version="1" Type="RCV" DateUpdated="2017-04-05"/>
-    <RecordStatus>current</RecordStatus>
-    <ClinicalSignificance>
-      <ReviewStatus>no assertion provided</ReviewStatus>
-      <Description>not provided</Description>
-    </ClinicalSignificance>
-    <Assertion Type="variation to disease"/>
-    <ObservedIn>
-      <Sample>
-        <Origin>unknown</Origin>
-        <Species TaxonomyId="9606">human</Species>
-        <AffectedStatus>yes</AffectedStatus>
-      </Sample>
-      <Method>
-        <NamePlatform>Illumina HumanOmniExpress Beadchip</NamePlatform>
-        <Description>Genomic DNA copy number estimation from GenomeStudio-normalised genotyping microarray data (probe signal intensity). Using Illumina's baseline data for microarray signal intensity normalisation, QuantiSNP default baseline data (OB-HMM parameter values) for CNV calling.</Description>
-        <MethodType>case-control</MethodType>
-      </Method>
-      <ObservedData ID="17756587">
-        <Attribute Type="Description">not provided</Attribute>
-      </ObservedData>
-    </ObservedIn>
-    <MeasureSet Type="Variant" ID="156822">
-      <Measure Type="Deletion" ID="166682">
-        <Name>
-          <ElementValue Type="Preferred">NC_000002.12:g.212770328_212792702del22375</ElementValue>
-        </Name>
-        <AttributeSet>
-          <Attribute Change="g.213635052_213657426del" Accession="CM000664" Version="1" Type="HGVS, genomic">CM000664.1:g.213635052_213657426del</Attribute>
-        </AttributeSet>
-        <AttributeSet>
-          <Attribute Change="g.212770328_212792702del22375" Accession="NC_000002" Version="12" Type="HGVS, genomic, top level" integerValue="38">NC_000002.12:g.212770328_212792702del22375</Attribute>
-        </AttributeSet>
-        <AttributeSet>
-          <Attribute Change="g.213635052_213657426del22375" Accession="NC_000002" Version="11" Type="HGVS, genomic, top level, previous" integerValue="37">NC_000002.11:g.213635052_213657426del22375</Attribute>
-        </AttributeSet>
-        <CytogeneticLocation>2q34</CytogeneticLocation>
-        <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="2" Accession="NC_000002.12" start="212770328" stop="212792702" display_start="212770328" display_stop="212792702" variantLength="22375"/>
-        <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="2" Accession="NC_000002.11" start="213635052" stop="213657426" display_start="213635052" display_stop="213657426" variantLength="22375"/>
-        <Citation Type="general">
-          <ID Source="PubMed">25666259</ID>
-        </Citation>
-      </Measure>
-      <Name>
-        <ElementValue Type="Preferred">NC_000002.12:g.212770328_212792702del22375</ElementValue>
-      </Name>
-    </MeasureSet>
-    <TraitSet Type="Disease" ID="19842">
-      <Trait ID="22433" Type="Finding">
-        <Name>
-          <ElementValue Type="Preferred">Large for gestational age</ElementValue>
-          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
-        </Name>
-        <Name>
-          <ElementValue Type="Alternate">Birth weight &gt; 90th percentile</ElementValue>
-          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
-        </Name>
-        <Name>
-          <ElementValue Type="Alternate">Birthweight &gt; 90th percentile</ElementValue>
-          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
-        </Name>
-        <Name>
-          <ElementValue Type="Alternate">Fetal macrosomia</ElementValue>
-          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
-        </Name>
-        <Name>
-          <ElementValue Type="Alternate">Macrosomia</ElementValue>
-          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
-        </Name>
-        <Name>
-          <ElementValue Type="Alternate">Macrosomia, neonatal</ElementValue>
-          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
-        </Name>
-        <XRef ID="C1848395" DB="MedGen"/>
-        <XRef Type="primary" ID="HP:0001520" DB="Human Phenotype Ontology"/>
-        <XRef Type="secondary" ID="HP:0001825" DB="Human Phenotype Ontology"/>
-      </Trait>
-    </TraitSet>
-  </ReferenceClinVarAssertion>
-  <ClinVarAssertion ID="338473" SubmissionName="Kasak">
-    <ClinVarSubmissionID localKey="CNV_126" submitter="Institute of Molecular and Cell Biology, University of Tartu" submitterDate="2014-10-23"/>
-    <ClinVarAccession Acc="SCV000191205" OrgType="primary" OrganizationCategory="other" Version="1" Type="SCV" OrgID="505255" DateUpdated="2017-04-05"/>
-    <RecordStatus>current</RecordStatus>
-    <ClinicalSignificance>
-      <ReviewStatus>no assertion provided</ReviewStatus>
-      <Description>not provided</Description>
-      <Citation Type="general">
-        <ID Source="PubMed">25666259</ID>
-      </Citation>
-    </ClinicalSignificance>
-    <Assertion Type="variation to disease"/>
-    <ExternalID DB="EVA" ID="CNV_126"/>
-    <ObservedIn>
-      <Sample>
-        <Origin>unknown</Origin>
-        <Tissue>Blood</Tissue>
-        <Species TaxonomyId="9606">human</Species>
-        <AffectedStatus>yes</AffectedStatus>
-        <Gender>mixed</Gender>
-      </Sample>
-      <Method>
-        <NamePlatform>Illumina HumanOmniExpress Beadchip</NamePlatform>
-        <TypePlatform>SNP array</TypePlatform>
-        <Description>Genomic DNA copy number estimation from GenomeStudio-normalised genotyping microarray data (probe signal intensity). Using Illumina's baseline data for microarray signal intensity normalisation, QuantiSNP default baseline data (OB-HMM parameter values) for CNV calling.</Description>
-        <Software name="QuantiSNP, GADA, CNstream" purpose="Normalized signal intensity data was obtained through Illumina GenomeStudio software. Information on Log2 R ratios, B allele frequencies, markers and chromosomal coordinates from each sample were used for CNV identification with Hidden Markov Model-based algorithm QuantiSNP 2.3 (Colella et al., 2007) and a sparse Bayesian learning approach GADA (Genome Alteration Detection Analysis) (Pique-Regi et al., 2010). QuantiSNP was run with default settings, the adjustment for ‘genomic waves’ in signal intensities was turned on with the ‘--gcdir’ key in addition to the default calling parameters. GADA was run using the options “–T 5 –M 3”. CNstream (Alonso et al., 2010) algorithm was used in parallel to estimate CNVs from X and Y channel intensities loaded from Illumina GenomeStudio. CNVs were calculated under the following parameters: number of probes per segment (=3), minimum number of probes in one segment that must exceed the threshold for identifying an amplification/deletion (=3), CNV frequency threshold (=0). CNVs with QuantiSNP log Bayes Factor value &lt;5 and/or rearrangements shorter than 350 bp were excluded from the resulting list of CNVs. In this project we analysed only autosomal CNVs. HD-CNV (Hotspot Detector for Copy Number Variants) (Butler et al., 2013) was used to merge CNV regions called by alternative computational algorithms, QuantiSNP, GADA and CNstream. A criterion of 40% reciprocal overlap between parallel CNV calls was used to define two calls as identifying the same event. All CNVs called by at least two algorithms for the same individual in the same genomic loci were considered in the subsequent global analysis."/>
-        <MethodType>case-control</MethodType>
-      </Method>
-      <ObservedData>
-        <Attribute Type="Description">not provided</Attribute>
-      </ObservedData>
-    </ObservedIn>
-    <MeasureSet Type="Variant">
-      <Measure Type="Variation">
-        <AttributeSet>
-          <Attribute Type="HGVS">CM000664.1:g.213635052_213657426del</Attribute>
-        </AttributeSet>
-      </Measure>
-    </MeasureSet>
-    <TraitSet Type="Disease">
-      <Trait Type="Finding">
-        <Name>
-          <ElementValue Type="Preferred">Large for gestational age</ElementValue>
-        </Name>
-        <XRef DB="MedGen" ID="C0158915" Type="CUI"/>
-      </Trait>
-    </TraitSet>
-    <Citation Type="general">
-      <ID Source="PubMed">25666259</ID>
-    </Citation>
-    <Citation Type="general">
-      <ID Source="PubMed">25666259</ID>
-    </Citation>
-    <StudyName>Kasak2014</StudyName>
-    <StudyDescription>The study aimed to determine the contribution of copy number variants in the genetic etiology of normal and complicated pregnancies. The samples represented (i) maternal blood DNA drawn from healthy pregnant women during 1st or 2nd trimester and (ii) maternal and paternal blood DNA drawn at term pregnancy cases representing normal and complicated gestations (severe preeclampsia, PE; gestational diabetes, GD; small-for-gestational age newborn, SGA; large-for-gestational age newborn, LGA). We performed CNV calling based on genome-wide genotyping dataset (Illumina HumanOmniExpress-24-v1 BeadChip) by applying three algorithms, QuantiSNP, GADA (Genome Alteration Detection Algorithm) and CNstream in parallel. The acquired CNV calls were merged with HD-CNV (Hotspot Detector for Copy Number Variants) program and only the CNVs predicted by at least two programs, were considered in subsequent analysis.</StudyDescription>
-    <Comment>The study aimed to determine the contribution of copy number variants in the genetic etiology of normal and complicated pregnancies. The samples represented (i) maternal blood DNA drawn from healthy pregnant women during 1st or 2nd trimester and (ii) maternal and paternal blood DNA drawn at term pregnancy cases representing normal and complicated gestations (severe preeclampsia, PE; gestational diabetes, GD; small-for-gestational age newborn, SGA; large-for-gestational age newborn, LGA). We performed CNV calling based on genome-wide genotyping dataset (Illumina HumanOmniExpress-24-v1 BeadChip) by applying three algorithms, QuantiSNP, GADA (Genome Alteration Detection Algorithm) and CNstream in parallel. The acquired CNV calls were merged with HD-CNV (Hotspot Detector for Copy Number Variants) program and only the CNVs predicted by at least two programs, were considered in subsequent analysis.</Comment>
-  </ClinVarAssertion>
-</ClinVarSet>
-
-<ClinVarSet ID="18549691">
-  <RecordStatus>current</RecordStatus>
-  <Title>NC_000003.11:g.62958569_62993083del34515 AND Large for gestational age</Title>
-  <ReferenceClinVarAssertion DateCreated="2015-02-25" DateLastUpdated="2017-04-05" ID="381150">
-    <ClinVarAccession Acc="RCV000161279" Version="1" Type="RCV" DateUpdated="2017-04-05"/>
-    <RecordStatus>current</RecordStatus>
-    <ClinicalSignificance>
-      <ReviewStatus>no assertion provided</ReviewStatus>
-      <Description>not provided</Description>
-    </ClinicalSignificance>
-    <Assertion Type="variation to disease"/>
-    <ObservedIn>
-      <Sample>
-        <Origin>unknown</Origin>
-        <Species TaxonomyId="9606">human</Species>
-        <AffectedStatus>yes</AffectedStatus>
-      </Sample>
-      <Method>
-        <NamePlatform>Illumina HumanOmniExpress Beadchip</NamePlatform>
-        <Description>Genomic DNA copy number estimation from GenomeStudio-normalised genotyping microarray data (probe signal intensity). Using Illumina's baseline data for microarray signal intensity normalisation, QuantiSNP default baseline data (OB-HMM parameter values) for CNV calling.</Description>
-        <MethodType>case-control</MethodType>
-      </Method>
-      <ObservedData ID="17756595">
-        <Attribute Type="Description">not provided</Attribute>
-      </ObservedData>
-    </ObservedIn>
-    <MeasureSet Type="Variant" ID="156852">
-      <Measure Type="Deletion" ID="166712">
-        <Name>
-          <ElementValue Type="Preferred">NC_000003.11:g.62958569_62993083del34515</ElementValue>
-        </Name>
-        <AttributeSet>
-          <Attribute Change="g.62958569_62993083del" Accession="CM000665" Version="1" Type="HGVS, genomic">CM000665.1:g.62958569_62993083del</Attribute>
-        </AttributeSet>
-        <AttributeSet>
-          <Attribute Change="g.62958569_62993083del34515" Accession="NC_000003" Version="11" Type="HGVS, genomic, top level, previous" integerValue="37">NC_000003.11:g.62958569_62993083del34515</Attribute>
-        </AttributeSet>
-        <CytogeneticLocation>3p14.2</CytogeneticLocation>
-        <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="3" Accession="NC_000003.11" start="62958569" stop="62993083" display_start="62958569" display_stop="62993083" variantLength="34515"/>
-        <Citation Type="general">
-          <ID Source="PubMed">25666259</ID>
-        </Citation>
-      </Measure>
-      <Name>
-        <ElementValue Type="Preferred">NC_000003.11:g.62958569_62993083del34515</ElementValue>
-      </Name>
-    </MeasureSet>
-    <TraitSet Type="Disease" ID="19842">
-      <Trait ID="22433" Type="Finding">
-        <Name>
-          <ElementValue Type="Preferred">Large for gestational age</ElementValue>
-          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
-        </Name>
-        <Name>
-          <ElementValue Type="Alternate">Birth weight &gt; 90th percentile</ElementValue>
-          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
-        </Name>
-        <Name>
-          <ElementValue Type="Alternate">Birthweight &gt; 90th percentile</ElementValue>
-          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
-        </Name>
-        <Name>
-          <ElementValue Type="Alternate">Fetal macrosomia</ElementValue>
-          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
-        </Name>
-        <Name>
-          <ElementValue Type="Alternate">Macrosomia</ElementValue>
-          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
-        </Name>
-        <Name>
-          <ElementValue Type="Alternate">Macrosomia, neonatal</ElementValue>
-          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
-        </Name>
-        <XRef ID="C1848395" DB="MedGen"/>
-        <XRef Type="primary" ID="HP:0001520" DB="Human Phenotype Ontology"/>
-        <XRef Type="secondary" ID="HP:0001825" DB="Human Phenotype Ontology"/>
-      </Trait>
-    </TraitSet>
-  </ReferenceClinVarAssertion>
-  <ClinVarAssertion ID="338504" SubmissionName="Kasak">
-    <ClinVarSubmissionID localKey="CNV_162" submitter="Institute of Molecular and Cell Biology, University of Tartu" submitterDate="2014-10-23"/>
-    <ClinVarAccession Acc="SCV000191236" OrgType="primary" OrganizationCategory="other" Version="1" Type="SCV" OrgID="505255" DateUpdated="2017-04-05"/>
-    <RecordStatus>current</RecordStatus>
-    <ClinicalSignificance>
-      <ReviewStatus>no assertion provided</ReviewStatus>
-      <Description>not provided</Description>
-      <Citation Type="general">
-        <ID Source="PubMed">25666259</ID>
-      </Citation>
-    </ClinicalSignificance>
-    <Assertion Type="variation to disease"/>
-    <ExternalID DB="EVA" ID="CNV_162"/>
-    <ObservedIn>
-      <Sample>
-        <Origin>unknown</Origin>
-        <Tissue>Blood</Tissue>
-        <Species TaxonomyId="9606">human</Species>
-        <AffectedStatus>yes</AffectedStatus>
-        <Gender>mixed</Gender>
-      </Sample>
-      <Method>
-        <NamePlatform>Illumina HumanOmniExpress Beadchip</NamePlatform>
-        <TypePlatform>SNP array</TypePlatform>
-        <Description>Genomic DNA copy number estimation from GenomeStudio-normalised genotyping microarray data (probe signal intensity). Using Illumina's baseline data for microarray signal intensity normalisation, QuantiSNP default baseline data (OB-HMM parameter values) for CNV calling.</Description>
-        <Software name="QuantiSNP, GADA, CNstream" purpose="Normalized signal intensity data was obtained through Illumina GenomeStudio software. Information on Log2 R ratios, B allele frequencies, markers and chromosomal coordinates from each sample were used for CNV identification with Hidden Markov Model-based algorithm QuantiSNP 2.3 (Colella et al., 2007) and a sparse Bayesian learning approach GADA (Genome Alteration Detection Analysis) (Pique-Regi et al., 2010). QuantiSNP was run with default settings, the adjustment for ‘genomic waves’ in signal intensities was turned on with the ‘--gcdir’ key in addition to the default calling parameters. GADA was run using the options “–T 5 –M 3”. CNstream (Alonso et al., 2010) algorithm was used in parallel to estimate CNVs from X and Y channel intensities loaded from Illumina GenomeStudio. CNVs were calculated under the following parameters: number of probes per segment (=3), minimum number of probes in one segment that must exceed the threshold for identifying an amplification/deletion (=3), CNV frequency threshold (=0). CNVs with QuantiSNP log Bayes Factor value &lt;5 and/or rearrangements shorter than 350 bp were excluded from the resulting list of CNVs. In this project we analysed only autosomal CNVs. HD-CNV (Hotspot Detector for Copy Number Variants) (Butler et al., 2013) was used to merge CNV regions called by alternative computational algorithms, QuantiSNP, GADA and CNstream. A criterion of 40% reciprocal overlap between parallel CNV calls was used to define two calls as identifying the same event. All CNVs called by at least two algorithms for the same individual in the same genomic loci were considered in the subsequent global analysis."/>
-        <MethodType>case-control</MethodType>
-      </Method>
-      <ObservedData>
-        <Attribute Type="Description">not provided</Attribute>
-      </ObservedData>
-    </ObservedIn>
-    <MeasureSet Type="Variant">
-      <Measure Type="Variation">
-        <AttributeSet>
-          <Attribute Type="HGVS">CM000665.1:g.62958569_62993083del</Attribute>
-        </AttributeSet>
-      </Measure>
-    </MeasureSet>
-    <TraitSet Type="Disease">
-      <Trait Type="Finding">
-        <Name>
-          <ElementValue Type="Preferred">Large for gestational age</ElementValue>
-        </Name>
-        <XRef DB="MedGen" ID="C0158915" Type="CUI"/>
-      </Trait>
-    </TraitSet>
-    <Citation Type="general">
-      <ID Source="PubMed">25666259</ID>
-    </Citation>
-    <Citation Type="general">
-      <ID Source="PubMed">25666259</ID>
-    </Citation>
-    <StudyName>Kasak2014</StudyName>
-    <StudyDescription>The study aimed to determine the contribution of copy number variants in the genetic etiology of normal and complicated pregnancies. The samples represented (i) maternal blood DNA drawn from healthy pregnant women during 1st or 2nd trimester and (ii) maternal and paternal blood DNA drawn at term pregnancy cases representing normal and complicated gestations (severe preeclampsia, PE; gestational diabetes, GD; small-for-gestational age newborn, SGA; large-for-gestational age newborn, LGA). We performed CNV calling based on genome-wide genotyping dataset (Illumina HumanOmniExpress-24-v1 BeadChip) by applying three algorithms, QuantiSNP, GADA (Genome Alteration Detection Algorithm) and CNstream in parallel. The acquired CNV calls were merged with HD-CNV (Hotspot Detector for Copy Number Variants) program and only the CNVs predicted by at least two programs, were considered in subsequent analysis.</StudyDescription>
-    <Comment>The study aimed to determine the contribution of copy number variants in the genetic etiology of normal and complicated pregnancies. The samples represented (i) maternal blood DNA drawn from healthy pregnant women during 1st or 2nd trimester and (ii) maternal and paternal blood DNA drawn at term pregnancy cases representing normal and complicated gestations (severe preeclampsia, PE; gestational diabetes, GD; small-for-gestational age newborn, SGA; large-for-gestational age newborn, LGA). We performed CNV calling based on genome-wide genotyping dataset (Illumina HumanOmniExpress-24-v1 BeadChip) by applying three algorithms, QuantiSNP, GADA (Genome Alteration Detection Algorithm) and CNstream in parallel. The acquired CNV calls were merged with HD-CNV (Hotspot Detector for Copy Number Variants) program and only the CNVs predicted by at least two programs, were considered in subsequent analysis.</Comment>
-  </ClinVarAssertion>
-</ClinVarSet>
-
-<ClinVarSet ID="18549693">
-  <RecordStatus>current</RecordStatus>
-  <Title>NC_000003.12:g.65206172_65228858del22687 AND Normal pregnancy</Title>
-  <ReferenceClinVarAssertion DateCreated="2015-02-25" DateLastUpdated="2017-04-05" ID="381152">
-    <ClinVarAccession Acc="RCV000161281" Version="1" Type="RCV" DateUpdated="2017-04-05"/>
-    <RecordStatus>current</RecordStatus>
-    <ClinicalSignificance>
-      <ReviewStatus>no assertion provided</ReviewStatus>
-      <Description>not provided</Description>
-    </ClinicalSignificance>
-    <Assertion Type="variation to disease"/>
-    <ObservedIn>
-      <Sample>
-        <Origin>unknown</Origin>
-        <Species TaxonomyId="9606">human</Species>
-        <AffectedStatus>yes</AffectedStatus>
-      </Sample>
-      <Method>
-        <NamePlatform>Illumina HumanOmniExpress Beadchip</NamePlatform>
-        <Description>Genomic DNA copy number estimation from GenomeStudio-normalised genotyping microarray data (probe signal intensity). Using Illumina's baseline data for microarray signal intensity normalisation, QuantiSNP default baseline data (OB-HMM parameter values) for CNV calling.</Description>
-        <MethodType>case-control</MethodType>
-      </Method>
-      <ObservedData ID="17761364">
-        <Attribute Type="Description">not provided</Attribute>
-      </ObservedData>
-      <ObservedData ID="17761364">
-        <Attribute Type="Description">not provided</Attribute>
-      </ObservedData>
-      <ObservedData ID="17761364">
-        <Attribute Type="Description">not provided</Attribute>
-      </ObservedData>
-      <ObservedData ID="17761364">
-        <Attribute Type="Description">not provided</Attribute>
-      </ObservedData>
-      <ObservedData ID="17761364">
-        <Attribute Type="Description">not provided</Attribute>
-      </ObservedData>
-    </ObservedIn>
-    <MeasureSet Type="Variant" ID="156855">
-      <Measure Type="Deletion" ID="166715">
-        <Name>
-          <ElementValue Type="Preferred">NC_000003.12:g.65206172_65228858del22687</ElementValue>
-        </Name>
-        <AttributeSet>
-          <Attribute Change="g.65191847_65214533del" Accession="CM000665" Version="1" Type="HGVS, genomic">CM000665.1:g.65191847_65214533del</Attribute>
-        </AttributeSet>
-        <AttributeSet>
-          <Attribute Change="g.65206172_65228858del22687" Accession="NC_000003" Version="12" Type="HGVS, genomic, top level" integerValue="38">NC_000003.12:g.65206172_65228858del22687</Attribute>
-        </AttributeSet>
-        <AttributeSet>
-          <Attribute Change="g.65191847_65214533del22687" Accession="NC_000003" Version="11" Type="HGVS, genomic, top level, previous" integerValue="37">NC_000003.11:g.65191847_65214533del22687</Attribute>
-        </AttributeSet>
-        <CytogeneticLocation>3p14.1</CytogeneticLocation>
-        <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="3" Accession="NC_000003.12" start="65206172" stop="65228858" display_start="65206172" display_stop="65228858" variantLength="22687"/>
-        <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="3" Accession="NC_000003.11" start="65191847" stop="65214533" display_start="65191847" display_stop="65214533" variantLength="22687"/>
-        <Citation Type="general">
-          <ID Source="PubMed">25666259</ID>
-        </Citation>
-      </Measure>
-      <Name>
-        <ElementValue Type="Preferred">NC_000003.12:g.65206172_65228858del22687</ElementValue>
-      </Name>
-    </MeasureSet>
-    <TraitSet Type="Finding" ID="19843">
-      <Trait ID="32125" Type="Finding">
-        <Name>
-          <ElementValue Type="Preferred">Normal pregnancy</ElementValue>
-          <XRef ID="CNV_4" DB="Institute of Molecular and Cell Biology, University of Tartu"/>
-        </Name>
-        <XRef ID="CN220684" DB="MedGen"/>
-      </Trait>
-    </TraitSet>
-  </ReferenceClinVarAssertion>
-  <ClinVarAssertion ID="338506" SubmissionName="Kasak">
-    <ClinVarSubmissionID localKey="CNV_164" submitter="Institute of Molecular and Cell Biology, University of Tartu" submitterDate="2014-10-23"/>
-    <ClinVarAccession Acc="SCV000191238" OrgType="primary" OrganizationCategory="other" Version="1" Type="SCV" OrgID="505255" DateUpdated="2017-04-05"/>
-    <RecordStatus>current</RecordStatus>
-    <ClinicalSignificance>
-      <ReviewStatus>no assertion provided</ReviewStatus>
-      <Description>not provided</Description>
-      <Citation Type="general">
-        <ID Source="PubMed">25666259</ID>
-      </Citation>
-    </ClinicalSignificance>
-    <Assertion Type="variation to disease"/>
-    <ExternalID DB="EVA" ID="CNV_164"/>
-    <ObservedIn>
-      <Sample>
-        <Origin>unknown</Origin>
-        <Tissue>Blood</Tissue>
-        <Species TaxonomyId="9606">human</Species>
-        <AffectedStatus>yes</AffectedStatus>
-        <Gender>mixed</Gender>
-      </Sample>
-      <Method>
-        <NamePlatform>Illumina HumanOmniExpress Beadchip</NamePlatform>
-        <TypePlatform>SNP array</TypePlatform>
-        <Description>Genomic DNA copy number estimation from GenomeStudio-normalised genotyping microarray data (probe signal intensity). Using Illumina's baseline data for microarray signal intensity normalisation, QuantiSNP default baseline data (OB-HMM parameter values) for CNV calling.</Description>
-        <Software name="QuantiSNP, GADA, CNstream" purpose="Normalized signal intensity data was obtained through Illumina GenomeStudio software. Information on Log2 R ratios, B allele frequencies, markers and chromosomal coordinates from each sample were used for CNV identification with Hidden Markov Model-based algorithm QuantiSNP 2.3 (Colella et al., 2007) and a sparse Bayesian learning approach GADA (Genome Alteration Detection Analysis) (Pique-Regi et al., 2010). QuantiSNP was run with default settings, the adjustment for ‘genomic waves’ in signal intensities was turned on with the ‘--gcdir’ key in addition to the default calling parameters. GADA was run using the options “–T 5 –M 3”. CNstream (Alonso et al., 2010) algorithm was used in parallel to estimate CNVs from X and Y channel intensities loaded from Illumina GenomeStudio. CNVs were calculated under the following parameters: number of probes per segment (=3), minimum number of probes in one segment that must exceed the threshold for identifying an amplification/deletion (=3), CNV frequency threshold (=0). CNVs with QuantiSNP log Bayes Factor value &lt;5 and/or rearrangements shorter than 350 bp were excluded from the resulting list of CNVs. In this project we analysed only autosomal CNVs. HD-CNV (Hotspot Detector for Copy Number Variants) (Butler et al., 2013) was used to merge CNV regions called by alternative computational algorithms, QuantiSNP, GADA and CNstream. A criterion of 40% reciprocal overlap between parallel CNV calls was used to define two calls as identifying the same event. All CNVs called by at least two algorithms for the same individual in the same genomic loci were considered in the subsequent global analysis."/>
-        <MethodType>case-control</MethodType>
-      </Method>
-      <ObservedData>
-        <Attribute Type="Description">not provided</Attribute>
-      </ObservedData>
-    </ObservedIn>
-    <ObservedIn>
-      <Sample>
-        <Origin>unknown</Origin>
-        <Tissue>Blood</Tissue>
-        <Species TaxonomyId="9606">human</Species>
-        <AffectedStatus>yes</AffectedStatus>
-        <Gender>mixed</Gender>
-      </Sample>
-      <Method>
-        <NamePlatform>Illumina HumanOmniExpress Beadchip</NamePlatform>
-        <TypePlatform>SNP array</TypePlatform>
-        <Description>Genomic DNA copy number estimation from GenomeStudio-normalised genotyping microarray data (probe signal intensity). Using Illumina's baseline data for microarray signal intensity normalisation, QuantiSNP default baseline data (OB-HMM parameter values) for CNV calling.</Description>
-        <Software name="QuantiSNP, GADA, CNstream" purpose="Normalized signal intensity data was obtained through Illumina GenomeStudio software. Information on Log2 R ratios, B allele frequencies, markers and chromosomal coordinates from each sample were used for CNV identification with Hidden Markov Model-based algorithm QuantiSNP 2.3 (Colella et al., 2007) and a sparse Bayesian learning approach GADA (Genome Alteration Detection Analysis) (Pique-Regi et al., 2010). QuantiSNP was run with default settings, the adjustment for ‘genomic waves’ in signal intensities was turned on with the ‘--gcdir’ key in addition to the default calling parameters. GADA was run using the options “–T 5 –M 3”. CNstream (Alonso et al., 2010) algorithm was used in parallel to estimate CNVs from X and Y channel intensities loaded from Illumina GenomeStudio. CNVs were calculated under the following parameters: number of probes per segment (=3), minimum number of probes in one segment that must exceed the threshold for identifying an amplification/deletion (=3), CNV frequency threshold (=0). CNVs with QuantiSNP log Bayes Factor value &lt;5 and/or rearrangements shorter than 350 bp were excluded from the resulting list of CNVs. In this project we analysed only autosomal CNVs. HD-CNV (Hotspot Detector for Copy Number Variants) (Butler et al., 2013) was used to merge CNV regions called by alternative computational algorithms, QuantiSNP, GADA and CNstream. A criterion of 40% reciprocal overlap between parallel CNV calls was used to define two calls as identifying the same event. All CNVs called by at least two algorithms for the same individual in the same genomic loci were considered in the subsequent global analysis."/>
-        <MethodType>case-control</MethodType>
-      </Method>
-      <ObservedData>
-        <Attribute Type="Description">not provided</Attribute>
-      </ObservedData>
-    </ObservedIn>
-    <ObservedIn>
-      <Sample>
-        <Origin>unknown</Origin>
-        <Tissue>Blood</Tissue>
-        <Species TaxonomyId="9606">human</Species>
-        <AffectedStatus>yes</AffectedStatus>
-        <Gender>female</Gender>
-      </Sample>
-      <Method>
-        <NamePlatform>Illumina HumanOmniExpress Beadchip</NamePlatform>
-        <TypePlatform>SNP array</TypePlatform>
-        <Description>Genomic DNA copy number estimation from GenomeStudio-normalised genotyping microarray data (probe signal intensity). Using Illumina's baseline data for microarray signal intensity normalisation, QuantiSNP default baseline data (OB-HMM parameter values) for CNV calling.</Description>
-        <Software name="QuantiSNP, GADA, CNstream" purpose="Normalized signal intensity data was obtained through Illumina GenomeStudio software. Information on Log2 R ratios, B allele frequencies, markers and chromosomal coordinates from each sample were used for CNV identification with Hidden Markov Model-based algorithm QuantiSNP 2.3 (Colella et al., 2007) and a sparse Bayesian learning approach GADA (Genome Alteration Detection Analysis) (Pique-Regi et al., 2010). QuantiSNP was run with default settings, the adjustment for ‘genomic waves’ in signal intensities was turned on with the ‘--gcdir’ key in addition to the default calling parameters. GADA was run using the options “–T 5 –M 3”. CNstream (Alonso et al., 2010) algorithm was used in parallel to estimate CNVs from X and Y channel intensities loaded from Illumina GenomeStudio. CNVs were calculated under the following parameters: number of probes per segment (=3), minimum number of probes in one segment that must exceed the threshold for identifying an amplification/deletion (=3), CNV frequency threshold (=0). CNVs with QuantiSNP log Bayes Factor value &lt;5 and/or rearrangements shorter than 350 bp were excluded from the resulting list of CNVs. In this project we analysed only autosomal CNVs. HD-CNV (Hotspot Detector for Copy Number Variants) (Butler et al., 2013) was used to merge CNV regions called by alternative computational algorithms, QuantiSNP, GADA and CNstream. A criterion of 40% reciprocal overlap between parallel CNV calls was used to define two calls as identifying the same event. All CNVs called by at least two algorithms for the same individual in the same genomic loci were considered in the subsequent global analysis."/>
-        <MethodType>case-control</MethodType>
-      </Method>
-      <ObservedData>
-        <Attribute Type="Description">not provided</Attribute>
-      </ObservedData>
-    </ObservedIn>
-    <ObservedIn>
-      <Sample>
-        <Origin>unknown</Origin>
-        <Tissue>Blood</Tissue>
-        <Species TaxonomyId="9606">human</Species>
-        <AffectedStatus>yes</AffectedStatus>
-        <Gender>female</Gender>
-      </Sample>
-      <Method>
-        <NamePlatform>Illumina HumanOmniExpress Beadchip</NamePlatform>
-        <TypePlatform>SNP array</TypePlatform>
-        <Description>Genomic DNA copy number estimation from GenomeStudio-normalised genotyping microarray data (probe signal intensity). Using Illumina's baseline data for microarray signal intensity normalisation, QuantiSNP default baseline data (OB-HMM parameter values) for CNV calling.</Description>
-        <Software name="QuantiSNP, GADA, CNstream" purpose="Normalized signal intensity data was obtained through Illumina GenomeStudio software. Information on Log2 R ratios, B allele frequencies, markers and chromosomal coordinates from each sample were used for CNV identification with Hidden Markov Model-based algorithm QuantiSNP 2.3 (Colella et al., 2007) and a sparse Bayesian learning approach GADA (Genome Alteration Detection Analysis) (Pique-Regi et al., 2010). QuantiSNP was run with default settings, the adjustment for ‘genomic waves’ in signal intensities was turned on with the ‘--gcdir’ key in addition to the default calling parameters. GADA was run using the options “–T 5 –M 3”. CNstream (Alonso et al., 2010) algorithm was used in parallel to estimate CNVs from X and Y channel intensities loaded from Illumina GenomeStudio. CNVs were calculated under the following parameters: number of probes per segment (=3), minimum number of probes in one segment that must exceed the threshold for identifying an amplification/deletion (=3), CNV frequency threshold (=0). CNVs with QuantiSNP log Bayes Factor value &lt;5 and/or rearrangements shorter than 350 bp were excluded from the resulting list of CNVs. In this project we analysed only autosomal CNVs. HD-CNV (Hotspot Detector for Copy Number Variants) (Butler et al., 2013) was used to merge CNV regions called by alternative computational algorithms, QuantiSNP, GADA and CNstream. A criterion of 40% reciprocal overlap between parallel CNV calls was used to define two calls as identifying the same event. All CNVs called by at least two algorithms for the same individual in the same genomic loci were considered in the subsequent global analysis."/>
-        <MethodType>case-control</MethodType>
-      </Method>
-      <ObservedData>
-        <Attribute Type="Description">not provided</Attribute>
-      </ObservedData>
-    </ObservedIn>
-    <ObservedIn>
-      <Sample>
-        <Origin>unknown</Origin>
-        <Tissue>Blood</Tissue>
-        <Species TaxonomyId="9606">human</Species>
-        <AffectedStatus>yes</AffectedStatus>
-        <Gender>female</Gender>
-      </Sample>
-      <Method>
-        <NamePlatform>Illumina HumanOmniExpress Beadchip</NamePlatform>
-        <TypePlatform>SNP array</TypePlatform>
-        <Description>Genomic DNA copy number estimation from GenomeStudio-normalised genotyping microarray data (probe signal intensity). Using Illumina's baseline data for microarray signal intensity normalisation, QuantiSNP default baseline data (OB-HMM parameter values) for CNV calling.</Description>
-        <Software name="QuantiSNP, GADA, CNstream" purpose="Normalized signal intensity data was obtained through Illumina GenomeStudio software. Information on Log2 R ratios, B allele frequencies, markers and chromosomal coordinates from each sample were used for CNV identification with Hidden Markov Model-based algorithm QuantiSNP 2.3 (Colella et al., 2007) and a sparse Bayesian learning approach GADA (Genome Alteration Detection Analysis) (Pique-Regi et al., 2010). QuantiSNP was run with default settings, the adjustment for ‘genomic waves’ in signal intensities was turned on with the ‘--gcdir’ key in addition to the default calling parameters. GADA was run using the options “–T 5 –M 3”. CNstream (Alonso et al., 2010) algorithm was used in parallel to estimate CNVs from X and Y channel intensities loaded from Illumina GenomeStudio. CNVs were calculated under the following parameters: number of probes per segment (=3), minimum number of probes in one segment that must exceed the threshold for identifying an amplification/deletion (=3), CNV frequency threshold (=0). CNVs with QuantiSNP log Bayes Factor value &lt;5 and/or rearrangements shorter than 350 bp were excluded from the resulting list of CNVs. In this project we analysed only autosomal CNVs. HD-CNV (Hotspot Detector for Copy Number Variants) (Butler et al., 2013) was used to merge CNV regions called by alternative computational algorithms, QuantiSNP, GADA and CNstream. A criterion of 40% reciprocal overlap between parallel CNV calls was used to define two calls as identifying the same event. All CNVs called by at least two algorithms for the same individual in the same genomic loci were considered in the subsequent global analysis."/>
-        <MethodType>case-control</MethodType>
-      </Method>
-      <ObservedData>
-        <Attribute Type="Description">not provided</Attribute>
-      </ObservedData>
-    </ObservedIn>
-    <MeasureSet Type="Variant">
-      <Measure Type="Variation">
-        <AttributeSet>
-          <Attribute Type="HGVS">CM000665.1:g.65191847_65214533del</Attribute>
-        </AttributeSet>
-      </Measure>
-    </MeasureSet>
-    <TraitSet Type="Finding">
-      <Trait Type="Finding">
-        <Name>
-          <ElementValue Type="Preferred">Normal pregnancy</ElementValue>
-        </Name>
-        <XRef DB="MedGen" ID="C0232989" Type="CUI"/>
-      </Trait>
-    </TraitSet>
-    <Citation Type="general">
-      <ID Source="PubMed">25666259</ID>
-    </Citation>
-    <Citation Type="general">
-      <ID Source="PubMed">25666259</ID>
-    </Citation>
-    <StudyName>Kasak2014</StudyName>
-    <StudyDescription>The study aimed to determine the contribution of copy number variants in the genetic etiology of normal and complicated pregnancies. The samples represented (i) maternal blood DNA drawn from healthy pregnant women during 1st or 2nd trimester and (ii) maternal and paternal blood DNA drawn at term pregnancy cases representing normal and complicated gestations (severe preeclampsia, PE; gestational diabetes, GD; small-for-gestational age newborn, SGA; large-for-gestational age newborn, LGA). We performed CNV calling based on genome-wide genotyping dataset (Illumina HumanOmniExpress-24-v1 BeadChip) by applying three algorithms, QuantiSNP, GADA (Genome Alteration Detection Algorithm) and CNstream in parallel. The acquired CNV calls were merged with HD-CNV (Hotspot Detector for Copy Number Variants) program and only the CNVs predicted by at least two programs, were considered in subsequent analysis.</StudyDescription>
-    <Comment>The study aimed to determine the contribution of copy number variants in the genetic etiology of normal and complicated pregnancies. The samples represented (i) maternal blood DNA drawn from healthy pregnant women during 1st or 2nd trimester and (ii) maternal and paternal blood DNA drawn at term pregnancy cases representing normal and complicated gestations (severe preeclampsia, PE; gestational diabetes, GD; small-for-gestational age newborn, SGA; large-for-gestational age newborn, LGA). We performed CNV calling based on genome-wide genotyping dataset (Illumina HumanOmniExpress-24-v1 BeadChip) by applying three algorithms, QuantiSNP, GADA (Genome Alteration Detection Algorithm) and CNstream in parallel. The acquired CNV calls were merged with HD-CNV (Hotspot Detector for Copy Number Variants) program and only the CNVs predicted by at least two programs, were considered in subsequent analysis.</Comment>
-  </ClinVarAssertion>
-</ClinVarSet>
-
-<ClinVarSet ID="18549694">
-  <RecordStatus>current</RecordStatus>
-  <Title>NC_000003.12:g.65206172_65230129del23958 AND Normal pregnancy</Title>
-  <ReferenceClinVarAssertion DateCreated="2015-02-25" DateLastUpdated="2017-04-05" ID="381153">
-    <ClinVarAccession Acc="RCV000161282" Version="1" Type="RCV" DateUpdated="2017-04-05"/>
-    <RecordStatus>current</RecordStatus>
-    <ClinicalSignificance>
-      <ReviewStatus>no assertion provided</ReviewStatus>
-      <Description>not provided</Description>
-    </ClinicalSignificance>
-    <Assertion Type="variation to disease"/>
-    <ObservedIn>
-      <Sample>
-        <Origin>unknown</Origin>
-        <Species TaxonomyId="9606">human</Species>
-        <AffectedStatus>yes</AffectedStatus>
-      </Sample>
-      <Method>
-        <NamePlatform>Illumina HumanOmniExpress Beadchip</NamePlatform>
-        <Description>Genomic DNA copy number estimation from GenomeStudio-normalised genotyping microarray data (probe signal intensity). Using Illumina's baseline data for microarray signal intensity normalisation, QuantiSNP default baseline data (OB-HMM parameter values) for CNV calling.</Description>
-        <MethodType>case-control</MethodType>
-      </Method>
-      <ObservedData ID="17757721">
-        <Attribute Type="Description">not provided</Attribute>
-      </ObservedData>
-    </ObservedIn>
-    <MeasureSet Type="Variant" ID="156856">
-      <Measure Type="Deletion" ID="166716">
-        <Name>
-          <ElementValue Type="Preferred">NC_000003.12:g.65206172_65230129del23958</ElementValue>
-        </Name>
-        <AttributeSet>
-          <Attribute Change="g.65191847_65215804del" Accession="CM000665" Version="1" Type="HGVS, genomic">CM000665.1:g.65191847_65215804del</Attribute>
-        </AttributeSet>
-        <AttributeSet>
-          <Attribute Change="g.65206172_65230129del23958" Accession="NC_000003" Version="12" Type="HGVS, genomic, top level" integerValue="38">NC_000003.12:g.65206172_65230129del23958</Attribute>
-        </AttributeSet>
-        <AttributeSet>
-          <Attribute Change="g.65191847_65215804del23958" Accession="NC_000003" Version="11" Type="HGVS, genomic, top level, previous" integerValue="37">NC_000003.11:g.65191847_65215804del23958</Attribute>
-        </AttributeSet>
-        <CytogeneticLocation>3p14.1</CytogeneticLocation>
-        <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="3" Accession="NC_000003.12" start="65206172" stop="65230129" display_start="65206172" display_stop="65230129" variantLength="23958"/>
-        <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="3" Accession="NC_000003.11" start="65191847" stop="65215804" display_start="65191847" display_stop="65215804" variantLength="23958"/>
-        <Citation Type="general">
-          <ID Source="PubMed">25666259</ID>
-        </Citation>
-      </Measure>
-      <Name>
-        <ElementValue Type="Preferred">NC_000003.12:g.65206172_65230129del23958</ElementValue>
-      </Name>
-    </MeasureSet>
-    <TraitSet Type="Finding" ID="19843">
-      <Trait ID="32125" Type="Finding">
-        <Name>
-          <ElementValue Type="Preferred">Normal pregnancy</ElementValue>
-          <XRef ID="CNV_4" DB="Institute of Molecular and Cell Biology, University of Tartu"/>
-        </Name>
-        <XRef ID="CN220684" DB="MedGen"/>
-      </Trait>
-    </TraitSet>
-  </ReferenceClinVarAssertion>
-  <ClinVarAssertion ID="338507" SubmissionName="Kasak">
-    <ClinVarSubmissionID localKey="CNV_165" submitter="Institute of Molecular and Cell Biology, University of Tartu" submitterDate="2014-10-23"/>
-    <ClinVarAccession Acc="SCV000191239" OrgType="primary" OrganizationCategory="other" Version="1" Type="SCV" OrgID="505255" DateUpdated="2017-04-05"/>
-    <RecordStatus>current</RecordStatus>
-    <ClinicalSignificance>
-      <ReviewStatus>no assertion provided</ReviewStatus>
-      <Description>not provided</Description>
-      <Citation Type="general">
-        <ID Source="PubMed">25666259</ID>
-      </Citation>
-    </ClinicalSignificance>
-    <Assertion Type="variation to disease"/>
-    <ExternalID DB="EVA" ID="CNV_165"/>
-    <ObservedIn>
-      <Sample>
-        <Origin>unknown</Origin>
-        <Tissue>Blood</Tissue>
-        <Species TaxonomyId="9606">human</Species>
-        <AffectedStatus>yes</AffectedStatus>
-        <Gender>mixed</Gender>
-      </Sample>
-      <Method>
-        <NamePlatform>Illumina HumanOmniExpress Beadchip</NamePlatform>
-        <TypePlatform>SNP array</TypePlatform>
-        <Description>Genomic DNA copy number estimation from GenomeStudio-normalised genotyping microarray data (probe signal intensity). Using Illumina's baseline data for microarray signal intensity normalisation, QuantiSNP default baseline data (OB-HMM parameter values) for CNV calling.</Description>
-        <Software name="QuantiSNP, GADA, CNstream" purpose="Normalized signal intensity data was obtained through Illumina GenomeStudio software. Information on Log2 R ratios, B allele frequencies, markers and chromosomal coordinates from each sample were used for CNV identification with Hidden Markov Model-based algorithm QuantiSNP 2.3 (Colella et al., 2007) and a sparse Bayesian learning approach GADA (Genome Alteration Detection Analysis) (Pique-Regi et al., 2010). QuantiSNP was run with default settings, the adjustment for ‘genomic waves’ in signal intensities was turned on with the ‘--gcdir’ key in addition to the default calling parameters. GADA was run using the options “–T 5 –M 3”. CNstream (Alonso et al., 2010) algorithm was used in parallel to estimate CNVs from X and Y channel intensities loaded from Illumina GenomeStudio. CNVs were calculated under the following parameters: number of probes per segment (=3), minimum number of probes in one segment that must exceed the threshold for identifying an amplification/deletion (=3), CNV frequency threshold (=0). CNVs with QuantiSNP log Bayes Factor value &lt;5 and/or rearrangements shorter than 350 bp were excluded from the resulting list of CNVs. In this project we analysed only autosomal CNVs. HD-CNV (Hotspot Detector for Copy Number Variants) (Butler et al., 2013) was used to merge CNV regions called by alternative computational algorithms, QuantiSNP, GADA and CNstream. A criterion of 40% reciprocal overlap between parallel CNV calls was used to define two calls as identifying the same event. All CNVs called by at least two algorithms for the same individual in the same genomic loci were considered in the subsequent global analysis."/>
-        <MethodType>case-control</MethodType>
-      </Method>
-      <ObservedData>
-        <Attribute Type="Description">not provided</Attribute>
-      </ObservedData>
-    </ObservedIn>
-    <MeasureSet Type="Variant">
-      <Measure Type="Variation">
-        <AttributeSet>
-          <Attribute Type="HGVS">CM000665.1:g.65191847_65215804del</Attribute>
-        </AttributeSet>
-      </Measure>
-    </MeasureSet>
-    <TraitSet Type="Finding">
-      <Trait Type="Finding">
-        <Name>
-          <ElementValue Type="Preferred">Normal pregnancy</ElementValue>
-        </Name>
-        <XRef DB="MedGen" ID="C0232989" Type="CUI"/>
-      </Trait>
-    </TraitSet>
-    <Citation Type="general">
-      <ID Source="PubMed">25666259</ID>
-    </Citation>
-    <Citation Type="general">
-      <ID Source="PubMed">25666259</ID>
-    </Citation>
-    <StudyName>Kasak2014</StudyName>
-    <StudyDescription>The study aimed to determine the contribution of copy number variants in the genetic etiology of normal and complicated pregnancies. The samples represented (i) maternal blood DNA drawn from healthy pregnant women during 1st or 2nd trimester and (ii) maternal and paternal blood DNA drawn at term pregnancy cases representing normal and complicated gestations (severe preeclampsia, PE; gestational diabetes, GD; small-for-gestational age newborn, SGA; large-for-gestational age newborn, LGA). We performed CNV calling based on genome-wide genotyping dataset (Illumina HumanOmniExpress-24-v1 BeadChip) by applying three algorithms, QuantiSNP, GADA (Genome Alteration Detection Algorithm) and CNstream in parallel. The acquired CNV calls were merged with HD-CNV (Hotspot Detector for Copy Number Variants) program and only the CNVs predicted by at least two programs, were considered in subsequent analysis.</StudyDescription>
-    <Comment>The study aimed to determine the contribution of copy number variants in the genetic etiology of normal and complicated pregnancies. The samples represented (i) maternal blood DNA drawn from healthy pregnant women during 1st or 2nd trimester and (ii) maternal and paternal blood DNA drawn at term pregnancy cases representing normal and complicated gestations (severe preeclampsia, PE; gestational diabetes, GD; small-for-gestational age newborn, SGA; large-for-gestational age newborn, LGA). We performed CNV calling based on genome-wide genotyping dataset (Illumina HumanOmniExpress-24-v1 BeadChip) by applying three algorithms, QuantiSNP, GADA (Genome Alteration Detection Algorithm) and CNstream in parallel. The acquired CNV calls were merged with HD-CNV (Hotspot Detector for Copy Number Variants) program and only the CNVs predicted by at least two programs, were considered in subsequent analysis.</Comment>
-  </ClinVarAssertion>
-</ClinVarSet>
-
-<ClinVarSet ID="18549695">
-  <RecordStatus>current</RecordStatus>
-  <Title>NC_000003.12:g.65206172_65228858del22687 AND Small for gestational age</Title>
-  <ReferenceClinVarAssertion DateCreated="2015-02-25" DateLastUpdated="2017-04-05" ID="381154">
-    <ClinVarAccession Acc="RCV000161283" Version="1" Type="RCV" DateUpdated="2017-04-05"/>
-    <RecordStatus>current</RecordStatus>
-    <ClinicalSignificance>
-      <ReviewStatus>no assertion provided</ReviewStatus>
-      <Description>not provided</Description>
-    </ClinicalSignificance>
-    <Assertion Type="variation to disease"/>
-    <ObservedIn>
-      <Sample>
-        <Origin>unknown</Origin>
-        <Species TaxonomyId="9606">human</Species>
-        <AffectedStatus>yes</AffectedStatus>
-      </Sample>
-      <Method>
-        <NamePlatform>Illumina HumanOmniExpress Beadchip</NamePlatform>
-        <Description>Genomic DNA copy number estimation from GenomeStudio-normalised genotyping microarray data (probe signal intensity). Using Illumina's baseline data for microarray signal intensity normalisation, QuantiSNP default baseline data (OB-HMM parameter values) for CNV calling.</Description>
-        <MethodType>case-control</MethodType>
-      </Method>
-      <ObservedData ID="17758014">
-        <Attribute Type="Description">not provided</Attribute>
-      </ObservedData>
-    </ObservedIn>
-    <MeasureSet Type="Variant" ID="156855">
-      <Measure Type="Deletion" ID="166715">
-        <Name>
-          <ElementValue Type="Preferred">NC_000003.12:g.65206172_65228858del22687</ElementValue>
-        </Name>
-        <AttributeSet>
-          <Attribute Change="g.65191847_65214533del" Accession="CM000665" Version="1" Type="HGVS, genomic">CM000665.1:g.65191847_65214533del</Attribute>
-        </AttributeSet>
-        <AttributeSet>
-          <Attribute Change="g.65206172_65228858del22687" Accession="NC_000003" Version="12" Type="HGVS, genomic, top level" integerValue="38">NC_000003.12:g.65206172_65228858del22687</Attribute>
-        </AttributeSet>
-        <AttributeSet>
-          <Attribute Change="g.65191847_65214533del22687" Accession="NC_000003" Version="11" Type="HGVS, genomic, top level, previous" integerValue="37">NC_000003.11:g.65191847_65214533del22687</Attribute>
-        </AttributeSet>
-        <CytogeneticLocation>3p14.1</CytogeneticLocation>
-        <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="3" Accession="NC_000003.12" start="65206172" stop="65228858" display_start="65206172" display_stop="65228858" variantLength="22687"/>
-        <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="3" Accession="NC_000003.11" start="65191847" stop="65214533" display_start="65191847" display_stop="65214533" variantLength="22687"/>
-        <Citation Type="general">
-          <ID Source="PubMed">25666259</ID>
-        </Citation>
-      </Measure>
-      <Name>
-        <ElementValue Type="Preferred">NC_000003.12:g.65206172_65228858del22687</ElementValue>
+        <ElementValue Type="Preferred">NC_000001.11:g.1449831_1504291del54461</ElementValue>
       </Name>
     </MeasureSet>
     <TraitSet Type="Finding" ID="17776">
@@ -950,9 +241,9 @@
       </Trait>
     </TraitSet>
   </ReferenceClinVarAssertion>
-  <ClinVarAssertion ID="338508" SubmissionName="Kasak">
-    <ClinVarSubmissionID localKey="CNV_167" submitter="Institute of Molecular and Cell Biology, University of Tartu" submitterDate="2014-10-23"/>
-    <ClinVarAccession Acc="SCV000191240" OrgType="primary" OrganizationCategory="other" Version="1" Type="SCV" OrgID="505255" DateUpdated="2017-04-05"/>
+  <ClinVarAssertion ID="338372" SubmissionName="Kasak">
+    <ClinVarSubmissionID localKey="CNV_1" submitter="Institute of Molecular and Cell Biology, University of Tartu" submitterDate="2014-10-23"/>
+    <ClinVarAccession Acc="SCV000191104" OrgType="primary" OrganizationCategory="other" Version="1" Type="SCV" OrgID="505255" DateUpdated="2017-04-05"/>
     <RecordStatus>current</RecordStatus>
     <ClinicalSignificance>
       <ReviewStatus>no assertion provided</ReviewStatus>
@@ -962,7 +253,7 @@
       </Citation>
     </ClinicalSignificance>
     <Assertion Type="variation to disease"/>
-    <ExternalID DB="EVA" ID="CNV_167"/>
+    <ExternalID DB="EVA" ID="CNV_1"/>
     <ObservedIn>
       <Sample>
         <Origin>unknown</Origin>
@@ -985,7 +276,7 @@
     <MeasureSet Type="Variant">
       <Measure Type="Variation">
         <AttributeSet>
-          <Attribute Type="HGVS">CM000665.1:g.65191847_65214533del</Attribute>
+          <Attribute Type="HGVS">CM000663.1:g.1385211_1439671del</Attribute>
         </AttributeSet>
       </Measure>
     </MeasureSet>
@@ -1009,11 +300,11 @@
   </ClinVarAssertion>
 </ClinVarSet>
 
-<ClinVarSet ID="18549713">
+<ClinVarSet ID="18549560">
   <RecordStatus>current</RecordStatus>
-  <Title>NG_023239.1:g.232893_265498del32606 AND Normal pregnancy</Title>
-  <ReferenceClinVarAssertion DateCreated="2015-02-25" DateLastUpdated="2017-04-05" ID="381172">
-    <ClinVarAccession Acc="RCV000161301" Version="1" Type="RCV" DateUpdated="2017-04-05"/>
+  <Title>NC_000001.11:g.1449831_1504291del54461 AND Large for gestational age</Title>
+  <ReferenceClinVarAssertion DateCreated="2015-02-25" DateLastUpdated="2017-04-05" ID="381019">
+    <ClinVarAccession Acc="RCV000161148" Version="1" Type="RCV" DateUpdated="2017-04-05"/>
     <RecordStatus>current</RecordStatus>
     <ClinicalSignificance>
       <ReviewStatus>no assertion provided</ReviewStatus>
@@ -1031,49 +322,539 @@
         <Description>Genomic DNA copy number estimation from GenomeStudio-normalised genotyping microarray data (probe signal intensity). Using Illumina's baseline data for microarray signal intensity normalisation, QuantiSNP default baseline data (OB-HMM parameter values) for CNV calling.</Description>
         <MethodType>case-control</MethodType>
       </Method>
-      <ObservedData ID="17757726">
+      <ObservedData ID="17756407">
         <Attribute Type="Description">not provided</Attribute>
       </ObservedData>
     </ObservedIn>
-    <MeasureSet Type="Variant" ID="156874">
-      <Measure Type="Deletion" ID="166734">
+    <MeasureSet Type="Variant" ID="156721">
+      <Measure Type="Deletion" ID="166581">
         <Name>
-          <ElementValue Type="Preferred">NG_023239.1:g.232893_265498del32606</ElementValue>
+          <ElementValue Type="Preferred">NC_000001.11:g.1449831_1504291del54461</ElementValue>
         </Name>
         <AttributeSet>
-          <Attribute Change="g.89384566_89417171del" Accession="CM000665" Version="1" Type="HGVS, genomic">CM000665.1:g.89384566_89417171del</Attribute>
+          <Attribute Change="g.1385211_1439671del" Accession="CM000663" Version="1" Type="HGVS, genomic">CM000663.1:g.1385211_1439671del</Attribute>
         </AttributeSet>
         <AttributeSet>
-          <Attribute Change="g.232893_265498del32606" Accession="NG_023239" Version="1" Type="HGVS, genomic, RefSeqGene">NG_023239.1:g.232893_265498del32606</Attribute>
+          <Attribute Change="g.1449831_1504291del54461" Accession="NC_000001" Version="11" Type="HGVS, genomic, top level" integerValue="38">NC_000001.11:g.1449831_1504291del54461</Attribute>
         </AttributeSet>
         <AttributeSet>
-          <Attribute Change="g.89335416_89368021del32606" Accession="NC_000003" Version="12" Type="HGVS, genomic, top level" integerValue="38">NC_000003.12:g.89335416_89368021del32606</Attribute>
+          <Attribute Change="g.1385211_1439671del54461" Accession="NC_000001" Version="10" Type="HGVS, genomic, top level, previous" integerValue="37">NC_000001.10:g.1385211_1439671del54461</Attribute>
+        </AttributeSet>
+        <CytogeneticLocation>1p36.33</CytogeneticLocation>
+        <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="1" Accession="NC_000001.11" start="1449831" stop="1504291" display_start="1449831" display_stop="1504291" variantLength="54461"/>
+        <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="1" Accession="NC_000001.10" start="1385211" stop="1439671" display_start="1385211" display_stop="1439671" variantLength="54461"/>
+        <MeasureRelationship Type="genes overlapped by variant">
+          <Name>
+            <ElementValue Type="Preferred">ATPase family, AAA domain containing 3B</ElementValue>
+          </Name>
+          <Symbol>
+            <ElementValue Type="Preferred">ATAD3B</ElementValue>
+          </Symbol>
+          <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="1" Accession="NC_000001.11" start="1471732" stop="1509466" display_start="1471732" display_stop="1509466" Strand="+"/>
+          <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="1" Accession="NC_000001.10" start="1407163" stop="1431581" display_start="1407163" display_stop="1431581" variantLength="24419" Strand="+"/>
+          <XRef ID="83858" DB="Gene"/>
+          <XRef Type="MIM" ID="612317" DB="OMIM"/>
+          <XRef ID="HGNC:24007" DB="HGNC"/>
+        </MeasureRelationship>
+        <MeasureRelationship Type="genes overlapped by variant">
+          <Name>
+            <ElementValue Type="Preferred">ATPase family, AAA domain containing 3C</ElementValue>
+          </Name>
+          <Symbol>
+            <ElementValue Type="Preferred">ATAD3C</ElementValue>
+          </Symbol>
+          <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="1" Accession="NC_000001.11" start="1449689" stop="1470158" display_start="1449689" display_stop="1470158" Strand="+"/>
+          <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="1" Accession="NC_000001.10" start="1385068" stop="1405537" display_start="1385068" display_stop="1405537" variantLength="20470" Strand="+"/>
+          <XRef ID="219293" DB="Gene"/>
+          <XRef Type="MIM" ID="617227" DB="OMIM"/>
+          <XRef ID="HGNC:32151" DB="HGNC"/>
+        </MeasureRelationship>
+        <Citation Type="general">
+          <ID Source="PubMed">25666259</ID>
+        </Citation>
+      </Measure>
+      <Name>
+        <ElementValue Type="Preferred">NC_000001.11:g.1449831_1504291del54461</ElementValue>
+      </Name>
+    </MeasureSet>
+    <TraitSet Type="Disease" ID="19842">
+      <Trait ID="22433" Type="Finding">
+        <Name>
+          <ElementValue Type="Preferred">Large for gestational age</ElementValue>
+          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
+        </Name>
+        <Name>
+          <ElementValue Type="Alternate">Birth weight &gt; 90th percentile</ElementValue>
+          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
+        </Name>
+        <Name>
+          <ElementValue Type="Alternate">Birthweight &gt; 90th percentile</ElementValue>
+          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
+        </Name>
+        <Name>
+          <ElementValue Type="Alternate">Fetal macrosomia</ElementValue>
+          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
+        </Name>
+        <Name>
+          <ElementValue Type="Alternate">Macrosomia</ElementValue>
+          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
+        </Name>
+        <Name>
+          <ElementValue Type="Alternate">Macrosomia, neonatal</ElementValue>
+          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
+        </Name>
+        <XRef ID="C1848395" DB="MedGen"/>
+        <XRef Type="primary" ID="HP:0001520" DB="Human Phenotype Ontology"/>
+        <XRef Type="secondary" ID="HP:0001825" DB="Human Phenotype Ontology"/>
+      </Trait>
+    </TraitSet>
+  </ReferenceClinVarAssertion>
+  <ClinVarAssertion ID="338373" SubmissionName="Kasak">
+    <ClinVarSubmissionID localKey="CNV_2" submitter="Institute of Molecular and Cell Biology, University of Tartu" submitterDate="2014-10-23"/>
+    <ClinVarAccession Acc="SCV000191105" OrgType="primary" OrganizationCategory="other" Version="1" Type="SCV" OrgID="505255" DateUpdated="2017-04-05"/>
+    <RecordStatus>current</RecordStatus>
+    <ClinicalSignificance>
+      <ReviewStatus>no assertion provided</ReviewStatus>
+      <Description>not provided</Description>
+      <Citation Type="general">
+        <ID Source="PubMed">25666259</ID>
+      </Citation>
+    </ClinicalSignificance>
+    <Assertion Type="variation to disease"/>
+    <ExternalID DB="EVA" ID="CNV_2"/>
+    <ObservedIn>
+      <Sample>
+        <Origin>unknown</Origin>
+        <Tissue>Blood</Tissue>
+        <Species TaxonomyId="9606">human</Species>
+        <AffectedStatus>yes</AffectedStatus>
+        <Gender>mixed</Gender>
+      </Sample>
+      <Method>
+        <NamePlatform>Illumina HumanOmniExpress Beadchip</NamePlatform>
+        <TypePlatform>SNP array</TypePlatform>
+        <Description>Genomic DNA copy number estimation from GenomeStudio-normalised genotyping microarray data (probe signal intensity). Using Illumina's baseline data for microarray signal intensity normalisation, QuantiSNP default baseline data (OB-HMM parameter values) for CNV calling.</Description>
+        <Software name="QuantiSNP, GADA, CNstream" purpose="Normalized signal intensity data was obtained through Illumina GenomeStudio software. Information on Log2 R ratios, B allele frequencies, markers and chromosomal coordinates from each sample were used for CNV identification with Hidden Markov Model-based algorithm QuantiSNP 2.3 (Colella et al., 2007) and a sparse Bayesian learning approach GADA (Genome Alteration Detection Analysis) (Pique-Regi et al., 2010). QuantiSNP was run with default settings, the adjustment for ‘genomic waves’ in signal intensities was turned on with the ‘--gcdir’ key in addition to the default calling parameters. GADA was run using the options “–T 5 –M 3”. CNstream (Alonso et al., 2010) algorithm was used in parallel to estimate CNVs from X and Y channel intensities loaded from Illumina GenomeStudio. CNVs were calculated under the following parameters: number of probes per segment (=3), minimum number of probes in one segment that must exceed the threshold for identifying an amplification/deletion (=3), CNV frequency threshold (=0). CNVs with QuantiSNP log Bayes Factor value &lt;5 and/or rearrangements shorter than 350 bp were excluded from the resulting list of CNVs. In this project we analysed only autosomal CNVs. HD-CNV (Hotspot Detector for Copy Number Variants) (Butler et al., 2013) was used to merge CNV regions called by alternative computational algorithms, QuantiSNP, GADA and CNstream. A criterion of 40% reciprocal overlap between parallel CNV calls was used to define two calls as identifying the same event. All CNVs called by at least two algorithms for the same individual in the same genomic loci were considered in the subsequent global analysis."/>
+        <MethodType>case-control</MethodType>
+      </Method>
+      <ObservedData>
+        <Attribute Type="Description">not provided</Attribute>
+      </ObservedData>
+    </ObservedIn>
+    <MeasureSet Type="Variant">
+      <Measure Type="Variation">
+        <AttributeSet>
+          <Attribute Type="HGVS">CM000663.1:g.1385211_1439671del</Attribute>
+        </AttributeSet>
+      </Measure>
+    </MeasureSet>
+    <TraitSet Type="Disease">
+      <Trait Type="Finding">
+        <Name>
+          <ElementValue Type="Preferred">Large for gestational age</ElementValue>
+        </Name>
+        <XRef DB="MedGen" ID="C0158915" Type="CUI"/>
+      </Trait>
+    </TraitSet>
+    <Citation Type="general">
+      <ID Source="PubMed">25666259</ID>
+    </Citation>
+    <Citation Type="general">
+      <ID Source="PubMed">25666259</ID>
+    </Citation>
+    <StudyName>Kasak2014</StudyName>
+    <StudyDescription>The study aimed to determine the contribution of copy number variants in the genetic etiology of normal and complicated pregnancies. The samples represented (i) maternal blood DNA drawn from healthy pregnant women during 1st or 2nd trimester and (ii) maternal and paternal blood DNA drawn at term pregnancy cases representing normal and complicated gestations (severe preeclampsia, PE; gestational diabetes, GD; small-for-gestational age newborn, SGA; large-for-gestational age newborn, LGA). We performed CNV calling based on genome-wide genotyping dataset (Illumina HumanOmniExpress-24-v1 BeadChip) by applying three algorithms, QuantiSNP, GADA (Genome Alteration Detection Algorithm) and CNstream in parallel. The acquired CNV calls were merged with HD-CNV (Hotspot Detector for Copy Number Variants) program and only the CNVs predicted by at least two programs, were considered in subsequent analysis.</StudyDescription>
+    <Comment>The study aimed to determine the contribution of copy number variants in the genetic etiology of normal and complicated pregnancies. The samples represented (i) maternal blood DNA drawn from healthy pregnant women during 1st or 2nd trimester and (ii) maternal and paternal blood DNA drawn at term pregnancy cases representing normal and complicated gestations (severe preeclampsia, PE; gestational diabetes, GD; small-for-gestational age newborn, SGA; large-for-gestational age newborn, LGA). We performed CNV calling based on genome-wide genotyping dataset (Illumina HumanOmniExpress-24-v1 BeadChip) by applying three algorithms, QuantiSNP, GADA (Genome Alteration Detection Algorithm) and CNstream in parallel. The acquired CNV calls were merged with HD-CNV (Hotspot Detector for Copy Number Variants) program and only the CNVs predicted by at least two programs, were considered in subsequent analysis.</Comment>
+  </ClinVarAssertion>
+</ClinVarSet>
+
+<ClinVarSet ID="18549566">
+  <RecordStatus>current</RecordStatus>
+  <Title>NC_000001.10:g.12880153_12913896del33744 AND Large for gestational age</Title>
+  <ReferenceClinVarAssertion DateCreated="2015-02-25" DateLastUpdated="2017-04-05" ID="381025">
+    <ClinVarAccession Acc="RCV000161154" Version="1" Type="RCV" DateUpdated="2017-04-05"/>
+    <RecordStatus>current</RecordStatus>
+    <ClinicalSignificance>
+      <ReviewStatus>no assertion provided</ReviewStatus>
+      <Description>not provided</Description>
+    </ClinicalSignificance>
+    <Assertion Type="variation to disease"/>
+    <ObservedIn>
+      <Sample>
+        <Origin>unknown</Origin>
+        <Species TaxonomyId="9606">human</Species>
+        <AffectedStatus>yes</AffectedStatus>
+      </Sample>
+      <Method>
+        <NamePlatform>Illumina HumanOmniExpress Beadchip</NamePlatform>
+        <Description>Genomic DNA copy number estimation from GenomeStudio-normalised genotyping microarray data (probe signal intensity). Using Illumina's baseline data for microarray signal intensity normalisation, QuantiSNP default baseline data (OB-HMM parameter values) for CNV calling.</Description>
+        <MethodType>case-control</MethodType>
+      </Method>
+      <ObservedData ID="17761332">
+        <Attribute Type="Description">not provided</Attribute>
+      </ObservedData>
+    </ObservedIn>
+    <MeasureSet Type="Variant" ID="156728">
+      <Measure Type="Deletion" ID="166588">
+        <Name>
+          <ElementValue Type="Preferred">NC_000001.10:g.12880153_12913896del33744</ElementValue>
+        </Name>
+        <AttributeSet>
+          <Attribute Change="g.12880153_12913896del" Accession="CM000663" Version="1" Type="HGVS, genomic">CM000663.1:g.12880153_12913896del</Attribute>
         </AttributeSet>
         <AttributeSet>
-          <Attribute Change="g.89384566_89417171del32606" Accession="NC_000003" Version="11" Type="HGVS, genomic, top level, previous" integerValue="37">NC_000003.11:g.89384566_89417171del32606</Attribute>
+          <Attribute Change="g.12880153_12913896del33744" Accession="NC_000001" Version="10" Type="HGVS, genomic, top level, previous" integerValue="37">NC_000001.10:g.12880153_12913896del33744</Attribute>
         </AttributeSet>
-        <CytogeneticLocation>3p11.1</CytogeneticLocation>
-        <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="3" Accession="NC_000003.12" start="89335416" stop="89368021" display_start="89335416" display_stop="89368021" variantLength="32606"/>
-        <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="3" Accession="NC_000003.11" start="89384566" stop="89417171" display_start="89384566" display_stop="89417171" variantLength="32606"/>
+        <CytogeneticLocation>1p36.21</CytogeneticLocation>
+        <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="1" Accession="NC_000001.10" start="12880153" stop="12913896" display_start="12880153" display_stop="12913896" variantLength="33744"/>
+        <MeasureRelationship Type="genes overlapped by variant">
+          <Name>
+            <ElementValue Type="Preferred">PRAME family member 11</ElementValue>
+          </Name>
+          <Symbol>
+            <ElementValue Type="Preferred">PRAMEF11</ElementValue>
+          </Symbol>
+          <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="1" Accession="NC_000001.11" start="12824380" stop="12831410" display_start="12824380" display_stop="12831410" Strand="-"/>
+          <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="1" Accession="NW_012132914.1" start="6273" stop="12923" display_start="6273" display_stop="12923" Strand="-"/>
+          <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="1" Accession="NC_000001.10" start="12884467" stop="12891263" display_start="12884467" display_stop="12891263" variantLength="6797" Strand="-"/>
+          <XRef ID="440560" DB="Gene"/>
+          <XRef ID="HGNC:14086" DB="HGNC"/>
+        </MeasureRelationship>
+        <MeasureRelationship Type="genes overlapped by variant">
+          <Name>
+            <ElementValue Type="Preferred">heterogeneous nuclear ribonucleoprotein C-like 1</ElementValue>
+          </Name>
+          <Symbol>
+            <ElementValue Type="Preferred">HNRNPCL1</ElementValue>
+          </Symbol>
+          <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="1" Accession="NC_000001.11" start="12847377" stop="12848756" display_start="12847377" display_stop="12848756" Strand="-"/>
+          <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="1" Accession="NW_012132914.1" start="28890" stop="30269" display_start="28890" display_stop="30269" Strand="-"/>
+          <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="1" Accession="NC_000001.10" start="12907260" stop="12908577" display_start="12907260" display_stop="12908577" variantLength="1318" Strand="-"/>
+          <XRef ID="343069" DB="Gene"/>
+          <XRef ID="HGNC:29295" DB="HGNC"/>
+        </MeasureRelationship>
+        <Citation Type="general">
+          <ID Source="PubMed">25666259</ID>
+        </Citation>
+      </Measure>
+      <Name>
+        <ElementValue Type="Preferred">NC_000001.10:g.12880153_12913896del33744</ElementValue>
+      </Name>
+    </MeasureSet>
+    <TraitSet Type="Disease" ID="19842">
+      <Trait ID="22433" Type="Finding">
+        <Name>
+          <ElementValue Type="Preferred">Large for gestational age</ElementValue>
+          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
+        </Name>
+        <Name>
+          <ElementValue Type="Alternate">Birth weight &gt; 90th percentile</ElementValue>
+          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
+        </Name>
+        <Name>
+          <ElementValue Type="Alternate">Birthweight &gt; 90th percentile</ElementValue>
+          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
+        </Name>
+        <Name>
+          <ElementValue Type="Alternate">Fetal macrosomia</ElementValue>
+          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
+        </Name>
+        <Name>
+          <ElementValue Type="Alternate">Macrosomia</ElementValue>
+          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
+        </Name>
+        <Name>
+          <ElementValue Type="Alternate">Macrosomia, neonatal</ElementValue>
+          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
+        </Name>
+        <XRef ID="C1848395" DB="MedGen"/>
+        <XRef Type="primary" ID="HP:0001520" DB="Human Phenotype Ontology"/>
+        <XRef Type="secondary" ID="HP:0001825" DB="Human Phenotype Ontology"/>
+      </Trait>
+    </TraitSet>
+  </ReferenceClinVarAssertion>
+  <ClinVarAssertion ID="338379" SubmissionName="Kasak">
+    <ClinVarSubmissionID localKey="CNV_8" submitter="Institute of Molecular and Cell Biology, University of Tartu" submitterDate="2014-10-23"/>
+    <ClinVarAccession Acc="SCV000191111" OrgType="primary" OrganizationCategory="other" Version="1" Type="SCV" OrgID="505255" DateUpdated="2017-04-05"/>
+    <RecordStatus>current</RecordStatus>
+    <ClinicalSignificance>
+      <ReviewStatus>no assertion provided</ReviewStatus>
+      <Description>not provided</Description>
+      <Citation Type="general">
+        <ID Source="PubMed">25666259</ID>
+      </Citation>
+    </ClinicalSignificance>
+    <Assertion Type="variation to disease"/>
+    <ExternalID DB="EVA" ID="CNV_8"/>
+    <ObservedIn>
+      <Sample>
+        <Origin>unknown</Origin>
+        <Tissue>Blood</Tissue>
+        <Species TaxonomyId="9606">human</Species>
+        <AffectedStatus>yes</AffectedStatus>
+        <Gender>mixed</Gender>
+      </Sample>
+      <Method>
+        <NamePlatform>Illumina HumanOmniExpress Beadchip</NamePlatform>
+        <TypePlatform>SNP array</TypePlatform>
+        <Description>Genomic DNA copy number estimation from GenomeStudio-normalised genotyping microarray data (probe signal intensity). Using Illumina's baseline data for microarray signal intensity normalisation, QuantiSNP default baseline data (OB-HMM parameter values) for CNV calling.</Description>
+        <Software name="QuantiSNP, GADA, CNstream" purpose="Normalized signal intensity data was obtained through Illumina GenomeStudio software. Information on Log2 R ratios, B allele frequencies, markers and chromosomal coordinates from each sample were used for CNV identification with Hidden Markov Model-based algorithm QuantiSNP 2.3 (Colella et al., 2007) and a sparse Bayesian learning approach GADA (Genome Alteration Detection Analysis) (Pique-Regi et al., 2010). QuantiSNP was run with default settings, the adjustment for ‘genomic waves’ in signal intensities was turned on with the ‘--gcdir’ key in addition to the default calling parameters. GADA was run using the options “–T 5 –M 3”. CNstream (Alonso et al., 2010) algorithm was used in parallel to estimate CNVs from X and Y channel intensities loaded from Illumina GenomeStudio. CNVs were calculated under the following parameters: number of probes per segment (=3), minimum number of probes in one segment that must exceed the threshold for identifying an amplification/deletion (=3), CNV frequency threshold (=0). CNVs with QuantiSNP log Bayes Factor value &lt;5 and/or rearrangements shorter than 350 bp were excluded from the resulting list of CNVs. In this project we analysed only autosomal CNVs. HD-CNV (Hotspot Detector for Copy Number Variants) (Butler et al., 2013) was used to merge CNV regions called by alternative computational algorithms, QuantiSNP, GADA and CNstream. A criterion of 40% reciprocal overlap between parallel CNV calls was used to define two calls as identifying the same event. All CNVs called by at least two algorithms for the same individual in the same genomic loci were considered in the subsequent global analysis."/>
+        <MethodType>case-control</MethodType>
+      </Method>
+      <ObservedData>
+        <Attribute Type="Description">not provided</Attribute>
+      </ObservedData>
+    </ObservedIn>
+    <MeasureSet Type="Variant">
+      <Measure Type="Variation">
+        <AttributeSet>
+          <Attribute Type="HGVS">CM000663.1:g.12880153_12913896del</Attribute>
+        </AttributeSet>
+      </Measure>
+    </MeasureSet>
+    <TraitSet Type="Disease">
+      <Trait Type="Finding">
+        <Name>
+          <ElementValue Type="Preferred">Large for gestational age</ElementValue>
+        </Name>
+        <XRef DB="MedGen" ID="C0158915" Type="CUI"/>
+      </Trait>
+    </TraitSet>
+    <Citation Type="general">
+      <ID Source="PubMed">25666259</ID>
+    </Citation>
+    <Citation Type="general">
+      <ID Source="PubMed">25666259</ID>
+    </Citation>
+    <StudyName>Kasak2014</StudyName>
+    <StudyDescription>The study aimed to determine the contribution of copy number variants in the genetic etiology of normal and complicated pregnancies. The samples represented (i) maternal blood DNA drawn from healthy pregnant women during 1st or 2nd trimester and (ii) maternal and paternal blood DNA drawn at term pregnancy cases representing normal and complicated gestations (severe preeclampsia, PE; gestational diabetes, GD; small-for-gestational age newborn, SGA; large-for-gestational age newborn, LGA). We performed CNV calling based on genome-wide genotyping dataset (Illumina HumanOmniExpress-24-v1 BeadChip) by applying three algorithms, QuantiSNP, GADA (Genome Alteration Detection Algorithm) and CNstream in parallel. The acquired CNV calls were merged with HD-CNV (Hotspot Detector for Copy Number Variants) program and only the CNVs predicted by at least two programs, were considered in subsequent analysis.</StudyDescription>
+    <Comment>The study aimed to determine the contribution of copy number variants in the genetic etiology of normal and complicated pregnancies. The samples represented (i) maternal blood DNA drawn from healthy pregnant women during 1st or 2nd trimester and (ii) maternal and paternal blood DNA drawn at term pregnancy cases representing normal and complicated gestations (severe preeclampsia, PE; gestational diabetes, GD; small-for-gestational age newborn, SGA; large-for-gestational age newborn, LGA). We performed CNV calling based on genome-wide genotyping dataset (Illumina HumanOmniExpress-24-v1 BeadChip) by applying three algorithms, QuantiSNP, GADA (Genome Alteration Detection Algorithm) and CNstream in parallel. The acquired CNV calls were merged with HD-CNV (Hotspot Detector for Copy Number Variants) program and only the CNVs predicted by at least two programs, were considered in subsequent analysis.</Comment>
+  </ClinVarAssertion>
+</ClinVarSet>
+
+<ClinVarSet ID="18549568">
+  <RecordStatus>current</RecordStatus>
+  <Title>NC_000001.11:g.15467516_15487691del20176 AND Normal pregnancy</Title>
+  <ReferenceClinVarAssertion DateCreated="2015-02-25" DateLastUpdated="2017-04-05" ID="381027">
+    <ClinVarAccession Acc="RCV000161156" Version="1" Type="RCV" DateUpdated="2017-04-05"/>
+    <RecordStatus>current</RecordStatus>
+    <ClinicalSignificance>
+      <ReviewStatus>no assertion provided</ReviewStatus>
+      <Description>not provided</Description>
+    </ClinicalSignificance>
+    <Assertion Type="variation to disease"/>
+    <ObservedIn>
+      <Sample>
+        <Origin>unknown</Origin>
+        <Species TaxonomyId="9606">human</Species>
+        <AffectedStatus>yes</AffectedStatus>
+      </Sample>
+      <Method>
+        <NamePlatform>Illumina HumanOmniExpress Beadchip</NamePlatform>
+        <Description>Genomic DNA copy number estimation from GenomeStudio-normalised genotyping microarray data (probe signal intensity). Using Illumina's baseline data for microarray signal intensity normalisation, QuantiSNP default baseline data (OB-HMM parameter values) for CNV calling.</Description>
+        <MethodType>case-control</MethodType>
+      </Method>
+      <ObservedData ID="17756564">
+        <Attribute Type="Description">not provided</Attribute>
+      </ObservedData>
+    </ObservedIn>
+    <MeasureSet Type="Variant" ID="156730">
+      <Measure Type="Deletion" ID="166590">
+        <Name>
+          <ElementValue Type="Preferred">NC_000001.11:g.15467516_15487691del20176</ElementValue>
+        </Name>
+        <AttributeSet>
+          <Attribute Change="g.15794011_15814186del" Accession="CM000663" Version="1" Type="HGVS, genomic">CM000663.1:g.15794011_15814186del</Attribute>
+        </AttributeSet>
+        <AttributeSet>
+          <Attribute Change="g.15467516_15487691del20176" Accession="NC_000001" Version="11" Type="HGVS, genomic, top level" integerValue="38">NC_000001.11:g.15467516_15487691del20176</Attribute>
+        </AttributeSet>
+        <AttributeSet>
+          <Attribute Change="g.15794011_15814186del20176" Accession="NC_000001" Version="10" Type="HGVS, genomic, top level, previous" integerValue="37">NC_000001.10:g.15794011_15814186del20176</Attribute>
+        </AttributeSet>
+        <CytogeneticLocation>1p36.21</CytogeneticLocation>
+        <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="1" Accession="NC_000001.11" start="15467516" stop="15487691" display_start="15467516" display_stop="15487691" variantLength="20176"/>
+        <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="1" Accession="NC_000001.10" start="15794011" stop="15814186" display_start="15794011" display_stop="15814186" variantLength="20176"/>
+        <MeasureRelationship Type="genes overlapped by variant">
+          <Name>
+            <ElementValue Type="Preferred">chymotrypsin like elastase family member 2A</ElementValue>
+          </Name>
+          <Symbol>
+            <ElementValue Type="Preferred">CELA2A</ElementValue>
+          </Symbol>
+          <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="1" Accession="NC_000001.11" start="15456728" stop="15472091" display_start="15456728" display_stop="15472091" Strand="+"/>
+          <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="1" Accession="NC_000001.10" start="15783222" stop="15798585" display_start="15783222" display_stop="15798585" variantLength="15364" Strand="+"/>
+          <XRef ID="63036" DB="Gene"/>
+          <XRef Type="MIM" ID="609443" DB="OMIM"/>
+          <XRef ID="HGNC:24609" DB="HGNC"/>
+        </MeasureRelationship>
+        <MeasureRelationship Type="genes overlapped by variant">
+          <Name>
+            <ElementValue Type="Preferred">chymotrypsin like elastase family member 2B</ElementValue>
+          </Name>
+          <Symbol>
+            <ElementValue Type="Preferred">CELA2B</ElementValue>
+          </Symbol>
+          <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="1" Accession="NC_000001.11" start="15476101" stop="15491400" display_start="15476101" display_stop="15491400" Strand="+"/>
+          <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="1" Accession="NC_000001.10" start="15802595" stop="15817894" display_start="15802595" display_stop="15817894" variantLength="15300" Strand="+"/>
+          <XRef ID="51032" DB="Gene"/>
+          <XRef Type="MIM" ID="609444" DB="OMIM"/>
+          <XRef ID="HGNC:29995" DB="HGNC"/>
+        </MeasureRelationship>
+        <Citation Type="general">
+          <ID Source="PubMed">25666259</ID>
+        </Citation>
+      </Measure>
+      <Name>
+        <ElementValue Type="Preferred">NC_000001.11:g.15467516_15487691del20176</ElementValue>
+      </Name>
+    </MeasureSet>
+    <TraitSet Type="Finding" ID="19843">
+      <Trait ID="32125" Type="Finding">
+        <Name>
+          <ElementValue Type="Preferred">Normal pregnancy</ElementValue>
+          <XRef ID="CNV_4" DB="Institute of Molecular and Cell Biology, University of Tartu"/>
+        </Name>
+        <XRef ID="CN220684" DB="MedGen"/>
+      </Trait>
+    </TraitSet>
+  </ReferenceClinVarAssertion>
+  <ClinVarAssertion ID="338381" SubmissionName="Kasak">
+    <ClinVarSubmissionID localKey="CNV_10" submitter="Institute of Molecular and Cell Biology, University of Tartu" submitterDate="2014-10-23"/>
+    <ClinVarAccession Acc="SCV000191113" OrgType="primary" OrganizationCategory="other" Version="1" Type="SCV" OrgID="505255" DateUpdated="2017-04-05"/>
+    <RecordStatus>current</RecordStatus>
+    <ClinicalSignificance>
+      <ReviewStatus>no assertion provided</ReviewStatus>
+      <Description>not provided</Description>
+      <Citation Type="general">
+        <ID Source="PubMed">25666259</ID>
+      </Citation>
+    </ClinicalSignificance>
+    <Assertion Type="variation to disease"/>
+    <ExternalID DB="EVA" ID="CNV_10"/>
+    <ObservedIn>
+      <Sample>
+        <Origin>unknown</Origin>
+        <Tissue>Blood</Tissue>
+        <Species TaxonomyId="9606">human</Species>
+        <AffectedStatus>yes</AffectedStatus>
+        <Gender>mixed</Gender>
+      </Sample>
+      <Method>
+        <NamePlatform>Illumina HumanOmniExpress Beadchip</NamePlatform>
+        <TypePlatform>SNP array</TypePlatform>
+        <Description>Genomic DNA copy number estimation from GenomeStudio-normalised genotyping microarray data (probe signal intensity). Using Illumina's baseline data for microarray signal intensity normalisation, QuantiSNP default baseline data (OB-HMM parameter values) for CNV calling.</Description>
+        <Software name="QuantiSNP, GADA, CNstream" purpose="Normalized signal intensity data was obtained through Illumina GenomeStudio software. Information on Log2 R ratios, B allele frequencies, markers and chromosomal coordinates from each sample were used for CNV identification with Hidden Markov Model-based algorithm QuantiSNP 2.3 (Colella et al., 2007) and a sparse Bayesian learning approach GADA (Genome Alteration Detection Analysis) (Pique-Regi et al., 2010). QuantiSNP was run with default settings, the adjustment for ‘genomic waves’ in signal intensities was turned on with the ‘--gcdir’ key in addition to the default calling parameters. GADA was run using the options “–T 5 –M 3”. CNstream (Alonso et al., 2010) algorithm was used in parallel to estimate CNVs from X and Y channel intensities loaded from Illumina GenomeStudio. CNVs were calculated under the following parameters: number of probes per segment (=3), minimum number of probes in one segment that must exceed the threshold for identifying an amplification/deletion (=3), CNV frequency threshold (=0). CNVs with QuantiSNP log Bayes Factor value &lt;5 and/or rearrangements shorter than 350 bp were excluded from the resulting list of CNVs. In this project we analysed only autosomal CNVs. HD-CNV (Hotspot Detector for Copy Number Variants) (Butler et al., 2013) was used to merge CNV regions called by alternative computational algorithms, QuantiSNP, GADA and CNstream. A criterion of 40% reciprocal overlap between parallel CNV calls was used to define two calls as identifying the same event. All CNVs called by at least two algorithms for the same individual in the same genomic loci were considered in the subsequent global analysis."/>
+        <MethodType>case-control</MethodType>
+      </Method>
+      <ObservedData>
+        <Attribute Type="Description">not provided</Attribute>
+      </ObservedData>
+    </ObservedIn>
+    <MeasureSet Type="Variant">
+      <Measure Type="Variation">
+        <AttributeSet>
+          <Attribute Type="HGVS">CM000663.1:g.15794011_15814186del</Attribute>
+        </AttributeSet>
+      </Measure>
+    </MeasureSet>
+    <TraitSet Type="Finding">
+      <Trait Type="Finding">
+        <Name>
+          <ElementValue Type="Preferred">Normal pregnancy</ElementValue>
+        </Name>
+        <XRef DB="MedGen" ID="C0232989" Type="CUI"/>
+      </Trait>
+    </TraitSet>
+    <Citation Type="general">
+      <ID Source="PubMed">25666259</ID>
+    </Citation>
+    <Citation Type="general">
+      <ID Source="PubMed">25666259</ID>
+    </Citation>
+    <StudyName>Kasak2014</StudyName>
+    <StudyDescription>The study aimed to determine the contribution of copy number variants in the genetic etiology of normal and complicated pregnancies. The samples represented (i) maternal blood DNA drawn from healthy pregnant women during 1st or 2nd trimester and (ii) maternal and paternal blood DNA drawn at term pregnancy cases representing normal and complicated gestations (severe preeclampsia, PE; gestational diabetes, GD; small-for-gestational age newborn, SGA; large-for-gestational age newborn, LGA). We performed CNV calling based on genome-wide genotyping dataset (Illumina HumanOmniExpress-24-v1 BeadChip) by applying three algorithms, QuantiSNP, GADA (Genome Alteration Detection Algorithm) and CNstream in parallel. The acquired CNV calls were merged with HD-CNV (Hotspot Detector for Copy Number Variants) program and only the CNVs predicted by at least two programs, were considered in subsequent analysis.</StudyDescription>
+    <Comment>The study aimed to determine the contribution of copy number variants in the genetic etiology of normal and complicated pregnancies. The samples represented (i) maternal blood DNA drawn from healthy pregnant women during 1st or 2nd trimester and (ii) maternal and paternal blood DNA drawn at term pregnancy cases representing normal and complicated gestations (severe preeclampsia, PE; gestational diabetes, GD; small-for-gestational age newborn, SGA; large-for-gestational age newborn, LGA). We performed CNV calling based on genome-wide genotyping dataset (Illumina HumanOmniExpress-24-v1 BeadChip) by applying three algorithms, QuantiSNP, GADA (Genome Alteration Detection Algorithm) and CNstream in parallel. The acquired CNV calls were merged with HD-CNV (Hotspot Detector for Copy Number Variants) program and only the CNVs predicted by at least two programs, were considered in subsequent analysis.</Comment>
+  </ClinVarAssertion>
+</ClinVarSet>
+
+<ClinVarSet ID="18549570">
+  <RecordStatus>current</RecordStatus>
+  <Title>NC_000001.11:g.25271785_25329047del57263 AND Normal pregnancy</Title>
+  <ReferenceClinVarAssertion DateCreated="2015-02-25" DateLastUpdated="2017-04-05" ID="381029">
+    <ClinVarAccession Acc="RCV000161158" Version="1" Type="RCV" DateUpdated="2017-04-05"/>
+    <RecordStatus>current</RecordStatus>
+    <ClinicalSignificance>
+      <ReviewStatus>no assertion provided</ReviewStatus>
+      <Description>not provided</Description>
+    </ClinicalSignificance>
+    <Assertion Type="variation to disease"/>
+    <ObservedIn>
+      <Sample>
+        <Origin>unknown</Origin>
+        <Species TaxonomyId="9606">human</Species>
+        <AffectedStatus>yes</AffectedStatus>
+      </Sample>
+      <Method>
+        <NamePlatform>Illumina HumanOmniExpress Beadchip</NamePlatform>
+        <Description>Genomic DNA copy number estimation from GenomeStudio-normalised genotyping microarray data (probe signal intensity). Using Illumina's baseline data for microarray signal intensity normalisation, QuantiSNP default baseline data (OB-HMM parameter values) for CNV calling.</Description>
+        <MethodType>case-control</MethodType>
+      </Method>
+      <ObservedData ID="17757464">
+        <Attribute Type="Description">not provided</Attribute>
+      </ObservedData>
+      <ObservedData ID="17757464">
+        <Attribute Type="Description">not provided</Attribute>
+      </ObservedData>
+    </ObservedIn>
+    <MeasureSet Type="Variant" ID="156731">
+      <Measure Type="Deletion" ID="166591">
+        <Name>
+          <ElementValue Type="Preferred">NC_000001.11:g.25271785_25329047del57263</ElementValue>
+        </Name>
+        <AttributeSet>
+          <Attribute Change="g.25598276_25655538del" Accession="CM000663" Version="1" Type="HGVS, genomic">CM000663.1:g.25598276_25655538del</Attribute>
+        </AttributeSet>
+        <AttributeSet>
+          <Attribute Change="g.25271785_25329047del57263" Accession="NC_000001" Version="11" Type="HGVS, genomic, top level" integerValue="38">NC_000001.11:g.25271785_25329047del57263</Attribute>
+        </AttributeSet>
+        <AttributeSet>
+          <Attribute Change="g.25598276_25655538del57263" Accession="NC_000001" Version="10" Type="HGVS, genomic, top level, previous" integerValue="37">NC_000001.10:g.25598276_25655538del57263</Attribute>
+        </AttributeSet>
+        <CytogeneticLocation>1p36.11</CytogeneticLocation>
+        <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="1" Accession="NC_000001.11" start="25271785" stop="25329047" display_start="25271785" display_stop="25329047" variantLength="57263"/>
+        <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="1" Accession="NC_000001.10" start="25598276" stop="25655538" display_start="25598276" display_stop="25655538" variantLength="57263"/>
+        <MeasureRelationship Type="genes overlapped by variant">
+          <Name>
+            <ElementValue Type="Preferred">Rh blood group D antigen</ElementValue>
+          </Name>
+          <Symbol>
+            <ElementValue Type="Preferred">RHD</ElementValue>
+          </Symbol>
+          <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="1" Accession="NC_000001.11" start="25272393" stop="25330445" display_start="25272393" display_stop="25330445" Strand="+"/>
+          <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="1" Accession="NC_000001.10" start="25598980" stop="25656935" display_start="25598980" display_stop="25656935" variantLength="57956" Strand="+"/>
+          <XRef ID="6007" DB="Gene"/>
+          <XRef Type="MIM" ID="111680" DB="OMIM"/>
+          <XRef ID="HGNC:10009" DB="HGNC"/>
+        </MeasureRelationship>
         <MeasureRelationship Type="within single gene">
           <Name>
-            <ElementValue Type="Preferred">EPH receptor A3</ElementValue>
+            <ElementValue Type="Preferred">arginine and serine rich protein 1</ElementValue>
           </Name>
           <Symbol>
-            <ElementValue Type="Preferred">EPHA3</ElementValue>
+            <ElementValue Type="Preferred">RSRP1</ElementValue>
           </Symbol>
-          <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="3" Accession="NC_000003.12" start="89107524" stop="89482134" display_start="89107524" display_stop="89482134" Strand="+"/>
-          <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="3" Accession="NC_000003.11" start="89156673" stop="89531283" display_start="89156673" display_stop="89531283" variantLength="374611" Strand="+"/>
-          <XRef ID="2042" DB="Gene"/>
-          <XRef Type="MIM" ID="179611" DB="OMIM"/>
-          <XRef ID="HGNC:3387" DB="HGNC"/>
+          <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="1" Accession="NC_000001.11" start="25242237" stop="25338254" display_start="25242237" display_stop="25338254" Strand="-"/>
+          <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="1" Accession="NC_000001.10" start="25568739" stop="25573984" display_start="25568739" display_stop="25573984" variantLength="5246" Strand="-"/>
+          <XRef ID="57035" DB="Gene"/>
+          <XRef ID="HGNC:25234" DB="HGNC"/>
         </MeasureRelationship>
         <Citation Type="general">
           <ID Source="PubMed">25666259</ID>
         </Citation>
       </Measure>
       <Name>
-        <ElementValue Type="Preferred">NG_023239.1:g.232893_265498del32606</ElementValue>
+        <ElementValue Type="Preferred">NC_000001.11:g.25271785_25329047del57263</ElementValue>
       </Name>
     </MeasureSet>
     <TraitSet Type="Finding" ID="19843">
@@ -1086,9 +867,9 @@
       </Trait>
     </TraitSet>
   </ReferenceClinVarAssertion>
-  <ClinVarAssertion ID="338526" SubmissionName="Kasak">
-    <ClinVarSubmissionID localKey="CNV_189" submitter="Institute of Molecular and Cell Biology, University of Tartu" submitterDate="2014-10-23"/>
-    <ClinVarAccession Acc="SCV000191258" OrgType="primary" OrganizationCategory="other" Version="1" Type="SCV" OrgID="505255" DateUpdated="2017-04-05"/>
+  <ClinVarAssertion ID="338383" SubmissionName="Kasak">
+    <ClinVarSubmissionID localKey="CNV_12" submitter="Institute of Molecular and Cell Biology, University of Tartu" submitterDate="2014-10-23"/>
+    <ClinVarAccession Acc="SCV000191115" OrgType="primary" OrganizationCategory="other" Version="1" Type="SCV" OrgID="505255" DateUpdated="2017-04-05"/>
     <RecordStatus>current</RecordStatus>
     <ClinicalSignificance>
       <ReviewStatus>no assertion provided</ReviewStatus>
@@ -1098,7 +879,26 @@
       </Citation>
     </ClinicalSignificance>
     <Assertion Type="variation to disease"/>
-    <ExternalID DB="EVA" ID="CNV_189"/>
+    <ExternalID DB="EVA" ID="CNV_12"/>
+    <ObservedIn>
+      <Sample>
+        <Origin>unknown</Origin>
+        <Tissue>Blood</Tissue>
+        <Species TaxonomyId="9606">human</Species>
+        <AffectedStatus>yes</AffectedStatus>
+        <Gender>female</Gender>
+      </Sample>
+      <Method>
+        <NamePlatform>Illumina HumanOmniExpress Beadchip</NamePlatform>
+        <TypePlatform>SNP array</TypePlatform>
+        <Description>Genomic DNA copy number estimation from GenomeStudio-normalised genotyping microarray data (probe signal intensity). Using Illumina's baseline data for microarray signal intensity normalisation, QuantiSNP default baseline data (OB-HMM parameter values) for CNV calling.</Description>
+        <Software name="QuantiSNP, GADA, CNstream" purpose="Normalized signal intensity data was obtained through Illumina GenomeStudio software. Information on Log2 R ratios, B allele frequencies, markers and chromosomal coordinates from each sample were used for CNV identification with Hidden Markov Model-based algorithm QuantiSNP 2.3 (Colella et al., 2007) and a sparse Bayesian learning approach GADA (Genome Alteration Detection Analysis) (Pique-Regi et al., 2010). QuantiSNP was run with default settings, the adjustment for ‘genomic waves’ in signal intensities was turned on with the ‘--gcdir’ key in addition to the default calling parameters. GADA was run using the options “–T 5 –M 3”. CNstream (Alonso et al., 2010) algorithm was used in parallel to estimate CNVs from X and Y channel intensities loaded from Illumina GenomeStudio. CNVs were calculated under the following parameters: number of probes per segment (=3), minimum number of probes in one segment that must exceed the threshold for identifying an amplification/deletion (=3), CNV frequency threshold (=0). CNVs with QuantiSNP log Bayes Factor value &lt;5 and/or rearrangements shorter than 350 bp were excluded from the resulting list of CNVs. In this project we analysed only autosomal CNVs. HD-CNV (Hotspot Detector for Copy Number Variants) (Butler et al., 2013) was used to merge CNV regions called by alternative computational algorithms, QuantiSNP, GADA and CNstream. A criterion of 40% reciprocal overlap between parallel CNV calls was used to define two calls as identifying the same event. All CNVs called by at least two algorithms for the same individual in the same genomic loci were considered in the subsequent global analysis."/>
+        <MethodType>case-control</MethodType>
+      </Method>
+      <ObservedData>
+        <Attribute Type="Description">not provided</Attribute>
+      </ObservedData>
+    </ObservedIn>
     <ObservedIn>
       <Sample>
         <Origin>unknown</Origin>
@@ -1121,7 +921,7 @@
     <MeasureSet Type="Variant">
       <Measure Type="Variation">
         <AttributeSet>
-          <Attribute Type="HGVS">CM000665.1:g.89384566_89417171del</Attribute>
+          <Attribute Type="HGVS">CM000663.1:g.25598276_25655538del</Attribute>
         </AttributeSet>
       </Measure>
     </MeasureSet>
@@ -1145,11 +945,11 @@
   </ClinVarAssertion>
 </ClinVarSet>
 
-<ClinVarSet ID="18549650">
+<ClinVarSet ID="18549577">
   <RecordStatus>current</RecordStatus>
-  <Title>NC_000002.12:g.187570916_187665851del94936 AND Small for gestational age</Title>
-  <ReferenceClinVarAssertion DateCreated="2015-02-25" DateLastUpdated="2017-04-05" ID="381109">
-    <ClinVarAccession Acc="RCV000161238" Version="1" Type="RCV" DateUpdated="2017-04-05"/>
+  <Title>NM_002353.2(TACSTD2):c.-43393_*17422del AND Small for gestational age</Title>
+  <ReferenceClinVarAssertion DateCreated="2015-02-25" DateLastUpdated="2017-04-05" ID="381036">
+    <ClinVarAccession Acc="RCV000161165" Version="1" Type="RCV" DateUpdated="2017-04-05"/>
     <RecordStatus>current</RecordStatus>
     <ClinicalSignificance>
       <ReviewStatus>no assertion provided</ReviewStatus>
@@ -1167,33 +967,46 @@
         <Description>Genomic DNA copy number estimation from GenomeStudio-normalised genotyping microarray data (probe signal intensity). Using Illumina's baseline data for microarray signal intensity normalisation, QuantiSNP default baseline data (OB-HMM parameter values) for CNV calling.</Description>
         <MethodType>case-control</MethodType>
       </Method>
-      <ObservedData ID="17758003">
+      <ObservedData ID="17761335">
         <Attribute Type="Description">not provided</Attribute>
       </ObservedData>
     </ObservedIn>
-    <MeasureSet Type="Variant" ID="156812">
-      <Measure Type="Deletion" ID="166672">
+    <MeasureSet Type="Variant" ID="156739">
+      <Measure Type="Deletion" ID="166599">
         <Name>
-          <ElementValue Type="Preferred">NC_000002.12:g.187570916_187665851del94936</ElementValue>
+          <ElementValue Type="Preferred">NM_002353.2(TACSTD2):c.-43393_*17422del</ElementValue>
         </Name>
         <AttributeSet>
-          <Attribute Change="g.188435643_188530578del" Accession="CM000664" Version="1" Type="HGVS, genomic">CM000664.1:g.188435643_188530578del</Attribute>
+          <Attribute Change="g.59024435_59086221del" Accession="CM000663" Version="1" Type="HGVS, genomic">CM000663.1:g.59024435_59086221del</Attribute>
         </AttributeSet>
         <AttributeSet>
-          <Attribute Change="g.187570916_187665851del94936" Accession="NC_000002" Version="12" Type="HGVS, genomic, top level" integerValue="38">NC_000002.12:g.187570916_187665851del94936</Attribute>
+          <Attribute Change="g.58558763_58620549del61787" Accession="NC_000001" Version="11" Type="HGVS, genomic, top level" integerValue="38">NC_000001.11:g.58558763_58620549del61787</Attribute>
         </AttributeSet>
         <AttributeSet>
-          <Attribute Change="g.188435643_188530578del94936" Accession="NC_000002" Version="11" Type="HGVS, genomic, top level, previous" integerValue="37">NC_000002.11:g.188435643_188530578del94936</Attribute>
+          <Attribute Change="g.59024435_59086221del61787" Accession="NC_000001" Version="10" Type="HGVS, genomic, top level, previous" integerValue="37">NC_000001.10:g.59024435_59086221del61787</Attribute>
         </AttributeSet>
-        <CytogeneticLocation>2q32.1</CytogeneticLocation>
-        <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="2" Accession="NC_000002.12" start="187570916" stop="187665851" display_start="187570916" display_stop="187665851" variantLength="94936"/>
-        <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="2" Accession="NC_000002.11" start="188435643" stop="188530578" display_start="188435643" display_stop="188530578" variantLength="94936"/>
+        <CytogeneticLocation>1p32.1</CytogeneticLocation>
+        <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="1" Accession="NC_000001.11" start="58558763" stop="58620549" display_start="58558763" display_stop="58620549" variantLength="61787"/>
+        <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="1" Accession="NC_000001.10" start="59024435" stop="59086221" display_start="59024435" display_stop="59086221" variantLength="61787"/>
+        <MeasureRelationship Type="genes overlapped by variant">
+          <Name>
+            <ElementValue Type="Preferred">tumor associated calcium signal transducer 2</ElementValue>
+          </Name>
+          <Symbol>
+            <ElementValue Type="Preferred">TACSTD2</ElementValue>
+          </Symbol>
+          <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="1" Accession="NC_000001.11" start="58575423" stop="58577494" display_start="58575423" display_stop="58577494" Strand="-"/>
+          <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="1" Accession="NC_000001.10" start="59041094" stop="59043165" display_start="59041094" display_stop="59043165" variantLength="2072" Strand="-"/>
+          <XRef ID="4070" DB="Gene"/>
+          <XRef Type="MIM" ID="137290" DB="OMIM"/>
+          <XRef ID="HGNC:11530" DB="HGNC"/>
+        </MeasureRelationship>
         <Citation Type="general">
           <ID Source="PubMed">25666259</ID>
         </Citation>
       </Measure>
       <Name>
-        <ElementValue Type="Preferred">NC_000002.12:g.187570916_187665851del94936</ElementValue>
+        <ElementValue Type="Preferred">NM_002353.2(TACSTD2):c.-43393_*17422del</ElementValue>
       </Name>
     </MeasureSet>
     <TraitSet Type="Finding" ID="17776">
@@ -1219,9 +1032,9 @@
       </Trait>
     </TraitSet>
   </ReferenceClinVarAssertion>
-  <ClinVarAssertion ID="338463" SubmissionName="Kasak">
-    <ClinVarSubmissionID localKey="CNV_115" submitter="Institute of Molecular and Cell Biology, University of Tartu" submitterDate="2014-10-23"/>
-    <ClinVarAccession Acc="SCV000191195" OrgType="primary" OrganizationCategory="other" Version="1" Type="SCV" OrgID="505255" DateUpdated="2017-04-05"/>
+  <ClinVarAssertion ID="338390" SubmissionName="Kasak">
+    <ClinVarSubmissionID localKey="CNV_20" submitter="Institute of Molecular and Cell Biology, University of Tartu" submitterDate="2014-10-23"/>
+    <ClinVarAccession Acc="SCV000191122" OrgType="primary" OrganizationCategory="other" Version="1" Type="SCV" OrgID="505255" DateUpdated="2017-04-05"/>
     <RecordStatus>current</RecordStatus>
     <ClinicalSignificance>
       <ReviewStatus>no assertion provided</ReviewStatus>
@@ -1231,7 +1044,7 @@
       </Citation>
     </ClinicalSignificance>
     <Assertion Type="variation to disease"/>
-    <ExternalID DB="EVA" ID="CNV_115"/>
+    <ExternalID DB="EVA" ID="CNV_20"/>
     <ObservedIn>
       <Sample>
         <Origin>unknown</Origin>
@@ -1254,7 +1067,7 @@
     <MeasureSet Type="Variant">
       <Measure Type="Variation">
         <AttributeSet>
-          <Attribute Type="HGVS">CM000664.1:g.188435643_188530578del</Attribute>
+          <Attribute Type="HGVS">CM000663.1:g.59024435_59086221del</Attribute>
         </AttributeSet>
       </Measure>
     </MeasureSet>
@@ -1278,11 +1091,11 @@
   </ClinVarAssertion>
 </ClinVarSet>
 
-<ClinVarSet ID="18549731">
+<ClinVarSet ID="18549578">
   <RecordStatus>current</RecordStatus>
-  <Title>NC_000003.12:g.163200599_163460990del260392 AND Normal pregnancy</Title>
-  <ReferenceClinVarAssertion DateCreated="2015-02-25" DateLastUpdated="2017-04-05" ID="381190">
-    <ClinVarAccession Acc="RCV000161319" Version="1" Type="RCV" DateUpdated="2017-04-05"/>
+  <Title>NC_000001.11:g.72545760_72620518del74759 AND Large for gestational age</Title>
+  <ReferenceClinVarAssertion DateCreated="2015-02-25" DateLastUpdated="2017-04-05" ID="381037">
+    <ClinVarAccession Acc="RCV000161166" Version="1" Type="RCV" DateUpdated="2017-04-05"/>
     <RecordStatus>current</RecordStatus>
     <ClinicalSignificance>
       <ReviewStatus>no assertion provided</ReviewStatus>
@@ -1300,44 +1113,337 @@
         <Description>Genomic DNA copy number estimation from GenomeStudio-normalised genotyping microarray data (probe signal intensity). Using Illumina's baseline data for microarray signal intensity normalisation, QuantiSNP default baseline data (OB-HMM parameter values) for CNV calling.</Description>
         <MethodType>case-control</MethodType>
       </Method>
-      <ObservedData ID="17756605">
+      <ObservedData ID="17757466">
         <Attribute Type="Description">not provided</Attribute>
       </ObservedData>
     </ObservedIn>
-    <MeasureSet Type="Variant" ID="156893">
-      <Measure Type="Deletion" ID="166753">
+    <MeasureSet Type="Variant" ID="156740">
+      <Measure Type="Deletion" ID="166600">
         <Name>
-          <ElementValue Type="Preferred">NC_000003.12:g.163200599_163460990del260392</ElementValue>
+          <ElementValue Type="Preferred">NC_000001.11:g.72545760_72620518del74759</ElementValue>
         </Name>
         <AttributeSet>
-          <Attribute Change="g.162918387_163178778del" Accession="CM000665" Version="1" Type="HGVS, genomic">CM000665.1:g.162918387_163178778del</Attribute>
+          <Attribute Change="g.73011443_73086201del" Accession="CM000663" Version="1" Type="HGVS, genomic">CM000663.1:g.73011443_73086201del</Attribute>
         </AttributeSet>
         <AttributeSet>
-          <Attribute Change="g.163200599_163460990del260392" Accession="NC_000003" Version="12" Type="HGVS, genomic, top level" integerValue="38">NC_000003.12:g.163200599_163460990del260392</Attribute>
+          <Attribute Change="g.72545760_72620518del74759" Accession="NC_000001" Version="11" Type="HGVS, genomic, top level" integerValue="38">NC_000001.11:g.72545760_72620518del74759</Attribute>
         </AttributeSet>
         <AttributeSet>
-          <Attribute Change="g.162918387_163178778del260392" Accession="NC_000003" Version="11" Type="HGVS, genomic, top level, previous" integerValue="37">NC_000003.11:g.162918387_163178778del260392</Attribute>
+          <Attribute Change="g.73011443_73086201del74759" Accession="NC_000001" Version="10" Type="HGVS, genomic, top level, previous" integerValue="37">NC_000001.10:g.73011443_73086201del74759</Attribute>
         </AttributeSet>
-        <CytogeneticLocation>3q26.1</CytogeneticLocation>
-        <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="3" Accession="NC_000003.12" start="163200599" stop="163460990" display_start="163200599" display_stop="163460990" variantLength="260392"/>
-        <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="3" Accession="NC_000003.11" start="162918387" stop="163178778" display_start="162918387" display_stop="163178778" variantLength="260392"/>
+        <CytogeneticLocation>1p31.1</CytogeneticLocation>
+        <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="1" Accession="NC_000001.11" start="72545760" stop="72620518" display_start="72545760" display_stop="72620518" variantLength="74759"/>
+        <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="1" Accession="NC_000001.10" start="73011443" stop="73086201" display_start="73011443" display_stop="73086201" variantLength="74759"/>
+        <Citation Type="general">
+          <ID Source="PubMed">25666259</ID>
+        </Citation>
+      </Measure>
+      <Name>
+        <ElementValue Type="Preferred">NC_000001.11:g.72545760_72620518del74759</ElementValue>
+      </Name>
+    </MeasureSet>
+    <TraitSet Type="Disease" ID="19842">
+      <Trait ID="22433" Type="Finding">
+        <Name>
+          <ElementValue Type="Preferred">Large for gestational age</ElementValue>
+          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
+        </Name>
+        <Name>
+          <ElementValue Type="Alternate">Birth weight &gt; 90th percentile</ElementValue>
+          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
+        </Name>
+        <Name>
+          <ElementValue Type="Alternate">Birthweight &gt; 90th percentile</ElementValue>
+          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
+        </Name>
+        <Name>
+          <ElementValue Type="Alternate">Fetal macrosomia</ElementValue>
+          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
+        </Name>
+        <Name>
+          <ElementValue Type="Alternate">Macrosomia</ElementValue>
+          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
+        </Name>
+        <Name>
+          <ElementValue Type="Alternate">Macrosomia, neonatal</ElementValue>
+          <XRef ID="HP:0001520" DB="Human Phenotype Ontology"/>
+        </Name>
+        <XRef ID="C1848395" DB="MedGen"/>
+        <XRef Type="primary" ID="HP:0001520" DB="Human Phenotype Ontology"/>
+        <XRef Type="secondary" ID="HP:0001825" DB="Human Phenotype Ontology"/>
+      </Trait>
+    </TraitSet>
+  </ReferenceClinVarAssertion>
+  <ClinVarAssertion ID="338391" SubmissionName="Kasak">
+    <ClinVarSubmissionID localKey="CNV_21" submitter="Institute of Molecular and Cell Biology, University of Tartu" submitterDate="2014-10-23"/>
+    <ClinVarAccession Acc="SCV000191123" OrgType="primary" OrganizationCategory="other" Version="1" Type="SCV" OrgID="505255" DateUpdated="2017-04-05"/>
+    <RecordStatus>current</RecordStatus>
+    <ClinicalSignificance>
+      <ReviewStatus>no assertion provided</ReviewStatus>
+      <Description>not provided</Description>
+      <Citation Type="general">
+        <ID Source="PubMed">25666259</ID>
+      </Citation>
+    </ClinicalSignificance>
+    <Assertion Type="variation to disease"/>
+    <ExternalID DB="EVA" ID="CNV_21"/>
+    <ObservedIn>
+      <Sample>
+        <Origin>unknown</Origin>
+        <Tissue>Blood</Tissue>
+        <Species TaxonomyId="9606">human</Species>
+        <AffectedStatus>yes</AffectedStatus>
+        <Gender>mixed</Gender>
+      </Sample>
+      <Method>
+        <NamePlatform>Illumina HumanOmniExpress Beadchip</NamePlatform>
+        <TypePlatform>SNP array</TypePlatform>
+        <Description>Genomic DNA copy number estimation from GenomeStudio-normalised genotyping microarray data (probe signal intensity). Using Illumina's baseline data for microarray signal intensity normalisation, QuantiSNP default baseline data (OB-HMM parameter values) for CNV calling.</Description>
+        <Software name="QuantiSNP, GADA, CNstream" purpose="Normalized signal intensity data was obtained through Illumina GenomeStudio software. Information on Log2 R ratios, B allele frequencies, markers and chromosomal coordinates from each sample were used for CNV identification with Hidden Markov Model-based algorithm QuantiSNP 2.3 (Colella et al., 2007) and a sparse Bayesian learning approach GADA (Genome Alteration Detection Analysis) (Pique-Regi et al., 2010). QuantiSNP was run with default settings, the adjustment for ‘genomic waves’ in signal intensities was turned on with the ‘--gcdir’ key in addition to the default calling parameters. GADA was run using the options “–T 5 –M 3”. CNstream (Alonso et al., 2010) algorithm was used in parallel to estimate CNVs from X and Y channel intensities loaded from Illumina GenomeStudio. CNVs were calculated under the following parameters: number of probes per segment (=3), minimum number of probes in one segment that must exceed the threshold for identifying an amplification/deletion (=3), CNV frequency threshold (=0). CNVs with QuantiSNP log Bayes Factor value &lt;5 and/or rearrangements shorter than 350 bp were excluded from the resulting list of CNVs. In this project we analysed only autosomal CNVs. HD-CNV (Hotspot Detector for Copy Number Variants) (Butler et al., 2013) was used to merge CNV regions called by alternative computational algorithms, QuantiSNP, GADA and CNstream. A criterion of 40% reciprocal overlap between parallel CNV calls was used to define two calls as identifying the same event. All CNVs called by at least two algorithms for the same individual in the same genomic loci were considered in the subsequent global analysis."/>
+        <MethodType>case-control</MethodType>
+      </Method>
+      <ObservedData>
+        <Attribute Type="Description">not provided</Attribute>
+      </ObservedData>
+    </ObservedIn>
+    <MeasureSet Type="Variant">
+      <Measure Type="Variation">
+        <AttributeSet>
+          <Attribute Type="HGVS">CM000663.1:g.73011443_73086201del</Attribute>
+        </AttributeSet>
+      </Measure>
+    </MeasureSet>
+    <TraitSet Type="Disease">
+      <Trait Type="Finding">
+        <Name>
+          <ElementValue Type="Preferred">Large for gestational age</ElementValue>
+        </Name>
+        <XRef DB="MedGen" ID="C0158915" Type="CUI"/>
+      </Trait>
+    </TraitSet>
+    <Citation Type="general">
+      <ID Source="PubMed">25666259</ID>
+    </Citation>
+    <Citation Type="general">
+      <ID Source="PubMed">25666259</ID>
+    </Citation>
+    <StudyName>Kasak2014</StudyName>
+    <StudyDescription>The study aimed to determine the contribution of copy number variants in the genetic etiology of normal and complicated pregnancies. The samples represented (i) maternal blood DNA drawn from healthy pregnant women during 1st or 2nd trimester and (ii) maternal and paternal blood DNA drawn at term pregnancy cases representing normal and complicated gestations (severe preeclampsia, PE; gestational diabetes, GD; small-for-gestational age newborn, SGA; large-for-gestational age newborn, LGA). We performed CNV calling based on genome-wide genotyping dataset (Illumina HumanOmniExpress-24-v1 BeadChip) by applying three algorithms, QuantiSNP, GADA (Genome Alteration Detection Algorithm) and CNstream in parallel. The acquired CNV calls were merged with HD-CNV (Hotspot Detector for Copy Number Variants) program and only the CNVs predicted by at least two programs, were considered in subsequent analysis.</StudyDescription>
+    <Comment>The study aimed to determine the contribution of copy number variants in the genetic etiology of normal and complicated pregnancies. The samples represented (i) maternal blood DNA drawn from healthy pregnant women during 1st or 2nd trimester and (ii) maternal and paternal blood DNA drawn at term pregnancy cases representing normal and complicated gestations (severe preeclampsia, PE; gestational diabetes, GD; small-for-gestational age newborn, SGA; large-for-gestational age newborn, LGA). We performed CNV calling based on genome-wide genotyping dataset (Illumina HumanOmniExpress-24-v1 BeadChip) by applying three algorithms, QuantiSNP, GADA (Genome Alteration Detection Algorithm) and CNstream in parallel. The acquired CNV calls were merged with HD-CNV (Hotspot Detector for Copy Number Variants) program and only the CNVs predicted by at least two programs, were considered in subsequent analysis.</Comment>
+  </ClinVarAssertion>
+</ClinVarSet>
+
+<ClinVarSet ID="18549582">
+  <RecordStatus>current</RecordStatus>
+  <Title>NC_000001.11:g.102201832_102380591del178760 AND Small for gestational age</Title>
+  <ReferenceClinVarAssertion DateCreated="2015-02-25" DateLastUpdated="2017-04-05" ID="381041">
+    <ClinVarAccession Acc="RCV000161170" Version="1" Type="RCV" DateUpdated="2017-04-05"/>
+    <RecordStatus>current</RecordStatus>
+    <ClinicalSignificance>
+      <ReviewStatus>no assertion provided</ReviewStatus>
+      <Description>not provided</Description>
+    </ClinicalSignificance>
+    <Assertion Type="variation to disease"/>
+    <ObservedIn>
+      <Sample>
+        <Origin>unknown</Origin>
+        <Species TaxonomyId="9606">human</Species>
+        <AffectedStatus>yes</AffectedStatus>
+      </Sample>
+      <Method>
+        <NamePlatform>Illumina HumanOmniExpress Beadchip</NamePlatform>
+        <Description>Genomic DNA copy number estimation from GenomeStudio-normalised genotyping microarray data (probe signal intensity). Using Illumina's baseline data for microarray signal intensity normalisation, QuantiSNP default baseline data (OB-HMM parameter values) for CNV calling.</Description>
+        <MethodType>case-control</MethodType>
+      </Method>
+      <ObservedData ID="17761336">
+        <Attribute Type="Description">not provided</Attribute>
+      </ObservedData>
+    </ObservedIn>
+    <MeasureSet Type="Variant" ID="156744">
+      <Measure Type="Deletion" ID="166604">
+        <Name>
+          <ElementValue Type="Preferred">NC_000001.11:g.102201832_102380591del178760</ElementValue>
+        </Name>
+        <AttributeSet>
+          <Attribute Change="g.102667388_102846147del" Accession="CM000663" Version="1" Type="HGVS, genomic">CM000663.1:g.102667388_102846147del</Attribute>
+        </AttributeSet>
+        <AttributeSet>
+          <Attribute Change="g.102201832_102380591del178760" Accession="NC_000001" Version="11" Type="HGVS, genomic, top level" integerValue="38">NC_000001.11:g.102201832_102380591del178760</Attribute>
+        </AttributeSet>
+        <AttributeSet>
+          <Attribute Change="g.102667388_102846147del178760" Accession="NC_000001" Version="10" Type="HGVS, genomic, top level, previous" integerValue="37">NC_000001.10:g.102667388_102846147del178760</Attribute>
+        </AttributeSet>
+        <CytogeneticLocation>1p21.1</CytogeneticLocation>
+        <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="1" Accession="NC_000001.11" start="102201832" stop="102380591" display_start="102201832" display_stop="102380591" variantLength="178760"/>
+        <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="1" Accession="NC_000001.10" start="102667388" stop="102846147" display_start="102667388" display_stop="102846147" variantLength="178760"/>
+        <Citation Type="general">
+          <ID Source="PubMed">25666259</ID>
+        </Citation>
+      </Measure>
+      <Name>
+        <ElementValue Type="Preferred">NC_000001.11:g.102201832_102380591del178760</ElementValue>
+      </Name>
+    </MeasureSet>
+    <TraitSet Type="Finding" ID="17776">
+      <Trait ID="22432" Type="Finding">
+        <Name>
+          <ElementValue Type="Preferred">Small for gestational age</ElementValue>
+          <XRef ID="HP:0001518" DB="Human Phenotype Ontology"/>
+        </Name>
+        <Name>
+          <ElementValue Type="Alternate">Birth weight less than 10th percentile</ElementValue>
+          <XRef ID="HP:0001518" DB="Human Phenotype Ontology"/>
+        </Name>
+        <Name>
+          <ElementValue Type="Alternate">Low birth weight</ElementValue>
+          <XRef ID="HP:0001518" DB="Human Phenotype Ontology"/>
+        </Name>
+        <XRef ID="C0021288" DB="MedGen"/>
+        <XRef Type="primary" ID="HP:0001518" DB="Human Phenotype Ontology"/>
+        <XRef Type="secondary" ID="HP:0001422" DB="Human Phenotype Ontology"/>
+        <XRef Type="secondary" ID="HP:0008849" DB="Human Phenotype Ontology"/>
+        <XRef Type="secondary" ID="HP:0008919" DB="Human Phenotype Ontology"/>
+        <XRef Type="secondary" ID="HP:0008927" DB="Human Phenotype Ontology"/>
+      </Trait>
+    </TraitSet>
+  </ReferenceClinVarAssertion>
+  <ClinVarAssertion ID="338395" SubmissionName="Kasak">
+    <ClinVarSubmissionID localKey="CNV_25" submitter="Institute of Molecular and Cell Biology, University of Tartu" submitterDate="2014-10-23"/>
+    <ClinVarAccession Acc="SCV000191127" OrgType="primary" OrganizationCategory="other" Version="1" Type="SCV" OrgID="505255" DateUpdated="2017-04-05"/>
+    <RecordStatus>current</RecordStatus>
+    <ClinicalSignificance>
+      <ReviewStatus>no assertion provided</ReviewStatus>
+      <Description>not provided</Description>
+      <Citation Type="general">
+        <ID Source="PubMed">25666259</ID>
+      </Citation>
+    </ClinicalSignificance>
+    <Assertion Type="variation to disease"/>
+    <ExternalID DB="EVA" ID="CNV_25"/>
+    <ObservedIn>
+      <Sample>
+        <Origin>unknown</Origin>
+        <Tissue>Blood</Tissue>
+        <Species TaxonomyId="9606">human</Species>
+        <AffectedStatus>yes</AffectedStatus>
+        <Gender>mixed</Gender>
+      </Sample>
+      <Method>
+        <NamePlatform>Illumina HumanOmniExpress Beadchip</NamePlatform>
+        <TypePlatform>SNP array</TypePlatform>
+        <Description>Genomic DNA copy number estimation from GenomeStudio-normalised genotyping microarray data (probe signal intensity). Using Illumina's baseline data for microarray signal intensity normalisation, QuantiSNP default baseline data (OB-HMM parameter values) for CNV calling.</Description>
+        <Software name="QuantiSNP, GADA, CNstream" purpose="Normalized signal intensity data was obtained through Illumina GenomeStudio software. Information on Log2 R ratios, B allele frequencies, markers and chromosomal coordinates from each sample were used for CNV identification with Hidden Markov Model-based algorithm QuantiSNP 2.3 (Colella et al., 2007) and a sparse Bayesian learning approach GADA (Genome Alteration Detection Analysis) (Pique-Regi et al., 2010). QuantiSNP was run with default settings, the adjustment for ‘genomic waves’ in signal intensities was turned on with the ‘--gcdir’ key in addition to the default calling parameters. GADA was run using the options “–T 5 –M 3”. CNstream (Alonso et al., 2010) algorithm was used in parallel to estimate CNVs from X and Y channel intensities loaded from Illumina GenomeStudio. CNVs were calculated under the following parameters: number of probes per segment (=3), minimum number of probes in one segment that must exceed the threshold for identifying an amplification/deletion (=3), CNV frequency threshold (=0). CNVs with QuantiSNP log Bayes Factor value &lt;5 and/or rearrangements shorter than 350 bp were excluded from the resulting list of CNVs. In this project we analysed only autosomal CNVs. HD-CNV (Hotspot Detector for Copy Number Variants) (Butler et al., 2013) was used to merge CNV regions called by alternative computational algorithms, QuantiSNP, GADA and CNstream. A criterion of 40% reciprocal overlap between parallel CNV calls was used to define two calls as identifying the same event. All CNVs called by at least two algorithms for the same individual in the same genomic loci were considered in the subsequent global analysis."/>
+        <MethodType>case-control</MethodType>
+      </Method>
+      <ObservedData>
+        <Attribute Type="Description">not provided</Attribute>
+      </ObservedData>
+    </ObservedIn>
+    <MeasureSet Type="Variant">
+      <Measure Type="Variation">
+        <AttributeSet>
+          <Attribute Type="HGVS">CM000663.1:g.102667388_102846147del</Attribute>
+        </AttributeSet>
+      </Measure>
+    </MeasureSet>
+    <TraitSet Type="Disease">
+      <Trait Type="Finding">
+        <Name>
+          <ElementValue Type="Preferred">Small for gestational age</ElementValue>
+        </Name>
+        <XRef DB="MedGen" ID="C0024032" Type="CUI"/>
+      </Trait>
+    </TraitSet>
+    <Citation Type="general">
+      <ID Source="PubMed">25666259</ID>
+    </Citation>
+    <Citation Type="general">
+      <ID Source="PubMed">25666259</ID>
+    </Citation>
+    <StudyName>Kasak2014</StudyName>
+    <StudyDescription>The study aimed to determine the contribution of copy number variants in the genetic etiology of normal and complicated pregnancies. The samples represented (i) maternal blood DNA drawn from healthy pregnant women during 1st or 2nd trimester and (ii) maternal and paternal blood DNA drawn at term pregnancy cases representing normal and complicated gestations (severe preeclampsia, PE; gestational diabetes, GD; small-for-gestational age newborn, SGA; large-for-gestational age newborn, LGA). We performed CNV calling based on genome-wide genotyping dataset (Illumina HumanOmniExpress-24-v1 BeadChip) by applying three algorithms, QuantiSNP, GADA (Genome Alteration Detection Algorithm) and CNstream in parallel. The acquired CNV calls were merged with HD-CNV (Hotspot Detector for Copy Number Variants) program and only the CNVs predicted by at least two programs, were considered in subsequent analysis.</StudyDescription>
+    <Comment>The study aimed to determine the contribution of copy number variants in the genetic etiology of normal and complicated pregnancies. The samples represented (i) maternal blood DNA drawn from healthy pregnant women during 1st or 2nd trimester and (ii) maternal and paternal blood DNA drawn at term pregnancy cases representing normal and complicated gestations (severe preeclampsia, PE; gestational diabetes, GD; small-for-gestational age newborn, SGA; large-for-gestational age newborn, LGA). We performed CNV calling based on genome-wide genotyping dataset (Illumina HumanOmniExpress-24-v1 BeadChip) by applying three algorithms, QuantiSNP, GADA (Genome Alteration Detection Algorithm) and CNstream in parallel. The acquired CNV calls were merged with HD-CNV (Hotspot Detector for Copy Number Variants) program and only the CNVs predicted by at least two programs, were considered in subsequent analysis.</Comment>
+  </ClinVarAssertion>
+</ClinVarSet>
+
+<ClinVarSet ID="18549583">
+  <RecordStatus>current</RecordStatus>
+  <Title>NC_000001.11:g.103587258_103668424del81167 AND Normal pregnancy</Title>
+  <ReferenceClinVarAssertion DateCreated="2015-02-25" DateLastUpdated="2017-04-05" ID="381042">
+    <ClinVarAccession Acc="RCV000161171" Version="1" Type="RCV" DateUpdated="2017-04-05"/>
+    <RecordStatus>current</RecordStatus>
+    <ClinicalSignificance>
+      <ReviewStatus>no assertion provided</ReviewStatus>
+      <Description>not provided</Description>
+    </ClinicalSignificance>
+    <Assertion Type="variation to disease"/>
+    <ObservedIn>
+      <Sample>
+        <Origin>unknown</Origin>
+        <Species TaxonomyId="9606">human</Species>
+        <AffectedStatus>yes</AffectedStatus>
+      </Sample>
+      <Method>
+        <NamePlatform>Illumina HumanOmniExpress Beadchip</NamePlatform>
+        <Description>Genomic DNA copy number estimation from GenomeStudio-normalised genotyping microarray data (probe signal intensity). Using Illumina's baseline data for microarray signal intensity normalisation, QuantiSNP default baseline data (OB-HMM parameter values) for CNV calling.</Description>
+        <MethodType>case-control</MethodType>
+      </Method>
+      <ObservedData ID="17756567">
+        <Attribute Type="Description">not provided</Attribute>
+      </ObservedData>
+      <ObservedData ID="17756567">
+        <Attribute Type="Description">not provided</Attribute>
+      </ObservedData>
+    </ObservedIn>
+    <MeasureSet Type="Variant" ID="156745">
+      <Measure Type="Deletion" ID="166605">
+        <Name>
+          <ElementValue Type="Preferred">NC_000001.11:g.103587258_103668424del81167</ElementValue>
+        </Name>
+        <AttributeSet>
+          <Attribute Change="g.104129880_104211046del" Accession="CM000663" Version="1" Type="HGVS, genomic">CM000663.1:g.104129880_104211046del</Attribute>
+        </AttributeSet>
+        <AttributeSet>
+          <Attribute Change="g.103587258_103668424del81167" Accession="NC_000001" Version="11" Type="HGVS, genomic, top level" integerValue="38">NC_000001.11:g.103587258_103668424del81167</Attribute>
+        </AttributeSet>
+        <AttributeSet>
+          <Attribute Change="g.104129880_104211046del81167" Accession="NC_000001" Version="10" Type="HGVS, genomic, top level, previous" integerValue="37">NC_000001.10:g.104129880_104211046del81167</Attribute>
+        </AttributeSet>
+        <CytogeneticLocation>1p21.1</CytogeneticLocation>
+        <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="1" Accession="NC_000001.11" start="103587258" stop="103668424" display_start="103587258" display_stop="103668424" variantLength="81167"/>
+        <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="1" Accession="NC_000001.10" start="104129880" stop="104211046" display_start="104129880" display_stop="104211046" variantLength="81167"/>
         <MeasureRelationship Type="genes overlapped by variant">
           <Name>
-            <ElementValue Type="Preferred">long intergenic non-protein coding RNA 1192</ElementValue>
+            <ElementValue Type="Preferred">amylase, alpha 1A (salivary)</ElementValue>
           </Name>
           <Symbol>
-            <ElementValue Type="Preferred">LINC01192</ElementValue>
+            <ElementValue Type="Preferred">AMY1A</ElementValue>
           </Symbol>
-          <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="3" Accession="NC_000003.12" start="163177243" stop="163303301" display_start="163177243" display_stop="163303301" Strand="-"/>
-          <XRef ID="647107" DB="Gene"/>
-          <XRef ID="HGNC:37197" DB="HGNC"/>
+          <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="1" Accession="NC_000001.11" start="103655519" stop="103664551" display_start="103655519" display_stop="103664551" Strand="+"/>
+          <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="1" Accession="NC_000001.10" start="104198140" stop="104207172" display_start="104198140" display_stop="104207172" variantLength="9033" Strand="+"/>
+          <XRef ID="276" DB="Gene"/>
+          <XRef Type="MIM" ID="104700" DB="OMIM"/>
+          <XRef ID="HGNC:474" DB="HGNC"/>
+        </MeasureRelationship>
+        <MeasureRelationship Type="genes overlapped by variant">
+          <Name>
+            <ElementValue Type="Preferred">amylase, alpha 2A (pancreatic)</ElementValue>
+          </Name>
+          <Symbol>
+            <ElementValue Type="Preferred">AMY2A</ElementValue>
+          </Symbol>
+          <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.33" AssemblyStatus="current" Chr="1" Accession="NC_000001.11" start="103617332" stop="103625780" display_start="103617332" display_stop="103625780" Strand="+"/>
+          <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="1" Accession="NC_000001.10" start="104159998" stop="104168399" display_start="104159998" display_stop="104168399" variantLength="8402" Strand="+"/>
+          <XRef ID="279" DB="Gene"/>
+          <XRef Type="MIM" ID="104650" DB="OMIM"/>
+          <XRef ID="HGNC:477" DB="HGNC"/>
         </MeasureRelationship>
         <Citation Type="general">
           <ID Source="PubMed">25666259</ID>
         </Citation>
       </Measure>
       <Name>
-        <ElementValue Type="Preferred">NC_000003.12:g.163200599_163460990del260392</ElementValue>
+        <ElementValue Type="Preferred">NC_000001.11:g.103587258_103668424del81167</ElementValue>
       </Name>
     </MeasureSet>
     <TraitSet Type="Finding" ID="19843">
@@ -1350,9 +1456,9 @@
       </Trait>
     </TraitSet>
   </ReferenceClinVarAssertion>
-  <ClinVarAssertion ID="338544" SubmissionName="Kasak">
-    <ClinVarSubmissionID localKey="CNV_212" submitter="Institute of Molecular and Cell Biology, University of Tartu" submitterDate="2014-10-23"/>
-    <ClinVarAccession Acc="SCV000191276" OrgType="primary" OrganizationCategory="other" Version="1" Type="SCV" OrgID="505255" DateUpdated="2017-04-05"/>
+  <ClinVarAssertion ID="338396" SubmissionName="Kasak">
+    <ClinVarSubmissionID localKey="CNV_26" submitter="Institute of Molecular and Cell Biology, University of Tartu" submitterDate="2014-10-23"/>
+    <ClinVarAccession Acc="SCV000191128" OrgType="primary" OrganizationCategory="other" Version="1" Type="SCV" OrgID="505255" DateUpdated="2017-04-05"/>
     <RecordStatus>current</RecordStatus>
     <ClinicalSignificance>
       <ReviewStatus>no assertion provided</ReviewStatus>
@@ -1362,7 +1468,26 @@
       </Citation>
     </ClinicalSignificance>
     <Assertion Type="variation to disease"/>
-    <ExternalID DB="EVA" ID="CNV_212"/>
+    <ExternalID DB="EVA" ID="CNV_26"/>
+    <ObservedIn>
+      <Sample>
+        <Origin>unknown</Origin>
+        <Tissue>Blood</Tissue>
+        <Species TaxonomyId="9606">human</Species>
+        <AffectedStatus>yes</AffectedStatus>
+        <Gender>mixed</Gender>
+      </Sample>
+      <Method>
+        <NamePlatform>Illumina HumanOmniExpress Beadchip</NamePlatform>
+        <TypePlatform>SNP array</TypePlatform>
+        <Description>Genomic DNA copy number estimation from GenomeStudio-normalised genotyping microarray data (probe signal intensity). Using Illumina's baseline data for microarray signal intensity normalisation, QuantiSNP default baseline data (OB-HMM parameter values) for CNV calling.</Description>
+        <Software name="QuantiSNP, GADA, CNstream" purpose="Normalized signal intensity data was obtained through Illumina GenomeStudio software. Information on Log2 R ratios, B allele frequencies, markers and chromosomal coordinates from each sample were used for CNV identification with Hidden Markov Model-based algorithm QuantiSNP 2.3 (Colella et al., 2007) and a sparse Bayesian learning approach GADA (Genome Alteration Detection Analysis) (Pique-Regi et al., 2010). QuantiSNP was run with default settings, the adjustment for ‘genomic waves’ in signal intensities was turned on with the ‘--gcdir’ key in addition to the default calling parameters. GADA was run using the options “–T 5 –M 3”. CNstream (Alonso et al., 2010) algorithm was used in parallel to estimate CNVs from X and Y channel intensities loaded from Illumina GenomeStudio. CNVs were calculated under the following parameters: number of probes per segment (=3), minimum number of probes in one segment that must exceed the threshold for identifying an amplification/deletion (=3), CNV frequency threshold (=0). CNVs with QuantiSNP log Bayes Factor value &lt;5 and/or rearrangements shorter than 350 bp were excluded from the resulting list of CNVs. In this project we analysed only autosomal CNVs. HD-CNV (Hotspot Detector for Copy Number Variants) (Butler et al., 2013) was used to merge CNV regions called by alternative computational algorithms, QuantiSNP, GADA and CNstream. A criterion of 40% reciprocal overlap between parallel CNV calls was used to define two calls as identifying the same event. All CNVs called by at least two algorithms for the same individual in the same genomic loci were considered in the subsequent global analysis."/>
+        <MethodType>case-control</MethodType>
+      </Method>
+      <ObservedData>
+        <Attribute Type="Description">not provided</Attribute>
+      </ObservedData>
+    </ObservedIn>
     <ObservedIn>
       <Sample>
         <Origin>unknown</Origin>
@@ -1385,7 +1510,7 @@
     <MeasureSet Type="Variant">
       <Measure Type="Variation">
         <AttributeSet>
-          <Attribute Type="HGVS">CM000665.1:g.162918387_163178778del</Attribute>
+          <Attribute Type="HGVS">CM000663.1:g.104129880_104211046del</Attribute>
         </AttributeSet>
       </Measure>
     </MeasureSet>
@@ -1408,4 +1533,5 @@
     <Comment>The study aimed to determine the contribution of copy number variants in the genetic etiology of normal and complicated pregnancies. The samples represented (i) maternal blood DNA drawn from healthy pregnant women during 1st or 2nd trimester and (ii) maternal and paternal blood DNA drawn at term pregnancy cases representing normal and complicated gestations (severe preeclampsia, PE; gestational diabetes, GD; small-for-gestational age newborn, SGA; large-for-gestational age newborn, LGA). We performed CNV calling based on genome-wide genotyping dataset (Illumina HumanOmniExpress-24-v1 BeadChip) by applying three algorithms, QuantiSNP, GADA (Genome Alteration Detection Algorithm) and CNstream in parallel. The acquired CNV calls were merged with HD-CNV (Hotspot Detector for Copy Number Variants) program and only the CNVs predicted by at least two programs, were considered in subsequent analysis.</Comment>
   </ClinVarAssertion>
 </ClinVarSet>
+
 </ReleaseSet>
