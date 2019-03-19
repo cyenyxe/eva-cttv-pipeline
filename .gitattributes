@@ -1,1 +1,2 @@
 clinvar-xml-parser/src/main/java/uk/ac/ebi/eva/clinvar/model/jaxb/*.java -diff
+clinvar-xml-parser/src/test/resources/ClinvarExample.xml -diff
