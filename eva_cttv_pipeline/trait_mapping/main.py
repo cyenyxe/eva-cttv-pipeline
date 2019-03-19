@@ -1,5 +1,6 @@
 from collections import Counter
 import csv
+import logging
 import progressbar
 
 from eva_cttv_pipeline.trait_mapping.output import output_trait
@@ -8,6 +9,9 @@ from eva_cttv_pipeline.trait_mapping.oxo import uris_to_oxo_format
 from eva_cttv_pipeline.trait_mapping.trait import Trait
 from eva_cttv_pipeline.trait_mapping.trait_names_parsing import parse_trait_names
 from eva_cttv_pipeline.trait_mapping.zooma import get_zooma_results
+
+
+logger = logging.getLogger(__package__)
 
 
 def get_uris_for_oxo(zooma_result_list: list) -> set:
@@ -54,6 +58,10 @@ def process_trait(trait: Trait, filters: dict, zooma_host: str, oxo_target_list:
         return trait
     oxo_input_id_list = uris_to_oxo_format(uris_for_oxo_set)
     trait.oxo_result_list = get_oxo_results(oxo_input_id_list, oxo_target_list, oxo_distance)
+
+    if not trait.oxo_result_list:
+        logger.warning('No OxO mapping for trait {}'.format(trait.name))
+
     trait.process_oxo_mappings()
 
     return trait
@@ -76,8 +84,11 @@ def main(input_filepath, output_mappings_filepath, output_curation_filepath, fil
                 max_value=len(trait_names_counter), widgets=[progressbar.AdaptiveETA(samples=1000)]
             )
 
+        logger.info("Loaded {} trait names".format(len(trait_names_counter)))
         for i, (trait_name, freq) in enumerate(trait_names_iterator):
             trait = Trait(trait_name, freq)
             trait = process_trait(trait, filters, zooma_host, oxo_target_list,
                                   oxo_distance)
             output_trait(trait, mapping_writer, curation_writer)
+            if unattended and i % 10000 == 0:
+                logger.info("Processed {} records".format(i))

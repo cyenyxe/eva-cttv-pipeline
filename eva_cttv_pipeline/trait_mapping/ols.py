@@ -6,6 +6,9 @@ import urllib
 from eva_cttv_pipeline.trait_mapping.utils import request_retry_helper
 
 
+logger = logging.getLogger(__package__)
+
+
 def get_label_from_ols(url: str) -> str:
     """
     Given a url for OLS, make a get request and return the label for the term, from the response
@@ -20,7 +23,7 @@ def get_label_from_ols(url: str) -> str:
             if term["is_defining_ontology"]:
                 return term["label"]
     except Exception as e:
-        logging.warning(e)
+        logger.warning(e)
     return None
 
 
