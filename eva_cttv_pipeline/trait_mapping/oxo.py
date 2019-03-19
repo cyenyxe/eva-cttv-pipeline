@@ -20,13 +20,15 @@ class OntologyUri:
         "medgen": "http://identifiers.org/medgen/{}",
         "human phenotype ontology": "http://purl.obolibrary.org/obo/HP_{}",
         "hp": "http://purl.obolibrary.org/obo/HP_{}",
-        "doid": "http://purl.obolibrary.org/obo/DOID_{}"
+        "doid": "http://purl.obolibrary.org/obo/DOID_{}",
+        "mondo": "http://purl.obolibrary.org/obo/MONDO_{}",
     }
 
     def __init__(self, id_, db):
         self.id_ = id_
         self.db = db
         if self.db.lower() == "human phenotype ontology":
+            logging.warning('Found <human phenotype ontology>, this should not really happen')
             self.uri = self.db_to_uri_dict[self.db.lower()].format(self.id_[3:])
         else:
             self.uri = self.db_to_uri_dict[self.db.lower()].format(self.id_)
@@ -98,7 +100,8 @@ URI_DB_TO_DB_DICT = {
     "efo": "EFO",
     "mesh": "MeSH",
     "hp": "HP",
-    "doid": "DOID"
+    "doid": "DOID",
+    "mondo": "MONDO",
 }
 
 

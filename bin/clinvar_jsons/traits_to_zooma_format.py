@@ -3,6 +3,7 @@ import gzip
 import itertools
 import json
 from functools import lru_cache
+import logging
 import sys
 from time import gmtime, strftime
 
@@ -172,7 +173,8 @@ class OntologyUri:
         "efo": "http://www.ebi.ac.uk/efo/{}",
         "mesh": "http://identifiers.org/mesh/{}",
         "medgen": "http://identifiers.org/medgen/{}",
-        "human phenotype ontology": "http://purl.obolibrary.org/obo/HP_{}"
+        "human phenotype ontology": "http://purl.obolibrary.org/obo/HP_{}",
+        "mondo": "http://purl.obolibrary.org/obo/MONDO_{}",
     }
 
     def __init__(self, id_, db):
@@ -181,6 +183,7 @@ class OntologyUri:
         # This separate condition for "human phenotype ontology" is needed because these IDs are
         # prefixed with "HP:" which should be ignored when creating uri
         if self.db.lower() == "human phenotype ontology":
+            logging.warning('Found <human phenotype ontology>, this should not really happen')
             self.uri = self.db_to_uri_dict[self.db.lower()].format(self.id_[3:])
         else:
             self.uri = self.db_to_uri_dict[self.db.lower()].format(self.id_)
@@ -199,7 +202,7 @@ def parse_args(argv):
     parser.add_argument("-i", dest="infile_path", required=True, help="Path to a file containing one CellBase ClinVar JSON per line.'")
     parser.add_argument("-o", dest="outfile_path", required=True, help="Path to file to output trait names in the zooma-accepted format")
 
-    parser.add_argument("-n", dest="ontologies", default="efo,ordo,hp",
+    parser.add_argument("-n", dest="ontologies", default="efo,ordo,hp,mondo",
                         help="ontologies to use in query")
     parser.add_argument("-r", dest="required", default="cttv,eva-clinvar,gwas",
                         help="data sources to use in query.")

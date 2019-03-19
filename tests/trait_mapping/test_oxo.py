@@ -31,6 +31,10 @@ class TestUriToOxoFormat(unittest.TestCase):
         self.assertEqual(oxo.uri_to_oxo_format("http://purl.obolibrary.org/obo/HP_0030731"),
                          "HP:0030731")
 
+    def test_mondo(self):
+        self.assertEqual(oxo.uri_to_oxo_format("http://purl.obolibrary.org/obo/MONDO_0019531"),
+                         "MONDO:0019531")
+
     def test_nonexistent(self):
         self.assertEqual(oxo.uri_to_oxo_format("not_a_real_uri"),
                          None)

@@ -162,7 +162,7 @@ class ArgParser:
 
         parser.add_argument("-i", dest="input_filepath", required=True, help="path to input file, with trait names in first column, number of variants the trait name appears in in the second column. delimeted using tab")
         parser.add_argument("-o", dest="output_filepath", required=True, help="path to output file (not just the directory). outputs a file with a header (line starting with \"#\") which shows the filters used. then the first column is trait name, then number of variants for the trait, then zooma label, uri(s), confidence, source. these zooma columns repeat when there are multiple mappings.")
-        parser.add_argument("-n", dest="ontologies", default="efo,ordo,hp", help="ontologies to use in query")
+        parser.add_argument("-n", dest="ontologies", default="efo,ordo,hp,mondo", help="ontologies to use in query")
         parser.add_argument("-r", dest="required", default="cttv,eva-clinvar,gwas", help="data sources to use in query.")
         parser.add_argument("-p", dest="preferred", default="eva-clinvar,cttv,gwas", help="preference for data sources, with preferred data source first.")
         parser.add_argument("-z", dest="zooma_host", default="http://snarf.ebi.ac.uk:8580", help="the host to use for querying zooma")  # alternate to default is https://www.ebi.ac.uk
