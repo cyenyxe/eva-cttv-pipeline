@@ -60,7 +60,7 @@ def process_trait(trait: Trait, filters: dict, zooma_host: str, oxo_target_list:
 
 
 def main(input_filepath, output_mappings_filepath, output_curation_filepath, filters, zooma_host,
-         oxo_target_list, oxo_distance):
+         oxo_target_list, oxo_distance, unattended):
     trait_names_list = parse_trait_names(input_filepath)
     trait_names_counter = Counter(trait_names_list)
 
@@ -70,10 +70,13 @@ def main(input_filepath, output_mappings_filepath, output_curation_filepath, fil
         mapping_writer.writerow(["#clinvar_trait_name", "uri", "label"])
         curation_writer = csv.writer(curation_file, delimiter="\t")
 
-        bar = progressbar.ProgressBar(max_value=len(trait_names_counter),
-                                      widgets=[progressbar.AdaptiveETA(samples=1000)])
+        trait_names_iterator = trait_names_counter.items()
+        if not unattended:
+            trait_names_iterator = progressbar.ProgressBar(
+                max_value=len(trait_names_counter), widgets=[progressbar.AdaptiveETA(samples=1000)]
+            )
 
-        for trait_name, freq in bar(trait_names_counter.items()):
+        for i, (trait_name, freq) in enumerate(trait_names_iterator):
             trait = Trait(trait_name, freq)
             trait = process_trait(trait, filters, zooma_host, oxo_target_list,
                                   oxo_distance)
