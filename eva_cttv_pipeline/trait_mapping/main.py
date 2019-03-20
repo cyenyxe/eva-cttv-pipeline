@@ -81,7 +81,8 @@ def main(input_filepath, output_mappings_filepath, output_curation_filepath, fil
         trait_names_iterator = trait_names_counter.items()
         if not unattended:
             trait_names_iterator = progressbar.ProgressBar(
-                max_value=len(trait_names_counter), widgets=[progressbar.AdaptiveETA(samples=1000)]
+                trait_names_iterator, max_value=len(trait_names_counter),
+                widgets=[progressbar.AdaptiveETA(samples=1000)]
             )
 
         logger.info("Loaded {} trait names".format(len(trait_names_counter)))
