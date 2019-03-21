@@ -9,6 +9,9 @@ from eva_cttv_pipeline.trait_mapping.ols import get_ontology_label_from_ols, \
 from eva_cttv_pipeline.trait_mapping.utils import request_retry_helper
 
 
+logger = logging.getLogger(__package__)
+
+
 @total_ordering
 class ZoomaConfidence(Enum):
     """Enum to represent the confidence of a mapping in Zooma."""
@@ -115,7 +118,7 @@ def get_zooma_results(trait_name: str, filters: dict, zooma_host: str) -> list:
     zooma_response_list = request_retry_helper(zooma_query_helper, 4, url)
 
     if zooma_response_list is None:
-        return None
+        return []
 
     zooma_result_list = get_zooma_results_for_trait(zooma_response_list)
 
@@ -126,7 +129,7 @@ def get_zooma_results(trait_name: str, filters: dict, zooma_host: str) -> list:
             if label is not None:
                 zooma_mapping.ontology_label = label
             else:
-                logging.warning("Couldn't retrieve ontology label from OLS for trait '{}'".format(trait_name))
+                logger.warning("Couldn't retrieve ontology label from OLS for trait '{}'".format(trait_name))
 
             uri_is_current_and_in_efo = is_current_and_in_efo(zooma_mapping.uri)
             if not uri_is_current_and_in_efo:

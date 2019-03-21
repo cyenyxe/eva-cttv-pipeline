@@ -1,3 +1,7 @@
+import logging
+logger = logging.getLogger(__package__)
+
+
 def request_retry_helper(function, retry_count: int, url: str):
     """
     Given a function make a number of attempts to call function for it to successfully return a
@@ -13,6 +17,7 @@ def request_retry_helper(function, retry_count: int, url: str):
         return_value = function(url)
         if return_value is not None:
             return return_value
-        print("attempt {}: failed running function {} with url {}".format(retry_num, function, url))
-    print("error on last attempt, skipping")
+        logger.warning("attempt {}: failed running function {} with url {}".format(
+            retry_num, function, url))
+    logger.warning("error on last attempt, skipping")
     return None

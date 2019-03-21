@@ -1,10 +1,14 @@
 from functools import total_ordering, lru_cache
 import json
+import logging
 import re
 import requests
 
 from eva_cttv_pipeline.trait_mapping.ols import get_ontology_label_from_ols, is_in_efo
 from eva_cttv_pipeline.trait_mapping.ols import is_current_and_in_efo
+
+
+logger = logging.getLogger(__package__)
 
 
 class OntologyUri:
@@ -183,9 +187,9 @@ def oxo_request_retry_helper(retry_count: int, url: str, id_list: list, target_l
         return_value = oxo_query_helper(url, payload)
         if return_value is not None:
             return return_value
-        print("attempt {}: failed running function oxo_query_helper with url {}".format(retry_num,
-                                                                                        url))
-    print("error on last attempt, skipping")
+        logger.warning("attempt {}: failed running function oxo_query_helper with url {}".format(
+            retry_num, url))
+    logger.warning("error on last attempt, skipping")
     return None
 
 
@@ -249,8 +253,8 @@ def get_oxo_results(id_list: list, target_list: list, distance: int) -> list:
         return []
 
     if "_embedded" not in oxo_response:
-        print("Cannot parse the response from OxO for the following identifiers: ")
-        print(id_list)
+        logger.warning("Cannot parse the response from OxO for the following identifiers:")
+        logger.warning(','.join(id_list))
         return []
 
     return get_oxo_results_from_response(oxo_response)

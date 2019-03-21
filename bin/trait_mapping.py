@@ -9,7 +9,7 @@ def launch():
 
     main.main(parser.input_filepath, parser.output_mappings_filepath,
               parser.output_curation_filepath, parser.filters, parser.zooma_host,
-              parser.oxo_target_list, parser.oxo_distance)
+              parser.oxo_target_list, parser.oxo_distance, parser.unattended)
 
 
 class ArgParser:
@@ -39,6 +39,8 @@ class ArgParser:
                             help="target ontologies to use with OxO")
         parser.add_argument("-d", dest="oxo_distance", default=3,
                             help="distance to use to query OxO.")
+        parser.add_argument('-u', dest="unattended", action='store_true',
+                            help="unattended launch, hide ETA estimates")
 
         args = parser.parse_args(args=argv[1:])
 
@@ -53,6 +55,7 @@ class ArgParser:
         self.zooma_host = args.zooma_host
         self.oxo_target_list = [target.strip() for target in args.oxo_target_list.split(",")]
         self.oxo_distance = args.oxo_distance
+        self.unattended = args.unattended
 
 
 if __name__ == '__main__':
