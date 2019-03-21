@@ -1,3 +1,9 @@
+import logging
+
+
+logger = logging.getLogger(__package__)
+
+
 class OntologyEntry:
     """
     A representation of an ontology term mapped to using this pipeline. Includes a uri and a label
@@ -62,4 +68,5 @@ class Trait:
                     uri = str(mapping.uri)
                     ontology_label = mapping.ontology_label
                     ontology_entry = OntologyEntry(uri, ontology_label)
+                    logger.debug('Found an OxO finished mapping: {}'.format(uri))
                     self.finished_mapping_set.add(ontology_entry)

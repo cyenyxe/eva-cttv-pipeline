@@ -45,6 +45,8 @@ def process_trait(trait: Trait, filters: dict, zooma_host: str, oxo_target_list:
                          "distance" parameter.
     :return: The original trait after querying Zooma and possibly OxO, with any results found.
     """
+
+    logger.debug('Processing trait {}'.format(trait.name))
     trait.zooma_result_list = get_zooma_results(trait.name, filters, zooma_host)
     trait.process_zooma_results()
     if (trait.is_finished
@@ -91,5 +93,5 @@ def main(input_filepath, output_mappings_filepath, output_curation_filepath, fil
             trait = process_trait(trait, filters, zooma_host, oxo_target_list,
                                   oxo_distance)
             output_trait(trait, mapping_writer, curation_writer)
-            if unattended and i % 10000 == 0:
+            if unattended and i % 100 == 0:
                 logger.info("Processed {} records".format(i))
