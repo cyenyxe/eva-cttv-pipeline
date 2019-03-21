@@ -41,6 +41,7 @@ class ZoomaMapping:
         self.source = source
         self.ontology_label = ""
         self.in_efo = False
+        # For non-EFO mappings, `is_current` property does not make sense and it not used
         self.is_current = False
 
     def __eq__(self, other):

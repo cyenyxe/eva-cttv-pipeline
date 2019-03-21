@@ -51,6 +51,7 @@ class OxOMapping:
         self.distance = distance
         self.query_id = query_id
         self.in_efo = False
+        # For non-EFO mappings, `is_current` property does not make sense and it not used
         self.is_current = False
         self.ontology_label = ""
 
