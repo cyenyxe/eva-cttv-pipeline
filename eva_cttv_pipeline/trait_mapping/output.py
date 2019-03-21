@@ -19,8 +19,7 @@ def get_mappings_for_curation(result_list) -> list:
     curation_mapping_list = []
     for result in result_list:
         for mapping in result.mapping_list:
-            if mapping.in_efo and mapping.is_current:
-                curation_mapping_list.append(mapping)
+            curation_mapping_list.append(mapping)
     curation_mapping_list.sort(reverse=True)
     return curation_mapping_list
 
