@@ -19,7 +19,8 @@ def get_mappings_for_curation(result_list) -> list:
     curation_mapping_list = []
     for result in result_list:
         for mapping in result.mapping_list:
-            curation_mapping_list.append(mapping)
+            if (mapping.in_efo and mapping.is_current) or (not mapping.in_efo):
+                curation_mapping_list.append(mapping)
     curation_mapping_list.sort(reverse=True)
     return curation_mapping_list
 
@@ -38,14 +39,14 @@ def output_for_curation(trait: Trait, curation_writer: csv.writer):
 
     for zooma_mapping in zooma_mapping_list:
         cell = [zooma_mapping.uri, zooma_mapping.ontology_label, str(zooma_mapping.confidence),
-                zooma_mapping.source]
+                zooma_mapping.source, 'EFO_CURRENT' if zooma_mapping.in_efo else 'NOT_CONTAINED']
         output_row.append("|".join(cell))
 
     oxo_mapping_list = get_mappings_for_curation(trait.oxo_result_list)
 
     for oxo_mapping in oxo_mapping_list:
         cell = [str(oxo_mapping.uri), oxo_mapping.ontology_label, str(oxo_mapping.distance),
-                oxo_mapping.query_id]
+                oxo_mapping.query_id, 'EFO_CURRENT' if oxo_mapping.in_efo else 'NOT_CONTAINED']
         output_row.append("|".join(cell))
 
     curation_writer.writerow(output_row)
