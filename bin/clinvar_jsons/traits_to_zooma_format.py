@@ -173,20 +173,14 @@ class OntologyUri:
         "efo": "http://www.ebi.ac.uk/efo/{}",
         "mesh": "http://identifiers.org/mesh/{}",
         "medgen": "http://identifiers.org/medgen/{}",
-        "human phenotype ontology": "http://purl.obolibrary.org/obo/HP_{}",
         "mondo": "http://purl.obolibrary.org/obo/MONDO_{}",
     }
 
     def __init__(self, id_, db):
         self.id_ = id_
         self.db = db
-        # This separate condition for "human phenotype ontology" is needed because these IDs are
-        # prefixed with "HP:" which should be ignored when creating uri
-        if self.db.lower() == "human phenotype ontology":
-            logging.warning('Found <human phenotype ontology>, this should not really happen')
-            self.uri = self.db_to_uri_dict[self.db.lower()].format(self.id_[3:])
-        else:
-            self.uri = self.db_to_uri_dict[self.db.lower()].format(self.id_)
+        self.uri = self.db_to_uri_dict[self.db.lower()].format(self.id_)
+
 
     def __str__(self):
         return self.uri
