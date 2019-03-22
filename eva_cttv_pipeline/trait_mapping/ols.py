@@ -11,7 +11,7 @@ OLS_EFO_SERVER = 'https://www.ebi.ac.uk/ols'
 # for the local deployment is different from the production link in three regards: (1) it must use
 # HTTP instead of HTTPS; (2) it must include the port which you used when deploying the Docker
 # container; (3) it does *not* include /ols in its path.
-# OLS_EFO_SERVER = 'http://172.22.70.138:8080'
+# OLS_EFO_SERVER = 'http://127.0.0.1:8080'
 
 logger = logging.getLogger(__package__)
 
