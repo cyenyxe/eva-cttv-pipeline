@@ -42,6 +42,25 @@ Eyeball input & output files to ensure that the ClinVar format has not changed s
 enough to render this snippet invalid. Then put the generated files into
 `clinvar-xml-parser/src/test/resources/` directory.
 
+Deploying local OLS installation
+-------
+
+During the preparation of 2019_04 release, which had to be synchronized with EFO v3, OLS had to be deployed
+locally because the production deployment of OLS on www.ebi.ac.uk/ols only supported EFO v2 at the time.
+This can be done using the following command:
+
+```bash
+sudo docker run -p 8080:8080 simonjupp/efo3-ols:3.4.0
+```
+
+To use the local deployment, uncomment the configuration section at the top of `/eva_cttv_pipeline/trait_mapping/ols.py`
+to specify the URL of the local installation. If you have deployed OLS on the different machine than the one you're 
+using to run the pipeline, substitute the correct IP address of the machine where the OLS installation is deployed.
+
+Please contact the semantic data integration team at [SPOT](https://www.ebi.ac.uk/about/spot-team) if you have questions
+about local OLS installation.
+
+
 Building python pipeline and (optional) Setting up virtual environment
 -------
 

@@ -19,7 +19,3 @@ class TestGetTraitNames(unittest.TestCase):
 
         self.assertEqual(trait_names_parsing.get_trait_names(clinvar_json),
                          expected_trait_names_list)
-
-
-
-

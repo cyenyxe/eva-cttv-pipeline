@@ -27,7 +27,7 @@ class ArgParser:
                             help="path to output file for mappings")
         parser.add_argument("-c", dest="output_curation_filepath", required=True,
                             help="path to output file for curation")
-        parser.add_argument("-n", dest="ontologies", default="efo,ordo,hp",
+        parser.add_argument("-n", dest="ontologies", default="efo,ordo,hp,mondo",
                             help="ontologies to use in query")
         parser.add_argument("-r", dest="required", default="cttv,eva-clinvar,clinvar-xrefs,gwas",
                             help="data sources to use in query.")
@@ -35,7 +35,7 @@ class ArgParser:
                             help="preference for data sources, with preferred data source first.")
         parser.add_argument("-z", dest="zooma_host", default="https://www.ebi.ac.uk",
                             help="the host to use for querying zooma")
-        parser.add_argument("-t", dest="oxo_target_list", default="Orphanet,efo,hp",
+        parser.add_argument("-t", dest="oxo_target_list", default="Orphanet,efo,hp,mondo",
                             help="target ontologies to use with OxO")
         parser.add_argument("-d", dest="oxo_distance", default=3,
                             help="distance to use to query OxO.")

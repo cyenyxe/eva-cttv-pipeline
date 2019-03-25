@@ -42,11 +42,11 @@ class TestOutputTraitMapping(unittest.TestCase):
 
 
 class TestGetMappingsForCuration(unittest.TestCase):
-    def test_get_mappings_for_curation(self):
-        test_result_list = []
-
+    def test_get_non_efo_mapping(self):
+        """If mapping is not in EFO, its `is_current` flag should *not* be checked, and the mapping
+        *should* be selected for curation."""
         test_zooma_result = zooma.ZoomaResult(['http://purl.obolibrary.org/obo/HP_0001892'],
-                                                  'abnormal bleeding', 'HIGH', 'eva-clinvar')
+                                              'abnormal bleeding', 'HIGH', 'eva-clinvar')
         mapping = test_zooma_result.mapping_list[0]
         mapping.confidence = zooma.ZoomaConfidence.HIGH
         mapping.in_efo = False
@@ -54,26 +54,35 @@ class TestGetMappingsForCuration(unittest.TestCase):
         mapping.ontology_label = ""
         mapping.source = 'eva-clinvar'
         mapping.uri = 'http://purl.obolibrary.org/obo/HP_0000483'
+        self.assertEqual([mapping], output.get_mappings_for_curation([test_zooma_result]))
 
-        test_result_list.append(test_zooma_result)
-
+    def test_get_obsolete_efo_mapping(self):
+        """If mapping is in EFO, but is not current, it *should not* be selected for curation."""
         test_zooma_result = zooma.ZoomaResult(['http://www.orpha.net/ORDO/Orphanet_976'],
                                               'Adenine phosphoribosyltransferase deficiency',
                                               'HIGH', 'eva-clinvar')
         mapping = test_zooma_result.mapping_list[0]
         mapping.confidence = zooma.ZoomaConfidence.HIGH
         mapping.in_efo = True
-        mapping.is_current = True
+        mapping.is_current = False
         mapping.ontology_label = "Adenine phosphoribosyltransferase deficiency"
         mapping.source = 'eva-clinvar'
         mapping.uri = 'http://www.orpha.net/ORDO/Orphanet_976'
+        self.assertEqual([], output.get_mappings_for_curation([test_zooma_result]))
 
-        test_result_list.append(test_zooma_result)
-
-        expected_curation_mapping_list = [mapping]
-
-        self.assertEqual(expected_curation_mapping_list,
-                         output.get_mappings_for_curation(test_result_list))
+    def test_get_current_efo_mapping(self):
+        """If mapping is in EFO and is current, is *should* be selected for curation."""
+        test_zooma_result = zooma.ZoomaResult(['http://purl.obolibrary.org/obo/MONDO_0008091'],
+                                              'Abnormal neutrophil chemotactic response',
+                                              'MEDIUM', 'eva-clinvar')
+        mapping = test_zooma_result.mapping_list[0]
+        mapping.confidence = zooma.ZoomaConfidence.HIGH
+        mapping.in_efo = True
+        mapping.is_current = True
+        mapping.ontology_label = "Abnormal neutrophil chemotactic response"
+        mapping.source = 'eva-clinvar'
+        mapping.uri = 'http://purl.obolibrary.org/obo/MONDO_0008091'
+        self.assertEqual([mapping], output.get_mappings_for_curation([test_zooma_result]))
 
 
 class TestOutputForCuration(unittest.TestCase):
@@ -98,10 +107,11 @@ class TestOutputForCuration(unittest.TestCase):
 
         with open(tempfile_path, "rt") as curation_file:
             curation_reader = csv.reader(curation_file, delimiter="\t")
-
-            self.assertEqual(["transitional cell carcinoma of the bladder", "276",
-                              "http://www.ebi.ac.uk/efo/EFO_0006544|bladder transitional cell carcinoma|2|HP:0006740"],
-                             next(curation_reader))
+            expected_record = [
+                "transitional cell carcinoma of the bladder", "276",
+                "http://www.ebi.ac.uk/efo/EFO_0006544|bladder transitional cell carcinoma|2|HP:0006740|EFO_CURRENT"
+            ]
+            self.assertEqual(expected_record, next(curation_reader))
 
 
 if __name__ == '__main__':

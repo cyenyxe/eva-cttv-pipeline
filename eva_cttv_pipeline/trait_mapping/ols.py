@@ -6,6 +6,13 @@ import urllib
 from eva_cttv_pipeline.trait_mapping.utils import request_retry_helper
 
 
+OLS_EFO_SERVER = 'https://www.ebi.ac.uk/ols'
+# The setting for local OLS installation should be uncommented if necessary. Note that the link
+# for the local deployment is different from the production link in three regards: (1) it must use
+# HTTP instead of HTTPS; (2) it must include the port which you used when deploying the Docker
+# container; (3) it does *not* include /ols in its path.
+# OLS_EFO_SERVER = 'http://127.0.0.1:8080'
+
 logger = logging.getLogger(__package__)
 
 
@@ -60,7 +67,7 @@ def ols_efo_query(uri: str) -> requests.Response:
     """
     double_encoded_uri = double_encode_uri(uri)
     return requests.get(
-        "https://www.ebi.ac.uk/ols/api/ontologies/efo/terms/{}".format(double_encoded_uri))
+        "{}/api/ontologies/efo/terms/{}".format(OLS_EFO_SERVER, double_encoded_uri))
 
 
 @lru_cache(maxsize=16384)
