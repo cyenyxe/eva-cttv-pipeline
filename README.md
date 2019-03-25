@@ -57,7 +57,8 @@ To use the local deployment, uncomment the configuration section at the top of `
 to specify the URL of the local installation. If you have deployed OLS on the different machine than the one you're 
 using to run the pipeline, substitute the correct IP address of the machine where the OLS installation is deployed.
 
-Contact Simon Jupp <jupp@ebi.ac.uk> or somebody from SPOT if you have questions about local OLS installation.
+Please contact the semantic data integration team at [SPOT](https://www.ebi.ac.uk/about/spot-team) if you have questions
+about local OLS installation.
 
 
 Building python pipeline and (optional) Setting up virtual environment
