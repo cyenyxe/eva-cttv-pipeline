@@ -74,6 +74,47 @@ Building python pipeline and (optional) Setting up virtual environment
    * To install to develop: "python3 setup.py develop"
    * To build a source distribution: "python3 setup.py sdist"
 
+Postprocessing traits for manual curation
+-------
+
+### Extract information about previous mappings
+
+At this step, all previous mappings produced by the pipeline (including automated and manual) are downloaded to be later
+used to aid the manual curation process. Note that if a term has multiple mappings, the _latest_ mapping (in terms of
+eva_clinvar release date) will be used. In this way, erroneous mappings can be easily overridden and won't occur again.
+
+```bash
+# Download all eva_clinvar releases from FTP
+BASEPATH=ftp://ftp.ebi.ac.uk/pub/databases/eva/ClinVar
+ncftpls -g $BASEPATH/* \
+  | grep eva_clinvar.txt \
+  | grep -v latest \
+  | parallel curl $BASEPATH/{} \
+    -o '$(echo {} | cut -d "/" -f-3 | sed -e "s|/|_|g" -e "s|$|_eva_clinvar.txt|")'
+
+# Extract information about mappings
+cat *_eva_clinvar.txt \
+  | cut -f4-5 \
+  | awk -F$'\t' '{mappings[$1] = $2} END {for (var in mappings) print var "\t" mappings[var]}' \
+  > previous_mappings.tsv
+```
+
+### Create the final table for manual curation
+
+```bash
+python3 bin/trait_mapping/create_table_for_manual_curation.py \
+  --traits-for-curation traits_requiring_curation.tsv \
+  --previous-mappings previous_mappings.tsv \
+  --final-table-for-curation table_for_manual_curation.tsv
+```
+
+### Sort and export to Google Sheets
+
+```bash
+cut -f-50 table_for_manual_curation.tsv | sort -t$'\t' -k2,2rn | xclip -selection clipboard
+# The paste into Google Sheets
+```
+
 Usage
 -------
 
