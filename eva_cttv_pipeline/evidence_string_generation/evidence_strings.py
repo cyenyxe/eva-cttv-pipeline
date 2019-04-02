@@ -1,15 +1,10 @@
 import copy
 import json
-import sys
 
 import jsonschema
 
 from eva_cttv_pipeline.evidence_string_generation import config
 from eva_cttv_pipeline.evidence_string_generation import utilities
-from eva_cttv_pipeline.evidence_string_generation import efo_term
-
-
-utilities.check_for_local_schema()
 
 
 CLIN_SIG_TO_ACTIVITY = {'other': 'http://identifiers.org/cttv.activity/unknown',
@@ -61,7 +56,6 @@ def get_cttv_variant_type(clinvar_record_measure):
 
 
 class CTTVEvidenceString(dict):
-
     """
     Base evidence string class. Holds variables and methods common between somatic and genetic
     evidence strings.
@@ -111,7 +105,7 @@ class CTTVEvidenceString(dict):
 
     @property
     def disease_name(self):
-        return efo_term.EFOTerm(self['disease']['name'])
+        return self['disease']['name']
 
     @disease_name.setter
     def disease_name(self, value):
@@ -119,7 +113,7 @@ class CTTVEvidenceString(dict):
 
     @property
     def disease_source_name(self):
-        return efo_term.EFOTerm(self['disease']['source_name'])
+        return self['disease']['source_name']
 
     @disease_source_name.setter
     def disease_source_name(self, value):
@@ -127,7 +121,7 @@ class CTTVEvidenceString(dict):
 
     @property
     def disease_id(self):
-        return efo_term.EFOTerm(self['disease']['id'])
+        return self['disease']['id']
 
     @disease_id.setter
     def disease_id(self, value):
@@ -150,17 +144,16 @@ class CTTVEvidenceString(dict):
         self['literature'] = \
             {'references': [{'lit_id': reference} for reference in reference_list]}
 
+    def validate(self, ot_schema_contents):
+        jsonschema.validate(self, ot_schema_contents, format_checker=jsonschema.FormatChecker())
+        return True
+
 
 class CTTVGeneticsEvidenceString(CTTVEvidenceString):
-
     """
     Class for genetics evidence string specifically.
     Holds information required for Open Target's evidence strings for genetic information.
     """
-
-    schema = json.loads(
-        utilities.open_file(utilities.get_resource_file(__package__, config.GEN_SCHEMA_FILE),
-                            'rt').read())
 
     with utilities.open_file(utilities.get_resource_file(__package__, config.GEN_EV_STRING_JSON),
                              "rt") as gen_json_file:
@@ -274,12 +267,6 @@ class CTTVGeneticsEvidenceString(CTTVEvidenceString):
         self['evidence']['gene2variant']['is_associated'] = is_associated
         self['evidence']['variant2disease']['is_associated'] = is_associated
 
-    def validate(self):
-        jsonschema.validate(self, CTTVGeneticsEvidenceString.schema,
-                            format_checker=jsonschema.FormatChecker())
-        self.disease_id.is_obsolete()
-        return True
-
     def _clear_variant(self):
         self['variant']['id'] = []
         self['variant']['type'] = []
@@ -324,9 +311,6 @@ class CTTVSomaticEvidenceString(CTTVEvidenceString):
     Class for somatic evidence string specifically.
     Holds information required for Open Target's evidence strings for somatic information.
     """
-
-    schema = json.loads(utilities.open_file(utilities.get_resource_file(__package__,
-                                                         config.SOM_SCHEMA_FILE), 'rt').read())
 
     with utilities.open_file(utilities.get_resource_file(__package__, config.SOM_EV_STRING_JSON),
                              "rt") as som_json_file:
@@ -397,12 +381,6 @@ class CTTVSomaticEvidenceString(CTTVEvidenceString):
     @association.setter
     def association(self, is_associated):
         self['evidence']['is_associated'] = is_associated
-
-    def validate(self):
-        jsonschema.validate(self, CTTVSomaticEvidenceString.schema,
-                            format_checker=jsonschema.FormatChecker())
-        self.disease_id.is_obsolete()
-        return True
 
     @property
     def date(self):

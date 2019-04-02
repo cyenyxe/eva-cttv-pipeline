@@ -1,3 +1,6 @@
+import os.path
+import gzip
+import json
 import unittest
 from datetime import datetime
 
@@ -6,7 +9,6 @@ from types import SimpleNamespace
 from eva_cttv_pipeline.evidence_string_generation import clinvar
 from eva_cttv_pipeline.evidence_string_generation import clinvar_to_evidence_strings
 from eva_cttv_pipeline.evidence_string_generation import consequence_type as CT
-from eva_cttv_pipeline.evidence_string_generation import efo_term
 from eva_cttv_pipeline.evidence_string_generation import evidence_strings
 from tests.evidence_string_generation import test_clinvar_to_evidence_strings
 from tests.evidence_string_generation import config
@@ -58,7 +60,7 @@ class CTTVGeneticsEvidenceStringInitTest(unittest.TestCase):
             {"lit_id": "http://europepmc.org/abstract/MED/21697857"}]
     },
     "disease": {"id": ["http://www.orpha.net/ORDO/Orphanet_886"]},
-    "validated_against_schema_version": "1.2.8",
+    "validated_against_schema_version": "1.6.0",
     "target": {
         "target_type": "http://identifiers.org/cttv.target/gene_variant",
         "id": "http://identifiers.org/ensembl/ENSG00000163646",
@@ -175,7 +177,7 @@ class CTTVSomaticEvidenceStringInitTest(unittest.TestCase):
         test_dict = {
     "literature": {"references": [{"lit_id": "http://europepmc.org/abstract/MED/8281160"}]},
     "disease": {"id": ["http://www.ebi.ac.uk/efo/EFO_0000232"]},
-    "validated_against_schema_version": "1.2.8",
+    "validated_against_schema_version": "1.6.0",
     "target": {
         "target_type": "http://identifiers.org/cttv.target/gene_variant",
         "id": "http://identifiers.org/ensembl/ENSG00000134982",
@@ -283,6 +285,9 @@ class CTTVGeneticsEvidenceStringTest(unittest.TestCase):
     def setUp(self):
         self.test_args = get_args_CTTVGeneticsEvidenceString_init()
         self.test_ges = evidence_strings.CTTVGeneticsEvidenceString(*self.test_args)
+        ot_schema_path = os.path.join(
+            os.path.dirname(__file__), 'resources', 'opentargets.1.6.0.json.gz')
+        self.ot_schema_contents = json.loads(gzip.open(ot_schema_path).read().decode('utf-8'))
 
     # CTTVEvidenceString tests
 
@@ -317,7 +322,6 @@ class CTTVGeneticsEvidenceStringTest(unittest.TestCase):
         disease_id = "Ciliary dyskinesia, primary, 26"
 
         self.test_ges.disease_id = disease_id
-        self.assertEqual(self.test_ges.disease_id, efo_term.EFOTerm(disease_id))
 
     def test_evidence_codes(self):
         evidence_codes = ["http://purl.obolibrary.org/obo/ECO_0000205"]
@@ -436,7 +440,7 @@ class CTTVGeneticsEvidenceStringTest(unittest.TestCase):
     def test_validate(self):
         test_args = get_args_CTTVGeneticsEvidenceString_init()
         test_evidence_string = evidence_strings.CTTVGeneticsEvidenceString(*test_args)
-        self.assertTrue(test_evidence_string.validate())
+        self.assertTrue(test_evidence_string.validate(self.ot_schema_contents))
 
 
 class CTTVSomaticEvidenceStringTest(unittest.TestCase):
@@ -447,6 +451,9 @@ class CTTVSomaticEvidenceStringTest(unittest.TestCase):
     def setUp(self):
         test_args = get_args_CTTVSomaticEvidenceString_init()
         self.test_ses = evidence_strings.CTTVSomaticEvidenceString(*test_args)
+        ot_schema_path = os.path.join(
+            os.path.dirname(__file__), 'resources', 'opentargets.1.6.0.json.gz')
+        self.ot_schema_contents = json.loads(gzip.open(ot_schema_path).read().decode('utf-8'))
 
     def test_db_xref_url(self):
         url = "http://identifiers.org/clinvar.record/RCV000128628"
@@ -514,4 +521,4 @@ class CTTVSomaticEvidenceStringTest(unittest.TestCase):
     def test_validate(self):
         test_args = get_args_CTTVSomaticEvidenceString_init()
         test_evidence_string = evidence_strings.CTTVSomaticEvidenceString(*test_args)
-        self.assertTrue(test_evidence_string.validate())
+        self.assertTrue(test_evidence_string.validate(self.ot_schema_contents))

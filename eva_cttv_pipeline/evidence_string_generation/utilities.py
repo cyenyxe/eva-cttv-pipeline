@@ -1,15 +1,10 @@
 import argparse
-import errno
 import gzip
-import subprocess
 import sys
 import importlib
 import importlib._bootstrap
 import importlib.util
 import os
-import shutil
-
-from eva_cttv_pipeline.evidence_string_generation import config
 
 
 def open_file(file_path, mode):
@@ -33,90 +28,7 @@ def get_resource_file(package, resource):
     return resource_name
 
 
-def copy_and_overwrite(from_path, to_path):
-    if os.path.exists(to_path):
-        shutil.rmtree(to_path)
-    shutil.copytree(from_path, to_path)
-
-
-def copy_dir(src, dest):
-    try:
-        copy_and_overwrite(src, dest)
-    except OSError as exception:
-        # If the error was caused because the source wasn't a directory
-        if exception.errno == errno.ENOTDIR:
-            shutil.copy(src, dest)
-        else:
-            print('Directory not copied. Error: %s' % exception)
-
-
-def change_json_refs(local_schema_dir):
-    command = "find " + local_schema_dir + \
-              " -type f -exec sed -i -e " \
-              "\"s/https:\/\/raw.githubusercontent.com\/opentargets\/json_schema\/master/file:\/\/" + \
-              local_schema_dir.replace("/", "\/") + "/g\" {} \;"
-    print("Carrying out command:\n" + command)
-    subprocess.check_output(command, shell=True)
-
-    evidence_base_json = os.path.join(local_schema_dir, "src/evidence/base.json")
-    evidence_base_json_temp = os.path.join(local_schema_dir, "src/evidence/base_temp.json")
-    command = "grep -v '\"id\": \"base_evidence\"' " + evidence_base_json + " > " + \
-              evidence_base_json_temp + \
-              "; mv " + evidence_base_json_temp + " " + evidence_base_json
-    print("Carrying out command:\n" + command)
-    subprocess.check_output(command, shell=True)
-
-    command = "grep -v '\"id\": \"#single_lit_reference\"' " + evidence_base_json + " > " + \
-              evidence_base_json_temp + \
-              "; mv " + evidence_base_json_temp + " " + evidence_base_json
-    print("Carrying out command:\n" + command)
-    subprocess.check_output(command, shell=True)
-
-    command = "find " + local_schema_dir + " -type f -exec sed -i -e " + \
-              "\"s/evidence\/base.json#base_evidence\/definitions\/single_lit_reference/evidence" + \
-              "\/base.json#definitions\/single_lit_reference/g\" {} \;"
-    # command = "sed -i -e \"s/evidence\/base.json#base_evidence\/definitions\/
-    # single_lit_reference/evidence\/base.json#definitions\/
-    # single_lit_reference/g\" " + evidence_base_json
-    print("Carrying out command:\n" + command)
-    subprocess.check_output(command, shell=True)
-
-    command = "rm -rf " + local_schema_dir + ".git " + local_schema_dir + ".gitignore"
-    # command = "sed -i -e \"s/evidence\/base.json#base_evidence\/definitions\/
-    # single_lit_reference/evidence\/base.json#definitions\/
-    # single_lit_reference/g\" " + evidence_base_json
-    print("Carrying out command:\n" + command)
-    subprocess.check_output(command, shell=True)
-
-
-def create_local_schema():
-    json_schema_dir = get_resource_file(__package__, "resources/json_schema")
-    # local_schema_dir = str(os.path.join(str(Path(json_schema_dir).parent), "schema_copy"))
-    local_schema_dir = str(os.path.join(os.path.dirname(os.path.dirname(json_schema_dir)),
-                                        config.LOCAL_SCHEMA))
-
-    ready_file = local_schema_dir + "/READY"
-    if os.path.exists(ready_file):
-        return
-
-    os.makedirs(local_schema_dir, exist_ok=True)
-    print("Copying json schema")
-    print(json_schema_dir + " to " + local_schema_dir)
-    copy_dir(json_schema_dir, local_schema_dir)
-
-    change_json_refs(local_schema_dir)
-
-    open(ready_file, 'a').close()
-
-
-def check_for_local_schema():
-    local_schema = get_resource_file(__package__, config.LOCAL_SCHEMA)
-    if not os.path.exists(local_schema):
-        create_local_schema()
-
-
 class ArgParser:
-
     """
     Uses argparse module to parse command line arguments.
     Arguments are used in the pipeline, including input file paths, output path, path to files to
@@ -125,11 +37,7 @@ class ArgParser:
     """
 
     def __init__(self, argv):
-        usage = """
-        *******************************************************************************************
-        Task: generate CTTV evidence strings from ClinVar mongo
-        *******************************************************************************************
-        """
+        usage = """Generates CTTV evidence strings from ClinVar data and trait mappings."""
         parser = argparse.ArgumentParser(usage)
 
         parser.add_argument("--clinSig", dest="clinical_significance",
@@ -165,6 +73,7 @@ class ArgParser:
         parser.add_argument("-j", dest="json_file", help="File containing Clinvar records json "
                                                          "strings in the format of documents in "
                                                          "Cellbase. One record per line.")
+        parser.add_argument('--ot-schema', help='OpenTargets schema JSON', required=True)
 
         args = parser.parse_args(args=argv[1:])
 
@@ -175,6 +84,7 @@ class ArgParser:
         self.efo_mapping_file = args.efo_mapping_file
         self.snp_2_gene_file = args.snp_2_gene_file
         self.json_file = args.json_file
+        self.ot_schema = args.ot_schema
 
 
 def check_dir_exists_create(directory):

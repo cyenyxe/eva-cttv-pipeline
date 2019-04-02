@@ -1,3 +1,0 @@
-[submodule "json_schema"]
-	path = eva_cttv_pipeline/evidence_string_generation/resources/json_schema
-	url = https://github.com/CTTV/json_schema.git

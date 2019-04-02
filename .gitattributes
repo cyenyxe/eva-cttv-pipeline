@@ -1,1 +1,2 @@
-clinvar-xml-parser/src/test/resources/ClinvarExample.xml -diff
+# linguist-generated is a special property for Github to *not* count that file as part of the code
+clinvar-xml-parser/src/test/resources/ClinvarExample.xml linguist-generated -diff
