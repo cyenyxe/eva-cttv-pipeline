@@ -79,24 +79,13 @@ Postprocessing traits for manual curation
 
 ### Extract information about previous mappings
 
-At this step, all previous mappings produced by the pipeline (including automated and manual) are downloaded to be later
-used to aid the manual curation process. Note that if a term has multiple mappings, the _latest_ mapping (in terms of
-eva_clinvar release date) will be used. In this way, erroneous mappings can be easily overridden and won't occur again.
+At this step, mappings produced by the pipeline on the previous iteration (including automated and manual) are 
+downloaded to be used to aid the manual curation process.
 
 ```bash
-# Download all eva_clinvar releases from FTP
-BASEPATH=ftp://ftp.ebi.ac.uk/pub/databases/eva/ClinVar
-ncftpls -g $BASEPATH/* \
-  | grep eva_clinvar.txt \
-  | grep -v latest \
-  | parallel curl $BASEPATH/{} \
-    -o '$(echo {} | cut -d "/" -f-3 | sed -e "s|/|_|g" -e "s|$|_eva_clinvar.txt|")'
-
-# Extract information about mappings
-cat *_eva_clinvar.txt \
-  | cut -f4-5 \
-  | awk -F$'\t' '{mappings[$1] = $2} END {for (var in mappings) print var "\t" mappings[var]}' \
-  > previous_mappings.tsv
+# Download the latest eva_clinvar release from FTP
+wget -qO- ftp://ftp.ebi.ac.uk/pub/databases/eva/ClinVar/latest/eva_clinvar.txt \
+  | cut -f4-5 | sort -u > previous_mappings.tsv
 ```
 
 ### Create the final table for manual curation
@@ -109,6 +98,10 @@ python3 bin/trait_mapping/create_table_for_manual_curation.py \
 ```
 
 ### Sort and export to Google Sheets
+
+Note that the number of columns in the output table is limited to 50, because only a few traits have that many mappings,
+and in virtually all cases these mappings are not meaningful. However, having a very large table degrades the 
+performance of Google Sheets substantially.  
 
 ```bash
 cut -f-50 table_for_manual_curation.tsv | sort -t$'\t' -k2,2rn | xclip -selection clipboard
