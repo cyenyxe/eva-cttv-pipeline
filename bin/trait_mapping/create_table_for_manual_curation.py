@@ -32,14 +32,14 @@ def find_exact_mapping(trait_name, mappings):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        '--traits-for-curation',
+        '-t', '--traits-for-curation',
         help='Table with traits for which the pipeline failed to make a confident prediction')
     parser.add_argument(
-        '--previous-mappings',
+        '-m', '--previous-mappings',
         help='Table with all mappings previously issued by EVA')
     parser.add_argument(
-        '--final-table-for-curation',
-        help='TSV to be loaded in Google Sheets for manual curation')
+        '-o', '--output',
+        help='Output TSV to be loaded in Google Sheets for manual curation')
     args = parser.parse_args()
     outfile = open(args.final_table_for_curation, 'w')
 

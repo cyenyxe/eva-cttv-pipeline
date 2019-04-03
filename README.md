@@ -74,39 +74,6 @@ Building python pipeline and (optional) Setting up virtual environment
    * To install to develop: "python3 setup.py develop"
    * To build a source distribution: "python3 setup.py sdist"
 
-Postprocessing traits for manual curation
--------
-
-### Extract information about previous mappings
-
-At this step, mappings produced by the pipeline on the previous iteration (including automated and manual) are 
-downloaded to be used to aid the manual curation process.
-
-```bash
-# Download the latest eva_clinvar release from FTP
-wget -qO- ftp://ftp.ebi.ac.uk/pub/databases/eva/ClinVar/latest/eva_clinvar.txt \
-  | cut -f4-5 | sort -u > previous_mappings.tsv
-```
-
-### Create the final table for manual curation
-
-```bash
-python3 bin/trait_mapping/create_table_for_manual_curation.py \
-  --traits-for-curation traits_requiring_curation.tsv \
-  --previous-mappings previous_mappings.tsv \
-  --final-table-for-curation table_for_manual_curation.tsv
-```
-
-### Sort and export to Google Sheets
-
-Note that the number of columns in the output table is limited to 50, because only a few traits have that many mappings,
-and in virtually all cases these mappings are not meaningful. However, having a very large table degrades the 
-performance of Google Sheets substantially.  
-
-```bash
-cut -f-50 table_for_manual_curation.tsv | sort -t$'\t' -k2,2rn | xclip -selection clipboard
-# The paste into Google Sheets
-```
 
 Usage
 -------
