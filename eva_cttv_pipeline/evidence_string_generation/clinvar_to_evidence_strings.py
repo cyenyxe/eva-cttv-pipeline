@@ -379,7 +379,7 @@ def load_efo_mapping(efo_mapping_file):
             line = line.rstrip()
             if line.startswith("#") or not line:
                 continue
-            line_list = line.rstrip().split("\t")
+            line_list = line.split("\t")
             clinvar_name = line_list[0].lower()
             if len(line_list) > 1:
                 ontology_id_list = line_list[1].split("|")
@@ -388,8 +388,7 @@ def load_efo_mapping(efo_mapping_file):
                     trait_2_efo[clinvar_name].append((ontology_id, ontology_label))
                 n_efo_mappings += 1
             else:
-                import pdb; pdb.set_trace()
-                print(clinvar_name)
+                raise ValueError('No mapping provided for trait: {}'.format(clinvar_name))
     logger.info('{} EFO mappings loaded'.format(n_efo_mappings))
     return trait_2_efo
 
