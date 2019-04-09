@@ -1,6 +1,9 @@
 from collections import defaultdict
+import logging
 
 from eva_cttv_pipeline.evidence_string_generation import utilities
+
+logger = logging.getLogger(__package__)
 
 
 def process_gene(consequence_type_dict, variant_id, ensembl_gene_id, so_term):
@@ -29,16 +32,11 @@ def process_consequence_type_file_tsv(snp_2_gene_filepath):
 
 
 def process_consequence_type_file(snp_2_gene_file):
-
-    print('Loading mapping rs->ENSG/SOterms')
-
+    logger.info('Loading mapping rs -> ENSG/SOterms')
     consequence_type_dict, one_rs_multiple_genes = \
         process_consequence_type_file_tsv(snp_2_gene_file)
-
-    print(str(len(consequence_type_dict)) + ' rs->ENSG/SOterms mappings loaded')
-    print(str(len(one_rs_multiple_genes)) + ' rsIds with multiple gene associations')
-    print('Done.')
-
+    logger.info('{} rs->ENSG/SOterms mappings loaded'.format(len(consequence_type_dict)))
+    logger.info('{} rsIds with multiple gene associations'.format(len(one_rs_multiple_genes)))
     return consequence_type_dict
 
 

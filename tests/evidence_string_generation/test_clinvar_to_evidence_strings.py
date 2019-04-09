@@ -123,10 +123,8 @@ class LoadEfoMappingTest(unittest.TestCase):
         efo_file = \
             os.path.join(os.path.dirname(__file__), 'resources', 'feb16_jul16_combined_trait_to_url.tsv')
 
-        cls.trait_2_efo, cls.unavailable_efo = \
-            clinvar_to_evidence_strings.load_efo_mapping(efo_file)
-        cls.trait_2_efo_w_ignore, cls.unavailable_efo_w_ignore = \
-            clinvar_to_evidence_strings.load_efo_mapping(efo_file)
+        cls.trait_2_efo = clinvar_to_evidence_strings.load_efo_mapping(efo_file)
+        cls.trait_2_efo_w_ignore = clinvar_to_evidence_strings.load_efo_mapping(efo_file)
 
     def test_just_mapping_trait_2_efo(self):
         self.assertEqual(len(self.trait_2_efo), 5283)

@@ -1,3 +1,4 @@
+import logging
 import itertools
 import copy
 import json
@@ -10,13 +11,14 @@ from types import SimpleNamespace
 import jsonschema
 
 from eva_cttv_pipeline.evidence_string_generation import cellbase_records
-from eva_cttv_pipeline.evidence_string_generation import efo_term
 from eva_cttv_pipeline.evidence_string_generation import config
 from eva_cttv_pipeline.evidence_string_generation import evidence_strings
 from eva_cttv_pipeline.evidence_string_generation import clinvar
 from eva_cttv_pipeline.evidence_string_generation import utilities
 from eva_cttv_pipeline.evidence_string_generation import consequence_type as CT
 from eva_cttv_pipeline.evidence_string_generation import trait
+
+logger = logging.getLogger(__package__)
 
 
 class Report:
@@ -28,12 +30,7 @@ class Report:
     One instance of this class is instantiated in the running of the pipeline.
     """
 
-    def __init__(self, trait_mappings=None, unavailable_efo=None):
-        if unavailable_efo is None:
-            self.unavailable_efo = set()
-        else:
-            self.unavailable_efo = unavailable_efo
-
+    def __init__(self, trait_mappings=None):
         if trait_mappings is None:
             self.trait_mappings = {}
         else:
@@ -99,8 +96,6 @@ class Report:
             ' mapping and valid EFO mapping were skipped due to a lack of a valid alleleOrigin.',
             str(self.counters["n_more_than_one_efo_term"]) +
             ' evidence strings with more than one trait mapped to EFO terms',
-            str(len(self.unavailable_efo)) +
-            ' evidence strings were generated with traits without EFO correspondence',
             str(self.counters["n_valid_rs_and_nsv"]) +
             ' evidence strings were generated from ClinVar records with rs and nsv ids',
             str(self.counters["n_nsvs"]) + ' total nsvs found',
@@ -112,9 +107,10 @@ class Report:
 
         return '\n'.join(report_strings)
 
-    def add_evidence_string(self, ev_string, clinvar_record, trait, ensembl_gene_id):
+    def add_evidence_string(self, ev_string, clinvar_record, trait, ensembl_gene_id,
+                            ot_schema_contents):
         try:
-            ev_string.validate()
+            ev_string.validate(ot_schema_contents)
             self.evidence_string_list.append(ev_string)
         except jsonschema.exceptions.ValidationError as err:
             print('Error: evidence_string does not validate against schema.')
@@ -125,11 +121,8 @@ class Report:
             print("trait:\n%s" % trait)
             print("ensembl gene id: %s" % ensembl_gene_id)
             sys.exit(1)
-        except efo_term.EFOTerm.IsObsoleteException as err:
-            print('Error: obsolete EFO term.')
-            print('Term: ' + ev_string.get_disease().efoid)
-            print(err)
-            print(json.dumps(ev_string))
+        except jsonschema.exceptions.SchemaError as err:
+            print('Error: OpenTargets schema file is invalid')
             sys.exit(1)
 
     def write_output(self, dir_out):
@@ -141,12 +134,6 @@ class Report:
             for trait_list in self.unmapped_traits:
                 fdw.write(str(trait_list) + '\t' +
                           str(self.unmapped_traits[trait_list]) + '\n')
-
-        # Contains urls provided by Gary which are not yet included within EFO
-        with utilities.open_file(dir_out + '/' + config.UNAVAILABLE_EFO_FILE_NAME, 'wt') as fdw:
-            fdw.write('Trait\tCount\n')
-            for clinvar_name in self.unavailable_efo:
-                fdw.write(clinvar_name + "\n")
 
         with utilities.open_file(dir_out + '/' + config.EVIDENCE_STRINGS_FILE_NAME, 'wt') as fdw:
             for evidence_string in self.evidence_string_list:
@@ -225,15 +212,14 @@ class Report:
 
 
 def launch_pipeline(dir_out, allowed_clinical_significance, efo_mapping_file,
-                    snp_2_gene_file, json_file):
+                    snp_2_gene_file, json_file, ot_schema):
 
-    allowed_clinical_significance = allowed_clinical_significance.split(',') if \
-        allowed_clinical_significance else get_default_allowed_clinical_significance()
-
+    allowed_clinical_significance = (allowed_clinical_significance.split(',')
+                                     if allowed_clinical_significance
+                                     else get_default_allowed_clinical_significance())
     mappings = get_mappings(efo_mapping_file, snp_2_gene_file)
-
-    report = clinvar_to_evidence_strings(allowed_clinical_significance, mappings, json_file)
-
+    report = clinvar_to_evidence_strings(allowed_clinical_significance, mappings, json_file,
+                                         ot_schema)
     output(report, dir_out)
 
 
@@ -242,12 +228,10 @@ def output(report, dir_out):
     print(report)
 
 
-def clinvar_to_evidence_strings(allowed_clinical_significance, mappings, json_file):
-
-    report = Report(unavailable_efo=mappings.unavailable_efo, trait_mappings=mappings.trait_2_efo)
-
+def clinvar_to_evidence_strings(allowed_clinical_significance, mappings, json_file, ot_schema):
+    report = Report(trait_mappings=mappings.trait_2_efo)
     cell_recs = cellbase_records.CellbaseRecords(json_file=json_file)
-
+    ot_schema_contents = json.loads(open(ot_schema).read())
     for cellbase_record in cell_recs:
         report.counters["record_counter"] += 1
         if report.counters["record_counter"] % 1000 == 0:
@@ -259,11 +243,8 @@ def clinvar_to_evidence_strings(allowed_clinical_significance, mappings, json_fi
         for clinvar_record_measure in clinvar_record.measures:
             report.counters["n_nsvs"] += (clinvar_record_measure.nsv_id is not None)
             append_nsv(report.nsv_list, clinvar_record_measure)
-
             report.counters["n_multiple_allele_origin"] += (len(clinvar_record.allele_origins) > 1)
-
             traits = create_traits(clinvar_record.traits, mappings.trait_2_efo, report)
-
             converted_allele_origins = convert_allele_origins(clinvar_record.allele_origins)
 
             for consequence_type, trait, allele_origin in itertools.product(
@@ -276,19 +257,13 @@ def clinvar_to_evidence_strings(allowed_clinical_significance, mappings, json_fi
                     continue
 
                 if allele_origin == 'germline':
-                    evidence_string = evidence_strings.CTTVGeneticsEvidenceString(clinvar_record,
-                                                                                  clinvar_record_measure,
-                                                                                  report,
-                                                                                  trait,
-                                                                                  consequence_type)
+                    evidence_string = evidence_strings.CTTVGeneticsEvidenceString(
+                        clinvar_record, clinvar_record_measure, report, trait, consequence_type)
                 elif allele_origin == 'somatic':
-                    evidence_string = evidence_strings.CTTVSomaticEvidenceString(clinvar_record,
-                                                                                 clinvar_record_measure,
-                                                                                 report,
-                                                                                 trait,
-                                                                                 consequence_type)
+                    evidence_string = evidence_strings.CTTVSomaticEvidenceString(
+                        clinvar_record, clinvar_record_measure, report, trait, consequence_type)
                 report.add_evidence_string(evidence_string, clinvar_record, trait,
-                                           consequence_type.ensembl_gene_id)
+                                           consequence_type.ensembl_gene_id, ot_schema_contents)
                 report.evidence_list.append([clinvar_record.accession,
                                              clinvar_record_measure.rs_id,
                                              trait.clinvar_name,
@@ -311,12 +286,8 @@ def clinvar_to_evidence_strings(allowed_clinical_significance, mappings, json_fi
 
 def get_mappings(efo_mapping_file, snp_2_gene_file):
     mappings = SimpleNamespace()
-    mappings.trait_2_efo, mappings.unavailable_efo = \
-        load_efo_mapping(efo_mapping_file)
-
-    mappings.consequence_type_dict = \
-        CT.process_consequence_type_file(snp_2_gene_file)
-
+    mappings.trait_2_efo = load_efo_mapping(efo_mapping_file)
+    mappings.consequence_type_dict = CT.process_consequence_type_file(snp_2_gene_file)
     return mappings
 
 
@@ -401,14 +372,14 @@ def append_nsv(nsv_list, clinvar_record_measure):
 
 def load_efo_mapping(efo_mapping_file):
     trait_2_efo = defaultdict(list)
-    unavailable_efo = set()
     n_efo_mappings = 0
 
     with utilities.open_file(efo_mapping_file, "rt") as f:
         for line in f:
-            if line.startswith("#"):
+            line = line.rstrip()
+            if line.startswith("#") or not line:
                 continue
-            line_list = line.rstrip().split("\t")
+            line_list = line.split("\t")
             clinvar_name = line_list[0].lower()
             if len(line_list) > 1:
                 ontology_id_list = line_list[1].split("|")
@@ -417,12 +388,9 @@ def load_efo_mapping(efo_mapping_file):
                     trait_2_efo[clinvar_name].append((ontology_id, ontology_label))
                 n_efo_mappings += 1
             else:
-                unavailable_efo.add(clinvar_name)
-
-    print(str(n_efo_mappings) + ' EFO mappings loaded')
-    print(str(len(unavailable_efo)) + ' urls without an actual valid EFO mapping')
-
-    return trait_2_efo, unavailable_efo
+                raise ValueError('No mapping provided for trait: {}'.format(clinvar_name))
+    logger.info('{} EFO mappings loaded'.format(n_efo_mappings))
+    return trait_2_efo
 
 
 class UnhandledUrlTypeException(Exception):
