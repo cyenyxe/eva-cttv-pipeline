@@ -41,7 +41,7 @@ if __name__ == '__main__':
         '-o', '--output',
         help='Output TSV to be loaded in Google Sheets for manual curation')
     args = parser.parse_args()
-    outfile = open(args.final_table_for_curation, 'w')
+    outfile = open(args.output, 'w')
 
     # Load all previous mappings
     previous_mappings = dict(l.rstrip().split('\t') for l in open(args.previous_mappings))
