@@ -85,6 +85,16 @@ def format_output_string(ontology, term):
     )
 
 
+def create_efo_table(input_file_path, output_file_path):
+    with open(input_file_path) as infile, open(output_file_path, 'w') as outfile:
+        for line in infile:
+            term = line.rstrip()
+            print('Processing ' + term)
+            ontology = ontology_to_ols[re.split('[:_]', term.split('/')[-1])[0]]
+            result = format_output_string(ontology, term)
+            outfile.write(result)
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--input-mappings', required=True,
@@ -92,11 +102,4 @@ if __name__ == '__main__':
     parser.add_argument('-o', '--output', required=True,
                         help='Output table for EFO import')
     args = parser.parse_args()
-    outfile = open(args.output, 'w')
-    for line in open(args.input_mappings):
-        term = line.rstrip()
-        print('Processing ' + term)
-        ontology = ontology_to_ols[re.split('[:_]', term.split('/')[-1])[0]]
-        result = format_output_string(ontology, term)
-        outfile.write(result)
-    outfile.close()
+    create_efo_table(args.input_mappings, args.output)
