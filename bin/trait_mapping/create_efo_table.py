@@ -14,7 +14,7 @@ ontology_to_ols = {
 # OLS url to query for a term details
 ols_url_template = 'https://www.ebi.ac.uk/ols/api/ontologies/{ontology}/terms?iri={term}'
 
-# List of fields in the current version of Webulous submittion template
+# List of fields in the current version of Webulous submission template
 webulous_fields = [
     'disease', 'child_of', 'definition', 'synonyms', 'located_in_organ', 'located_in_cell',
     'biological_process', 'msh_def_cite', 'ncit_def_cite', 'snomedct_def_cite', 'icd9_def_cite',
@@ -33,7 +33,7 @@ def get_parent_terms(url):
 
 
 def get_ols_details(ontology, term):
-    """Queries OLS and returns the details necessary for """
+    """Queries OLS and returns the details necessary for the EFO import table construction."""
     url = ols_url_template.format(ontology=ontology, term=term)
     data = requests.get(url).json()['_embedded']['terms'][0]
     label = data['label']
