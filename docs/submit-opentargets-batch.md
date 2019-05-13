@@ -273,5 +273,23 @@ added will be picked up by ZOOMA in the next iteration of the trait mapping pipe
 Novel traits can be submitted to EFO using the [Webulous templates](https://www.ebi.ac.uk/efo/webulous/) **Add EFO
 disease** and **Import HP term**. Open a new Google spreadsheet and connect with the server using the Webulous Add-on.
 
+There is a helper script available for preparing the table. `ontology_mappings` must contain a list of ontology
+identifiers for EFO import (such as `MONDO_123456`, `Orphanet:123456`, etc.), one entry per line. The output file will
+contains a partially ready table for EFO import.
+```bash
+python bin/trait_mapping/create_efo_table.py \ 
+  -i ontology_mappings.txt \
+  -o efo_table.tsv
+```
+
+The table needs to be amended manually:
+* Some terms will lack descriptions, because ontologies don't always contain a description field for a particular term.
+  If possible, descriptions should be added for all traits.
+* Some terms (or their parent terms) might be marked as obsolete. Although an effort is made to exclude such traits 
+  during upstream analysis (inside the trait mapping pipeline), sometimes a trait is not properly marked as obsolete in
+  the ontology but its obsoleteness is indicated in its name or in its parent term. The easy way to detect such issues
+  is to search the table for the term “obsolete”. They must be corrected manually by selecting another term or just
+  removed from the import table.
+
 Open a new git issue with EFO to review and import these novel trait names e.g.
 [https://github.com/EBISPOT/efo/issues/223](https://github.com/EBISPOT/efo/issues/223)
