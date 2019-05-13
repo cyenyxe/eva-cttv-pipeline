@@ -183,78 +183,7 @@ with no mappings. It contains the following columns:
 
 ## Step 5. Manual curation
 
-### Extract information about previous mappings
-
-At this step, mappings produced by the pipeline on the previous iteration (including automated and manual) are
-downloaded to be used to aid the manual curation process.
-
-```bash
-# Download the latest eva_clinvar release from FTP
-wget -qO- ftp://ftp.ebi.ac.uk/pub/databases/eva/ClinVar/latest/eva_clinvar.txt \
-  | cut -f4-5 | sort -u > previous_mappings.tsv
-```
-
-### Create the final table for manual curation
-
-```bash
-python3 bin/trait_mapping/create_table_for_manual_curation.py \
-  --traits-for-curation traits_requiring_curation.tsv \
-  --previous-mappings previous_mappings.tsv \
-  --output table_for_manual_curation.tsv
-```
-
-### Sort and export to Google Sheets
-
-Note that the number of columns in the output table is limited to 50, because only a few traits have that many mappings,
-and in virtually all cases these mappings are not meaningful. However, having a very large table degrades the
-performance of Google Sheets substantially.
-
-```bash
-cut -f-50 table_for_manual_curation.tsv | sort -t$'\t' -k2,2rn | xclip -selection clipboard
-# Then paste into Google Sheets
-```
-
-Traits with occurence ≥ 10 must have 100% coverage after the manual curation.
-
-To do this manually it helps to open an excel sheet like this one
-[_traits_requiring_curation_](https://docs.google.com/spreadsheets/d/1mb_ZAEwlSTLCQYBWsihxvUGWoy-otaKFq8tIxpJVT0U/)
-and sort the mappings by frequency. Follow the steps below for assessing the mapping quality of as many traits as
-possible with frequency greater than 2.
-
-All curated mappings should be stored in a file named `finished_mappings_curation.tsv`.
-
-### Assessing existing mapping quality
-Good mappings must be eyeballed to ensure they are actually good. Alternative mappings for medium or low quality
-mappings can be searched for using OLS. If a mapping cant be found in EFO, look for a mapping to a HP or ORDO trait
-name. Most HP and ORDO terms will also be in EFO but there are some that arent. These can be imported to EFO using the
-Webulous submission service.
-
-The criteria to manually evaluate mapping quality is:
-
-* Exact string for string matches are _good_
-* Slight modifications are _good_ e.g. IRAK4 DEFICIENCY -> Immunodeficiency due to interleukin-1  receptor-associated
-  kinase-4 deficiency
-* Subtype to parent are _good_ e.g ACHROMATOPSIA 3 -> Achromatopsia
-* Parent to subtype are _bad_ e.g. HEMOCHROMATOSIS -> Hemochromatosis type 3
-Familial / congenital represented on only one half are _bad_ e.g. Familial renal glycosuria -> Renal glycosuria
-* Susceptibility on only one half is _bad_ e.g Alcohol dependence, susceptibility to -> alcohol dependence
-* Early / late onset on only one half is _bad_ e.g. Alzheimer disease, early-onset -> Alzheimer's disease
-
-### Unmapped trait names
-Trait names that haven't been automatically mapped against any ontology term can also be searched for using OLS. If a
-mapping cant be found in EFO, look for a mapping to a HP or ORDO trait name. If these are not already in EFO they should
-be imported to EFO using the Webulous submission service.
-
-### Putting together a file with finished mappings after curation
-The following mappings must be written to a single file to be used as input for the evidence string generation:
-
-* Mappings generated automatically by the trait mapping pipeline and already considered “finished”
-  (`automated_trait_mappings.tsv`)
-* Eyeballed good quality mappings (`finished_mappings_curation.tsv`)
-* Manually curated medium and low quality mappings (`finished_mappings_curation.tsv`)
-* New mappings for previously unmapped traits (`finished_mappings_curation.tsv`)
-
-The resulting file must be named `trait_names_to_ontology_mappings.tsv`.
+See separate protocol, [Manual curation](manual_curation.md).
 
 
 

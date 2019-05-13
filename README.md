@@ -18,3 +18,4 @@ strings", JSON strings describing:
 Available documentation:
 * [Build instructions](docs/build.md)
 * [How to submit an OpenTargets batch](docs/submit-opentargets-batch.md)
+  + [Manual curation](docs/manual_curation.md)
