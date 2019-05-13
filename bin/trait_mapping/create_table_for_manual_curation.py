@@ -60,3 +60,5 @@ if __name__ == '__main__':
              previous_mapping, exact_mapping] + mappings
         ) + '\n'
         outfile.write(out_line)
+
+    outfile.close()
