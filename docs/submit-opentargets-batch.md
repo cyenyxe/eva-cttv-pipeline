@@ -1,11 +1,11 @@
 # How to submit an OpenTargets batch
 
-Please follow the instructions below in order to create and submit an OpenTargets batch using ClinVar data. Additional
-diagrams and background explanations can be found in [this
+Please follow the instructions below in order to create and submit an OpenTargets batch using ClinVar data.
+Additional diagrams and background explanations can be found in [this
 presentation](https://docs.google.com/presentation/d/1nai1dvtfow4RkolyITcymXAsQqEwPJ8pUPcgjLDCntM).
 
-Before starting the process, follow the [Build instructions](build.md). In particular, you'll need to install Python 3.5
-(if you don't have it already), build the Java ClinVar parser, build and install the Python pipeline.
+Before starting the process, follow the [Build instructions](build.md). In particular, you'll need to install Python
+3.5 (if you don't have it already), build the Java ClinVar parser, build and install the Python pipeline.
 
 
 
@@ -26,8 +26,8 @@ mkdir clinvar gene_mapping trait_mapping evidence_strings
 
 ## Step 2. Preparing ClinVar data
 
-Each OpenTargets release is synchronised with a certan Ensembl release version. The specific version is announced in the
-e-mail which they send a few weeks before the data submission deadline. Based on Ensembl version, we can find the
+Each OpenTargets release is synchronised with a certan Ensembl release version. The specific version is announced in
+the e-mail which they send a few weeks before the data submission deadline. Based on Ensembl version, we can find the
 ClinVar release associated to an Ensembl release in its [sources
 page](http://www.ensembl.org/info/genome/variation/species/sources_documentation.html).
 
@@ -37,8 +37,8 @@ Two files need to be downloaded from the ClinVar FTP into the `clinvar` subfolde
 
 ### 2.1. Updating ClinVar schema version (if necessary)
 Schema of ClinVar XML files changes from time to time. The schema version can be obtained by inspecting the XML file
-header (it should be in the very first line). The current supported version is **1.55**. If the version changes, we have
-to regenerate the JAXB binding classes to be able to parse the XML. It can be done using the following command:
+header (it should be in the very first line). The current supported version is **1.55**. If the version changes, we
+have to regenerate the JAXB binding classes to be able to parse the XML. It can be done using the following command:
 
 ```bash
 python bin/update_clinvar_schema.py \
@@ -82,8 +82,8 @@ python bin/clinvar_jsons/extract_pathogenic_and_likely_pathogenic_variants.py \
 
 
 ## Step 3. Gene and consequence type mappings
-A file containing coordinate, allele, variant type and ID information needs to be given to OpenTargets so they can map
-the ClinVar records to an affected gene and consequence type.
+A file containing coordinate, allele, variant type and ID information needs to be given to OpenTargets so they can
+map the ClinVar records to an affected gene and consequence type.
 
 ```bash
 python bin/gene_mapping/gene_map_coords.py \
@@ -106,8 +106,9 @@ The columns in the TSV output file are:
 * Variant type (as specified by ClinVar)
 
 This output file must be uploaded to the [OpenTargets Google Cloud
-Storage](https://console.cloud.google.com/storage/browser/otar012-eva/). They will fed it into their mapping pipeline,
-which consists of VEP and some internal custom software. The tsv file returned by OpenTargets has the columns:
+Storage](https://console.cloud.google.com/storage/browser/otar012-eva/). They will fed it into their mapping
+pipeline, which consists of VEP and some internal custom software. The tsv file returned by OpenTargets has the
+columns:
 
 * Variant (rs ID, sv ID, coordinate and alleles, or RCV)
 * na (unused)
@@ -118,8 +119,8 @@ which consists of VEP and some internal custom software. The tsv file returned b
 
 After uploading the file to the Cloud Storage bucket, you also need to notify the OpenTargets team via e-mail so that
 they can start their mapping pipeline (they won't receive an automatic notification). The reply from OpenTargets will
-take some time (usually around a week); however, it doesn't block most of the subsequent steps, which can be done while
-waiting for the reply. The only step which _is_ blocked is Step 6, “Evidence string generation”.
+take some time (usually around a week); however, it doesn't block most of the subsequent steps, which can be done
+while waiting for the reply. The only step which _is_ blocked is Step 6, “Evidence string generation”.
 
 
 
@@ -139,8 +140,8 @@ diagram of the whole workflow
 ### Querying ZOOMA
 ZOOMA is first queried using the trait name.
 
-* If there are any high confidence mappings from EFO then they are output for use and no further processing is taken for
-  that trait name.
+* If there are any high confidence mappings from EFO then they are output for use and no further processing is taken
+  for that trait name.
 * If there are lower confidence mappings from EFO then these are output in a separate curation file, and the process
   stops here for that trait name.
 * If there are high confidence mappings not from EFO then their ontology IDs are used as input for querying OxO (see
@@ -190,9 +191,10 @@ See separate protocol, [Manual curation](manual_curation.md).
 ## Step 6. Generating evidence strings
 
 ### Preparing local schema
-OpenTargets have a [JSON schema](https://github.com/opentargets/json_schema) used to validate submitted data. Validation
-of generated evidence strings is carried out during generation. To fetch schema, issue the following commands. `VERSION`
-needs to be filled with the version number recommended by the OpenTargets in their announcement e-mail.
+OpenTargets have a [JSON schema](https://github.com/opentargets/json_schema) used to validate submitted data.
+Validation of generated evidence strings is carried out during generation. To fetch schema, issue the following
+commands. `VERSION` needs to be filled with the version number recommended by the OpenTargets in their announcement
+e-mail.
 
 ```bash
 VERSION=1.6.0
@@ -203,7 +205,8 @@ File `opentargets.json` should be saved in the batch root directory.
 
 ### Generating evidence strings
 In order to generate the evidence strings, run the following command. `clinvar_[yyyy]-[mm]_coords.out` file should be
-provided by the OpenTargets after processing the file submitted to them on Step 3, “Gene and consequence type mappings”.
+provided by the OpenTargets after processing the file submitted to them on Step 3, “Gene and consequence type
+mappings”.
 
 ```bash
 python bin/evidence_string_generation.py \
@@ -236,16 +239,17 @@ wiki](https://github.com/opentargets/data-providers-docs/wiki/Data-(Evidence-Str
 
 ### Trait mappings
 The file containing trait mappings (`eva_clinvar.txt`) must be uploaded to the EVA FTP. It will be placed in a folder
-structure like [this one](ftp://ftp.ebi.ac.uk/pub/databases/eva/ClinVar/2017/07/21/) and shall also be available through
-[the link to the latest version](ftp://ftp.ebi.ac.uk/pub/databases/eva/ClinVar/latest/).
+structure like [this one](ftp://ftp.ebi.ac.uk/pub/databases/eva/ClinVar/2017/07/21/) and shall also be available
+through [the link to the latest version](ftp://ftp.ebi.ac.uk/pub/databases/eva/ClinVar/latest/).
 
 ### ClinVar xrefs
-Each ClinVar record is associated with one or more traits. When submitting the data to OpenTargets, the trait needs to
-be specified as an ontological term present in [the Experimental Factor Ontology (EFO)](http://www.ebi.ac.uk/efo/).
+Each ClinVar record is associated with one or more traits. When submitting the data to OpenTargets, the trait needs
+to be specified as an ontological term present in [the Experimental Factor Ontology
+(EFO)](http://www.ebi.ac.uk/efo/).
 
 Traits in ClinVar may specify ontological terms for the trait name, but often not to a term present in EFO.
-Cross-references (xrefs) to ontological terms can help in finding a good EFO term for a trait, whether an xref is in EFO
-itself or an xref can be used as a starting point for searching for a term in EFO later on.
+Cross-references (xrefs) to ontological terms can help in finding a good EFO term for a trait, whether an xref is in
+EFO itself or an xref can be used as a starting point for searching for a term in EFO later on.
 
 Within the ClinVar records are ontology xRefs that link the trait name to a controlled vocabulary. We submit these to
 [ZOOMA](http://www.ebi.ac.uk/spot/zooma/) under the evidence handle “ClinVar_xRefs”.
@@ -267,15 +271,16 @@ version of this file on the FTP can be found in
 
 
 ## Step 9. Adding novel trait names to EFO
-Traits remaining unmapped or poorly mapped can be submitted to EFO if a suitable parent term is available. Any new terms
-added will be picked up by ZOOMA in the next iteration of the trait mapping pipeline.
+Traits remaining unmapped or poorly mapped can be submitted to EFO if a suitable parent term is available. Any new
+terms added will be picked up by ZOOMA in the next iteration of the trait mapping pipeline.
 
 Novel traits can be submitted to EFO using the [Webulous templates](https://www.ebi.ac.uk/efo/webulous/) **Add EFO
-disease** and **Import HP term**. Open a new Google spreadsheet and connect with the server using the Webulous Add-on.
+disease** and **Import HP term**. Open a new Google spreadsheet and connect with the server using the Webulous
+Add-on.
 
 There is a helper script available for preparing the table. `ontology_mappings` must contain a list of ontology
-identifiers for EFO import (such as `MONDO_123456`, `Orphanet:123456`, etc.), one entry per line. The output file will
-contains a partially ready table for EFO import.
+identifiers for EFO import (such as `MONDO_123456`, `Orphanet:123456`, etc.), one entry per line. The output file
+will contains a partially ready table for EFO import.
 ```bash
 python bin/trait_mapping/create_efo_table.py \ 
   -i ontology_mappings.txt \
@@ -283,13 +288,13 @@ python bin/trait_mapping/create_efo_table.py \
 ```
 
 The table needs to be amended manually:
-* Some terms will lack descriptions, because ontologies don't always contain a description field for a particular term.
-  If possible, descriptions should be added for all traits.
-* Some terms (or their parent terms) might be marked as obsolete. Although an effort is made to exclude such traits 
-  during upstream analysis (inside the trait mapping pipeline), sometimes a trait is not properly marked as obsolete in
-  the ontology but its obsoleteness is indicated in its name or in its parent term. The easy way to detect such issues
-  is to search the table for the term “obsolete”. They must be corrected manually by selecting another term or just
-  removed from the import table.
+* Some terms will lack descriptions, because ontologies don't always contain a description field for a particular
+  term. If possible, descriptions should be added for all traits.
+* Some terms (or their parent terms) might be marked as obsolete. Although an effort is made to exclude such traits
+  during upstream analysis (inside the trait mapping pipeline), sometimes a trait is not properly marked as obsolete
+  in the ontology but its obsoleteness is indicated in its name or in its parent term. The easy way to detect such
+  issues is to search the table for the term “obsolete”. They must be corrected manually by selecting another term or
+  just removed from the import table.
 
 Open a new git issue with EFO to review and import these novel trait names e.g.
 [https://github.com/EBISPOT/efo/issues/223](https://github.com/EBISPOT/efo/issues/223)

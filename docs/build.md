@@ -23,10 +23,11 @@ rmdir Python-${VERSION}
 
 ### Root installation
 
-This way is easier as it doesn't require you to set up any paths manually. Package installation is also less likely to
-go wrong if you're using this way.
+This way is easier as it doesn't require you to set up any paths manually. Package installation is also less likely
+to go wrong if you're using this way.
 
-You need to have zlib development headers installed. Command for Debian/Ubuntu is `sudo apt-get -y install zlib1g-dev`.
+You need to have zlib development headers installed. Command for Debian/Ubuntu is `sudo apt-get -y install
+zlib1g-dev`.
 
 ```bash
 ./configure --with-zlib=/usr/include --enable-optimizations
@@ -37,12 +38,12 @@ You can now invoke the new installation as `python3.5`.
 
 ### Non-root installation
 
-This is the only way which will work on the `ebi-cli` cluster. It is also useful if you need to have more than one minor
-version installed, e. g. Python 3.5.0 and 3.5.6, simultaneously.
+This is the only way which will work on the `ebi-cli` cluster. It is also useful if you need to have more than one
+minor version installed, e. g. Python 3.5.0 and 3.5.6, simultaneously.
 
-You can optionally add `--enable-optimizations` flag to `./configure` call (as in the root installation way), but note
-that it will significantly slow down the build because the cluster is using NFS, and the build may take up to a few
-hours to complete.
+You can optionally add `--enable-optimizations` flag to `./configure` call (as in the root installation way), but
+note that it will significantly slow down the build because the cluster is using NFS, and the build may take up to a
+few hours to complete.
 
 ```bash
 ./configure --prefix=$INST_PATH
@@ -58,8 +59,8 @@ export PATH=$INST_PATH:$PATH
 export PYTHONPATH=$INST_PATH
 ```
 
-To install packages for this installation you won't be able to use `pip` as a standalone command and instead you'll have
-to run it in this way:
+To install packages for this installation you won't be able to use `pip` as a standalone command and instead you'll
+have to run it in this way:
 ```bash
 python -m pip install --upgrade pip
 python -m pip install --upgrade numpy pandas scipy
@@ -80,19 +81,20 @@ Two JAR files will be generated in the 'target' directory, one of them including
 ## Deploying local OLS installation
 
 During the preparation of 2019_04 release, which had to be synchronized with EFO v3, OLS had to be deployed locally
-because the production deployment of OLS on www.ebi.ac.uk/ols only supported EFO v2 at the time. This can be done using
-the following command (substitute the image version as appropriate):
+because the production deployment of OLS on www.ebi.ac.uk/ols only supported EFO v2 at the time. This can be done
+using the following command (substitute the image version as appropriate):
 
 ```bash
 sudo docker run -p 8080:8080 simonjupp/efo3-ols:3.4.0
 ```
 
-To use the local deployment, uncomment the configuration section at the top of `/eva_cttv_pipeline/trait_mapping/ols.py`
-to specify the URL of the local installation. If you have deployed OLS on the different machine than the one you're
-using to run the pipeline, substitute the correct IP address of the machine where the OLS installation is deployed.
+To use the local deployment, uncomment the configuration section at the top of
+`/eva_cttv_pipeline/trait_mapping/ols.py` to specify the URL of the local installation. If you have deployed OLS on
+the different machine than the one you're using to run the pipeline, substitute the correct IP address of the machine
+where the OLS installation is deployed.
 
-Please contact the semantic data integration team at [SPOT](https://www.ebi.ac.uk/about/spot-team) if you have questions
-about local OLS installation.
+Please contact the semantic data integration team at [SPOT](https://www.ebi.ac.uk/about/spot-team) if you have
+questions about local OLS installation.
 
 ## Building python pipeline and (optionally) setting up virtual environment
 1. `git clone --recursive git@github.com:EBIvariation/eva-cttv-pipeline.git`
@@ -106,9 +108,9 @@ about local OLS installation.
    * To build a source distribution: `python3 setup.py sdist`
 
 ## Regenerating test data
-All the test does (for the moment) is checking that parsing 10 records from the XML will (1) not crash and (2) provide
-10 records after parsing. So to regenerate test data, we just have to extract any 10 records (can just be the first 10
-records) from the ClinVar XML file:
+All the test does (for the moment) is checking that parsing 10 records from the XML will (1) not crash and (2)
+provide 10 records after parsing. So to regenerate test data, we just have to extract any 10 records (can just be the
+first 10 records) from the ClinVar XML file:
 
 ```bash
 CLINVAR_RELEASE="2019-01"  # set the correct one
