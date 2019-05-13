@@ -8,9 +8,7 @@ The instructions below will be useful:
 without replacing you default `python`;
 * If you are running the pipeline on the `ebi-cli` cluster, which currently only supports Python 3.4.
 
-Adjust `VERSION` and `INST_PATH` if needed. Optionally you can add `--enable-optimizations` to the `./configure` call,
-which should increase Python's performance on your system, but note that this significantly slows down the build,
-especially if you're installing to a NFS folder.
+Adjust `VERSION` and `INST_PATH` if needed.
 
 ```bash
 VERSION=3.5.6
@@ -77,7 +75,7 @@ cd clinvar-xml-parser
 mvn package
 ```
 
-Two jar files will be generated in the 'target' directory, one of them including all the dependencies.
+Two JAR files will be generated in the 'target' directory, one of them including all the dependencies.
 
 ## Deploying local OLS installation
 

@@ -7,8 +7,8 @@ OpenTargets aims to provide evidence on the biological validity of therapeutic t
 of the likely effectiveness of pharmacological intervention on these targets, using genome-scale experiments and
 analysis.
 
-For every OpenTargets release, the EVA curates ClinVar records (variants) and submits them to OpenTargets as "evidence
-strings", JSON strings describing:
+For every OpenTargets release, the EVA curates ClinVar records (variants) and submits them to OpenTargets as “evidence
+strings”, JSON strings describing:
 
 * Genes the variant affects
 * Functional consequence of the variant on the gene

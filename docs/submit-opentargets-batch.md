@@ -11,7 +11,7 @@ Before starting the process, follow the [Build instructions](build.md). In parti
 
 ## Step 1. Preparing batch processing folder
 
-The working directory for the processing is `/nfs/production3/eva/opentargets`
+The working directory for the processing is `/nfs/production3/eva/opentargets`.
 
 Given the year and month the batch is to be released on, run the following command to create the appropriate folders:
 
@@ -50,13 +50,13 @@ A new Java package should have been generated in the directory
 `clinvar-xml-parser/src/main/java/uk/ac/ebi/eva/clinvar/model`.
 
 With each schema version change, test data must be updated as well. See details in [Build
-instructions](build.md#regenerating-test-data)
+instructions](build.md#regenerating-test-data).
 
 Create a pull request to merge this code into the main repository. It must contain both the updated schema version as
 well as the new test data.
 
 After a schema update, you'll also need to rebuild Java parser (see [Build
-instructions](build.md#building-java-clinvar-parser))
+instructions](build.md#building-java-clinvar-parser)).
 
 ### 2.2. Converting ClinVar files
 

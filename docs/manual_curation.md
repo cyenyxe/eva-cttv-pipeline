@@ -71,30 +71,30 @@ be imported to EFO using the Webulous submission service.
 Curation should be done by subsequently applying filters to appropriate columns, then making decisions for the traits in
 the filtered selection.
 
-* 1\. **There is a previously assigned mapping for this trait**. All of these are the decisions that we made in the past,
+* 1\. **There is a previously assigned mapping for this trait.** All of these are the decisions that we made in the past,
   so we trust them (to an extent). Copy and paste previously used mappings into “Mapping to use”. Then review them
   according to the following steps.
   * 1.1. **The previously assigned mapping is in EFO**
-    * 1.1.1. **The previously assigned mapping is in EFO and is exact** . Mark as finished immediately. (It's extremely
+    * 1.1.1. **The previously assigned mapping is in EFO and is exact.** Mark as finished immediately. (It's extremely
       unlikely that a better mapping could be found).
-    * 1.1.2. **The previously assigned mapping is in EFO and IS NOT exact**. Review the mappings to see if a better
+    * 1.1.2. **The previously assigned mapping is in EFO and IS NOT exact.** Review the mappings to see if a better
       (more accurate/specific) mapping is available. Then mark as finished.
-  * 1.2. **The previously assigned mapping is not contained in EFO**. We need to either find a mapping which is already
+  * 1.2. **The previously assigned mapping is not contained in EFO.** We need to either find a mapping which is already
     in EFO, or import these terms into EFO.
-    * 1.2.1. **The previously used mapping IS NOT contained in EFO and is exact**. These are good candidates to mark as
+    * 1.2.1. **The previously used mapping IS NOT contained in EFO and is exact.** These are good candidates to mark as
       finished and them import in EFO afterwards. However, quickly check whether there are non-exact matches which are
       already in EFO are are as good as exact mappings.
       * E. g. if the exact mapping is “erythrocytosis 6, familial” and not in EFO, but there is an inexact mapping
         “familial erythrocytosis 6” which *is* in EFO, we should use the inexact mapping.
       * If a trait does not have any EFO mappings, it's probably safe to mark it as finished (with subsequent import to
         EFO).
-    * 1.2.2. **The previously assigned mapping IS NOT contained in EFO and IS NOT exact**. Similarly to 1.2.1, attempt 
-      to find an acceptable EFO mapping, if not found — use any acceptable mapping (with subsequent import to EFO).
+    * 1.2.2. **The previously assigned mapping IS NOT contained in EFO and IS NOT exact.** Similarly to 1.2.1, attempt 
+      to find an acceptable EFO mapping; if not found, use any acceptable mapping (with subsequent import to EFO).
 * 2\. **There is no previously assigned mappings for the trait, but exact mappings are available.** Because
   letter-to-letter matches are extremely likely to be correct, we can use them after eyeballing for correctness.
   * 2.1. **The exact mapping in the EFO.** Mark as finished immediately.
-  * 2.2. **The exact mapping IS NOT in the EFO.** Similarly to 1.2.1, attempt to find an acceptable EFO mapping, if not 
-    found — use any acceptable mapping (with subsequent import to EFO).
+  * 2.2. **The exact mapping IS NOT in the EFO.** Similarly to 1.2.1, attempt to find an acceptable EFO mapping; if not 
+    found, use any acceptable mapping (with subsequent import to EFO).
 * 3\. **There are no previously used or exact mappings for the trait.** Curate manually as usual.
 
 ### Time-saving options
@@ -111,7 +111,7 @@ the old workflow_ (because we're reusing the results of previous curations):
 
 ## Exporting curation results
 Traits with occurence ≥ 10 must have 100% coverage after the manual curation. For the rest of the traits, curate as many
-as possible. all curated mappings should be stored in a file named `finished_mappings_curation.tsv`. 
+as possible. All curated mappings should be stored in a file named `finished_mappings_curation.tsv`. 
  
 After that, the following mappings must be written to a single file to be used as input for the evidence string
 generation:
