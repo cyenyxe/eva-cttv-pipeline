@@ -1,4 +1,4 @@
 # linguist-generated is a special property for Github to *not* count that file as part of the code
 clinvar-xml-parser/src/test/resources/ClinvarExample.xml linguist-generated -diff
-# Mark JAXB classes as generated to exclude from repository statistics, but do not hide diff
-clinvar-xml-parser/src/* linguist-generated
+# Hide JAXB classes from repository statistics, but do not hide diff
+clinvar-xml-parser/src/* linguist-detectable=false
