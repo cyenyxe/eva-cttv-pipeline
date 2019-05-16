@@ -36,9 +36,9 @@ and paste the result to that table.
 
 ## Manual curation criteria
 Good mappings must be eyeballed to ensure they are actually good. Alternative mappings for medium or low quality
-mappings can be searched for using OLS. If a mapping can't be found in EFO, look for a mapping to a HP or ORDO trait
-name. Most HP and ORDO terms will also be in EFO but some are not. These can be imported to EFO using the Webulous
-submission service.
+mappings can be searched for using OLS. If a mapping can't be found in EFO, look for a mapping to a HP, ORDO, or
+MONDO trait name. Most HP/ORDO/MONDO terms will also be in EFO but some are not. These can be imported to EFO using
+the Webulous submission service.
 
 ### Criteria to manually evaluate mapping quality
 * Exact string for string matches are _good_
@@ -52,8 +52,8 @@ Familial / congenital represented on only one half are _bad_ e.g. Familial renal
 
 ### Unmapped trait names
 Trait names that haven't been automatically mapped against any ontology term can also be searched for using OLS. If a
-mapping can't be found in EFO, look for a mapping to a HP or ORDO trait name. If these are not already in EFO they
-should be imported to EFO using the Webulous submission service.
+mapping can't be found in EFO, look for a mapping to a HP, ORDO, or MONDO trait name. If these are not already in EFO
+they should be imported to EFO using the Webulous submission service.
 
 ## Curation workflow
 Curation should be done by subsequently applying filters to appropriate columns, then making decisions for the traits
