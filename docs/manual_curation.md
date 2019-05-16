@@ -27,12 +27,12 @@ mappings, and in virtually all cases these mappings are not meaningful. However,
 the performance of Google Sheets substantially.
 
 ```bash
-cut -f-50 table_for_manual_curation.tsv | sort -t$'\t' -k2,2rn | xclip -selection clipboard
+cut -f-50 table_for_manual_curation.tsv | sort -t$'\t' -k2,2rn > google_sheets_table.tsv
 ```
 
 Create a Google Sheets table like this one
 [_traits_requiring_curation_](https://docs.google.com/spreadsheets/d/1mb_ZAEwlSTLCQYBWsihxvUGWoy-otaKFq8tIxpJVT0U/)
-and paste the result to that table.
+and paste the contents of `google_sheets_table.tsv` file into it.
 
 ## Manual curation criteria
 Good mappings must be eyeballed to ensure they are actually good. Alternative mappings for medium or low quality
