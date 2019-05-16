@@ -1,5 +1,4 @@
 # How to submit an OpenTargets batch
-
 Please follow the instructions below in order to create and submit an OpenTargets batch using ClinVar data.
 Additional diagrams and background explanations can be found in [this
 presentation](https://docs.google.com/presentation/d/1nai1dvtfow4RkolyITcymXAsQqEwPJ8pUPcgjLDCntM).
@@ -7,10 +6,7 @@ presentation](https://docs.google.com/presentation/d/1nai1dvtfow4RkolyITcymXAsQq
 Before starting the process, follow the [Build instructions](build.md). In particular, you'll need to install Python
 3.5 (if you don't have it already), build the Java ClinVar parser, build and install the Python pipeline.
 
-
-
 ## Step 1. Preparing batch processing folder
-
 The working directory for the processing is `/nfs/production3/eva/opentargets`.
 
 Given the year and month the batch is to be released on, run the following command to create the appropriate folders:
@@ -22,10 +18,7 @@ cd batch-[yyyy]-[mm]
 mkdir clinvar gene_mapping trait_mapping evidence_strings
 ```
 
-
-
 ## Step 2. Preparing ClinVar data
-
 Each OpenTargets release is synchronised with a certan Ensembl release version. The specific version is announced in
 the e-mail which they send a few weeks before the data submission deadline. Based on Ensembl version, we can find the
 ClinVar release associated to an Ensembl release in its [sources
@@ -59,7 +52,6 @@ After a schema update, you'll also need to rebuild Java parser (see [Build
 instructions](build.md#building-java-clinvar-parser)).
 
 ### 2.2. Converting ClinVar files
-
 Transform the ClinVar XML file:
 
 ```bash
@@ -78,8 +70,6 @@ python bin/clinvar_jsons/extract_pathogenic_and_likely_pathogenic_variants.py \
   -i [path_to_batch_root_folder]/clinvar/clinvar.json.gz \
   -o [path_to_batch_root_folder]/clinvar/clinvar.filtered.json.gz
 ```
-
-
 
 ## Step 3. Gene and consequence type mappings
 A file containing coordinate, allele, variant type and ID information needs to be given to OpenTargets so they can
@@ -122,10 +112,7 @@ they can start their mapping pipeline (they won't receive an automatic notificat
 take some time (usually around a week); however, it doesn't block most of the subsequent steps, which can be done
 while waiting for the reply. The only step which _is_ blocked is Step 6, “Evidence string generation”.
 
-
-
 ## Step 4. Trait mapping pipeline
-
 ```bash
 python bin/trait_mapping.py \
   -i [path_to_batch_root_folder]/clinvar/clinvar.filtered.json.gz \
@@ -180,13 +167,8 @@ with no mappings. It contains the following columns:
   * Confidence
   * Distance
 
-
-
 ## Step 5. Manual curation
-
 See separate protocol, [Manual curation](manual_curation.md).
-
-
 
 ## Step 6. Generating evidence strings
 
@@ -223,8 +205,6 @@ OpenTargets and the file of trait mappings for submitting to ZOOMA (`eva_clinvar
 After the evidence strings have been generated, summary metrics need to be updated in the Google Sheets
 [table](https://docs.google.com/spreadsheets/d/1g_4tHNWP4VIikH7Jb0ui5aNr0PiFgvscZYOe69g191k/).
 
-
-
 ## Step 7. Submitting evidence strings
 The evidence string file (`evidence_strings.json`) should be uploaded to the [OpenTargets Google Cloud
 Storage](https://console.cloud.google.com/storage/browser/otar012-eva/) and be named in the format
@@ -232,8 +212,6 @@ Storage](https://console.cloud.google.com/storage/browser/otar012-eva/) and be n
 
 More details can be found on [OpenTargets Github
 wiki](https://github.com/opentargets/data-providers-docs/wiki/Data-(Evidence-Strings)-Submission-Process).
-
-
 
 ## Step 8. Submitting feedback to ZOOMA
 
@@ -267,8 +245,6 @@ python bin/clinvar_jsons/traits_to_zooma_format.py \
 Once the output file is created, the symbolic link in the EVA FTP is updated to point to the new file. The current
 version of this file on the FTP can be found in
 `ftp://ftp.ebi.ac.uk/pub/databases/eva/ClinVar/latest/clinvar_xrefs.txt`.
-
-
 
 ## Step 9. Adding novel trait names to EFO
 Traits remaining unmapped or poorly mapped can be submitted to EFO if a suitable parent term is available. Any new

@@ -1,9 +1,9 @@
 # Manual trait curation
 
-
+The goal is for traits with occurence ≥ 10 to have 100% coverage after the manual curation. For the rest of the
+traits, curate as many as possible.
 
 ## Extract information about previous mappings
-
 At this step, mappings produced by the pipeline on the previous iteration (including automated and manual) are
 downloaded to be used to aid the manual curation process.
 
@@ -13,10 +13,7 @@ wget -qO- ftp://ftp.ebi.ac.uk/pub/databases/eva/ClinVar/latest/eva_clinvar.txt \
   | cut -f4-5 | sort -u > previous_mappings.tsv
 ```
 
-
-
 ## Create the final table for manual curation
-
 ```bash
 python3 bin/trait_mapping/create_table_for_manual_curation.py \
   --traits-for-curation traits_requiring_curation.tsv \
@@ -24,10 +21,7 @@ python3 bin/trait_mapping/create_table_for_manual_curation.py \
   --output table_for_manual_curation.tsv
 ```
 
-
-
 ## Sort and export to Google Sheets
-
 Note that the number of columns in the output table is limited to 50, because only a few traits have that many
 mappings, and in virtually all cases these mappings are not meaningful. However, having a very large table degrades
 the performance of Google Sheets substantially.
@@ -40,34 +34,28 @@ Create a Google Sheets table like this one
 [_traits_requiring_curation_](https://docs.google.com/spreadsheets/d/1mb_ZAEwlSTLCQYBWsihxvUGWoy-otaKFq8tIxpJVT0U/)
 and paste the result to that table.
 
-
-
 ## Manual curation criteria
 Good mappings must be eyeballed to ensure they are actually good. Alternative mappings for medium or low quality
-mappings can be searched for using OLS. If a mapping cant be found in EFO, look for a mapping to a HP or ORDO trait
-name. Most HP and ORDO terms will also be in EFO but there are some that arent. These can be imported to EFO using
-the Webulous submission service.
+mappings can be searched for using OLS. If a mapping can't be found in EFO, look for a mapping to a HP or ORDO trait
+name. Most HP and ORDO terms will also be in EFO but some are not. These can be imported to EFO using the Webulous
+submission service.
 
 ### Criteria to manually evaluate mapping quality
-
 * Exact string for string matches are _good_
-* Slight modifications are _good_ e.g. IRAK4 DEFICIENCY -> Immunodeficiency due to interleukin-1  receptor-associated
+* Slight modifications are _good_ e.g. IRAK4 DEFICIENCY → Immunodeficiency due to interleukin-1 receptor-associated
   kinase-4 deficiency
-* Subtype to parent are _good_ e.g ACHROMATOPSIA 3 -> Achromatopsia
-* Parent to subtype are _bad_ e.g. HEMOCHROMATOSIS -> Hemochromatosis type 3
-Familial / congenital represented on only one half are _bad_ e.g. Familial renal glycosuria -> Renal glycosuria
-* Susceptibility on only one half is _bad_ e.g Alcohol dependence, susceptibility to -> alcohol dependence
-* Early / late onset on only one half is _bad_ e.g. Alzheimer disease, early-onset -> Alzheimer's disease
+* Subtype to parent are _good_ e.g ACHROMATOPSIA 3 → Achromatopsia
+* Parent to subtype are _bad_ e.g. HEMOCHROMATOSIS → Hemochromatosis type 3
+Familial / congenital represented on only one half are _bad_ e.g. Familial renal glycosuria → Renal glycosuria
+* Susceptibility on only one half is _bad_ e.g Alcohol dependence, susceptibility to → alcohol dependence
+* Early / late onset on only one half is _bad_ e.g. Alzheimer disease, early-onset → Alzheimer's disease
 
 ### Unmapped trait names
 Trait names that haven't been automatically mapped against any ontology term can also be searched for using OLS. If a
-mapping cant be found in EFO, look for a mapping to a HP or ORDO trait name. If these are not already in EFO they
+mapping can't be found in EFO, look for a mapping to a HP or ORDO trait name. If these are not already in EFO they
 should be imported to EFO using the Webulous submission service.
 
-
-
 ## Curation workflow
-
 Curation should be done by subsequently applying filters to appropriate columns, then making decisions for the traits
 in the filtered selection.
 
@@ -109,11 +97,8 @@ for the old workflow_ (because we're reusing the results of previous curations)
 * Sections 2.2 and 3 can only be applied to some variants (e. g. based on frequency), depending on the time
   available.
 
-
-
 ## Exporting curation results
-Traits with occurence ≥ 10 must have 100% coverage after the manual curation. For the rest of the traits, curate as
-many as possible. All curated mappings should be stored in a file named `finished_mappings_curation.tsv`.
+All curated mappings should be stored in a file named `finished_mappings_curation.tsv`.
  
 After that, the following mappings must be written to a single file to be used as input for the evidence string
 generation:
