@@ -216,11 +216,15 @@ wiki](https://github.com/opentargets/data-providers-docs/wiki/Data-(Evidence-Str
 ## Step 8. Submitting feedback to ZOOMA
 
 ### Trait mappings
-The file containing trait mappings (`eva_clinvar.txt`) must be uploaded to the EVA FTP. It will be placed in a folder
-structure like [this one](ftp://ftp.ebi.ac.uk/pub/databases/eva/ClinVar/2017/07/21/) and shall also be available
-through [the link to the latest version](ftp://ftp.ebi.ac.uk/pub/databases/eva/ClinVar/latest/).
+Upload the file containing trait mappings (`eva_clinvar.txt`) to the EVA FTP. The format of a folder name is
+`/nfs/ftp/pub/databases/eva/ClinVar/YYYY/MM/DD/` (substitute current date).
 
-### ClinVar xrefs
+Update the symbolic link in the `/nfs/ftp/pub/databases/eva/ClinVar/latest/` to point to the latest file version.
+Confirm that the changes have propagated to the FTP at
+**<ftp://ftp.ebi.ac.uk/pub/databases/eva/ClinVar/latest/eva_clinvar.txt>.** (FTP will take a few minutes to update
+after you make changes on the cluster.)
+
+### ClinVar xRefs
 Each ClinVar record is associated with one or more traits. When submitting the data to OpenTargets, the trait needs
 to be specified as an ontological term present in [the Experimental Factor Ontology
 (EFO)](http://www.ebi.ac.uk/efo/).
@@ -239,12 +243,12 @@ sources (EVA, Open Targets, GWAS, Uniprot). In order to do so, execute the follo
 ```bash
 python bin/clinvar_jsons/traits_to_zooma_format.py \
   -i [path_to_batch_root_folder]/clinvar/clinvar.filtered.json.gz \
-  -o [path_to_output_file]
+  -o [path_to_batch_root_folder]/clinvar_xrefs.txt
 ```
 
-Once the output file is created, the symbolic link in the EVA FTP is updated to point to the new file. The current
-version of this file on the FTP can be found in
-`ftp://ftp.ebi.ac.uk/pub/databases/eva/ClinVar/latest/clinvar_xrefs.txt`.
+Upload the file to the same folder as the trait mappings (`/nfs/ftp/pub/databases/eva/ClinVar/YYYY/MM/DD/`). Update
+the symbolic link in `/nfs/ftp/pub/databases/eva/ClinVar/latest/`. Confirm that the changes have propagated to the
+FTP at **<ftp://ftp.ebi.ac.uk/pub/databases/eva/ClinVar/latest/clinvar_xrefs.txt>.**
 
 ## Step 9. Adding novel trait names to EFO
 Traits remaining unmapped or poorly mapped can be submitted to EFO if a suitable parent term is available. Any new
