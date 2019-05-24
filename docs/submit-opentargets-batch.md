@@ -243,7 +243,7 @@ sources (EVA, Open Targets, GWAS, Uniprot). In order to do so, execute the follo
 ```bash
 python bin/clinvar_jsons/traits_to_zooma_format.py \
   -i [path_to_batch_root_folder]/clinvar/clinvar.filtered.json.gz \
-  -o [path_to_batch_root_folder]/clinvar_xrefs.txt
+  -o [path_to_batch_root_folder]/clinvar/clinvar_xrefs.txt
 ```
 
 Upload the file to the same folder as the trait mappings (`/nfs/ftp/pub/databases/eva/ClinVar/YYYY/MM/DD/`). Update
