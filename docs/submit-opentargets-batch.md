@@ -217,7 +217,7 @@ wiki](https://github.com/opentargets/data-providers-docs/wiki/Data-(Evidence-Str
 
 ### Trait mappings
 Upload the file containing trait mappings (`eva_clinvar.txt`) to the EVA FTP. The format of a folder name is
-`/nfs/ftp/pub/databases/eva/ClinVar/YYYY/MM/DD/` (substitute current date).
+`/nfs/ftp/pub/databases/eva/ClinVar/YYYY/MM/DD/` (substitute with current date).
 
 Update the symbolic link in the `/nfs/ftp/pub/databases/eva/ClinVar/latest/` to point to the latest file version.
 Confirm that the changes have propagated to the FTP at
